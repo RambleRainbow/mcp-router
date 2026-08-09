@@ -6,6 +6,8 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
+import type { ThreeArmCase } from "../three-arm/case.js";
+import { resolveMockResult } from "./fixtures.js";
 
 /**
  * Evaluation-only Full Tools arm (issue #6): exposes the frozen AiFinMarket
@@ -28,20 +30,26 @@ export interface CatalogTool {
   provenance: { schemaSource: string; note: string; referenceFile: string };
 }
 
+const CATALOG_ARTIFACT = JSON.parse(
+  readFileSync(
+    join(dirname(fileURLToPath(import.meta.url)), "../catalog/tool-catalog.json"),
+    "utf8",
+  ),
+) as { meta: { artifactHash: string }; tools: CatalogTool[] };
+
 /** The frozen AiFinMarket Tool Catalog artifact (34 tools, issue #6). */
-export const TOOL_CATALOG = (
-  JSON.parse(
-    readFileSync(
-      join(dirname(fileURLToPath(import.meta.url)), "../catalog/tool-catalog.json"),
-      "utf8",
-    ),
-  ) as { tools: CatalogTool[] }
-).tools;
+export const TOOL_CATALOG = CATALOG_ARTIFACT.tools;
 
-/** Creates the evaluation-only Full Tools MCP Server over the frozen catalog. */
-export function createFullToolsServer(): Server {
-  const toolsByName = new Map(TOOL_CATALOG.map((tool) => [tool.name, tool]));
+/** The frozen catalog indexed by tool name. */
+export const CATALOG_BY_NAME = new Map(TOOL_CATALOG.map((t) => [t.name, t]));
 
+/** The frozen catalog's recorded artifact hash — the single pinning source. */
+export const CATALOG_ARTIFACT_HASH = CATALOG_ARTIFACT.meta.artifactHash;
+
+/** Creates the evaluation-only Full Tools MCP Server over the frozen catalog.
+ * When `armCase` is given, tools declared in it return the case's deterministic
+ * result fixture (three-arm runs, issue #7); default behavior is unchanged. */
+export function createFullToolsServer(armCase?: ThreeArmCase): Server {
   const server = new Server(
     { name: "aifinmarket-full-tools-eval", version: "0.0.0" },
     { capabilities: { tools: {} } },
@@ -56,7 +64,7 @@ export function createFullToolsServer(): Server {
   }));
 
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
-    const tool = toolsByName.get(request.params.name);
+    const tool = CATALOG_BY_NAME.get(request.params.name);
     if (!tool) {
       return {
         isError: true,
@@ -69,14 +77,11 @@ export function createFullToolsServer(): Server {
       };
     }
 
-    const mockPayload = {
-      mock: true,
-      note: "Evaluation-only deterministic mock; no live Wind data was queried.",
-      tool: tool.name,
-      serverCategory: tool.serverCategory,
-      arguments: request.params.arguments ?? {},
-      data: [],
-    };
+    const mockPayload = resolveMockResult(
+      tool,
+      request.params.arguments ?? {},
+      armCase,
+    );
     return {
       content: [
         { type: "text" as const, text: JSON.stringify(mockPayload) },

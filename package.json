@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "catalog:check": "node evaluation/catalog/build-catalog.mjs --check",
-    "eval:verify": "tsx evaluation/full-tools/verify.ts"
+    "eval:verify": "tsx evaluation/full-tools/verify.ts",
+    "eval:three-arm": "tsx evaluation/three-arm/run.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.0",
