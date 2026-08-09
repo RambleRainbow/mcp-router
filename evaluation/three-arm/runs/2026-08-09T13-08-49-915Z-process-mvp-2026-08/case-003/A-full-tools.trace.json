@@ -1,0 +1,67 @@
+{
+  "arm": "A-full-tools",
+  "prompt": "查一下贵州茅台最新的ROE是多少",
+  "toolCalls": [
+    {
+      "tool": "get_stock_fundamentals",
+      "arguments": {
+        "question": "贵州茅台的最新ROE净资产收益率"
+      }
+    }
+  ],
+  "discoveredCandidates": null,
+  "toolRefToName": null,
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "get_stock_fundamentals",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台的最新ROE净资产收益率\"},\"data\":{\"windcode\":\"600519.SH\",\"metric\":\"ROE\",\"variant\":\"加权（报告期 2026Q2）\",\"value\":17.42,\"unit\":\"%\"}}"
+    }
+  ],
+  "finalAnswer": "根据查询结果，贵州茅台（600519.SH）的最新ROE（净资产收益率）为：\n\n**17.42%**（加权ROE，报告期2026年Q2）\n\n> ⚠️ **注意**：这是评估模式的模拟数据，非实时Wind数据。如需实时数据，请使用生产环境配置。",
+  "usage": {
+    "input_tokens": 7528,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69504,
+    "output_tokens": 205,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.077517,
+  "latencyMs": 4946,
+  "numTurns": 2,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_fundamentals"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

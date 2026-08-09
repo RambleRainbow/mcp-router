@@ -1,0 +1,14 @@
+{
+  "setId": "process-mvp-2026-08",
+  "scored": false,
+  "label": "NON-SCORED process-MVP set: six synthetic cases run once through A/B/C to prove the evaluation process is reproducible; makes no product-value claim and must not feed a later scored experiment",
+  "hardLimits": { "maxSessions": 18, "maxCostUsd": 10 },
+  "caseFiles": [
+    "case-001.json",
+    "case-002.json",
+    "case-003.json",
+    "case-004.json",
+    "case-005.json",
+    "case-006.json"
+  ]
+}

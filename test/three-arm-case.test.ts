@@ -24,34 +24,37 @@ describe("three-arm synthetic case declaration", () => {
     }
   });
 
-  it("declares acceptable arguments consistent with the tool's inputSchema", () => {
-    const tool = TOOL_CATALOG.find((t) => t.name === armCase.acceptableTools[0])!;
-    const properties = tool.inputSchema.properties ?? {};
-    for (const arg of Object.keys(armCase.acceptableArguments)) {
-      expect(properties, `unknown argument ${arg}`).toHaveProperty(arg);
-    }
-    for (const required of tool.inputSchema.required ?? []) {
-      expect(
-        armCase.acceptableArguments,
-        `required argument ${required} has no declared acceptable values`,
-      ).toHaveProperty(required);
-    }
-    expect([...armCase.requiredArguments].sort()).toEqual(
-      [...(tool.inputSchema.required ?? [])].sort(),
+  it("declares per-tool expectations consistent with the tool's inputSchema", () => {
+    expect(Object.keys(armCase.toolExpectations).sort()).toEqual(
+      [...armCase.acceptableTools].sort(),
     );
-    for (const required of armCase.requiredArguments) {
-      expect(
-        armCase.acceptableArguments,
-        `case-required argument ${required} has no declared acceptable values`,
-      ).toHaveProperty(required);
+    for (const [toolName, expectation] of Object.entries(
+      armCase.toolExpectations,
+    )) {
+      const tool = TOOL_CATALOG.find((t) => t.name === toolName)!;
+      const properties = tool.inputSchema.properties ?? {};
+      for (const arg of Object.keys(expectation.acceptableArguments)) {
+        expect(properties, `unknown argument ${arg}`).toHaveProperty(arg);
+      }
+      expect([...expectation.requiredArguments].sort()).toEqual(
+        [...(tool.inputSchema.required ?? [])].sort(),
+      );
+      for (const required of expectation.requiredArguments) {
+        expect(
+          expectation.acceptableArguments,
+          `case-required argument ${required} has no declared acceptable values`,
+        ).toHaveProperty(required);
+      }
     }
   });
 
   it("declares a deterministic result fixture and a process-only rubric", () => {
-    expect(armCase.resultFixture).toBeDefined();
-    expect(JSON.parse(JSON.stringify(armCase.resultFixture))).toEqual(
-      armCase.resultFixture,
-    );
+    for (const expectation of Object.values(armCase.toolExpectations)) {
+      expect(expectation.resultFixture).toBeDefined();
+      expect(JSON.parse(JSON.stringify(expectation.resultFixture))).toEqual(
+        expectation.resultFixture,
+      );
+    }
     expect(armCase.successRubric.length).toBeGreaterThan(0);
     expect(armCase.successRubric.map((r) => r.id)).toContain("process_only");
   });
@@ -74,9 +77,39 @@ describe("shared deterministic mock resolver", () => {
       armCase,
     );
     expect(first.mock).toBe(true);
-    expect(first.data).toEqual(armCase.resultFixture);
-    expect(equivalent.data).toEqual(armCase.resultFixture);
+    expect(first.data).toEqual(
+      armCase.toolExpectations["get_stock_kline"]!.resultFixture,
+    );
+    expect(equivalent.data).toEqual(
+      armCase.toolExpectations["get_stock_kline"]!.resultFixture,
+    );
     expect(first.note).toBe(equivalent.note);
+  });
+
+  it("returns each acceptable tool its own fixture in a multi-tool case", () => {
+    const multiToolCase = {
+      ...armCase,
+      acceptableTools: ["get_index_kline", "get_stock_kline"],
+      toolExpectations: {
+        get_index_kline: {
+          requiredArguments: ["windcode", "begin_date", "end_date"],
+          acceptableArguments: { windcode: ["000300.SH"] },
+          resultFixture: [{ index: "csi300" }],
+        },
+        get_stock_kline: {
+          requiredArguments: ["windcode", "begin_date", "end_date"],
+          acceptableArguments: { windcode: ["600519.SH"] },
+          resultFixture: [{ stock: "moutai" }],
+        },
+      },
+    };
+    const indexTool = TOOL_CATALOG.find((t) => t.name === "get_index_kline")!;
+    expect(resolveMockResult(indexTool, {}, multiToolCase).data).toEqual([
+      { index: "csi300" },
+    ]);
+    expect(resolveMockResult(kline, {}, multiToolCase).data).toEqual([
+      { stock: "moutai" },
+    ]);
   });
 
   it("keeps the generic empty-data envelope for tools without a case fixture", () => {

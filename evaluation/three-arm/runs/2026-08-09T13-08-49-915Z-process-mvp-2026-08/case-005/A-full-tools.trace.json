@@ -1,0 +1,78 @@
+{
+  "arm": "A-full-tools",
+  "prompt": "查一下贵州茅台的最新行情快照，再看看它的前十大股东情况",
+  "toolCalls": [
+    {
+      "tool": "get_stock_price_indicators",
+      "arguments": {
+        "windcode": "贵州茅台",
+        "indexes": "最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,总市值,流通市值,PE(TTM),PB,股息率"
+      }
+    },
+    {
+      "tool": "get_stock_equity_holders",
+      "arguments": {
+        "question": "贵州茅台的前十大股东情况"
+      }
+    }
+  ],
+  "discoveredCandidates": null,
+  "toolRefToName": null,
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "get_stock_price_indicators",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_price_indicators\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"贵州茅台\",\"indexes\":\"最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,总市值,流通市值,PE(TTM),PB,股息率\"},\"data\":{\"windcode\":\"600519.SH\",\"snapshot\":\"时点截面（latest）\",\"latest\":1501.3,\"pct_change\":0.88,\"turnover_rate\":0.21}}"
+    },
+    {
+      "tool": "get_stock_equity_holders",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_equity_holders\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台的前十大股东情况\"},\"data\":{\"windcode\":\"600519.SH\",\"reportPeriod\":\"2026Q2\",\"topHolders\":[{\"rank\":1,\"name\":\"中国贵州茅台酒厂（集团）有限责任公司\",\"pct\":54.07},{\"rank\":2,\"name\":\"香港中央结算有限公司\",\"pct\":6.45},{\"rank\":3,\"name\":\"贵州省国有资本运营有限责任公司\",\"pct\":4.54}]}}"
+    }
+  ],
+  "finalAnswer": "## 贵州茅台 (600519.SH)\n\n### 📊 最新行情快照\n\n| 指标 | 数值 |\n|------|------|\n| 最新价 | ¥1,501.30 |\n| 涨跌幅 | +0.88% |\n| 换手率 | 0.21% |\n\n> ⚠️ **注意**: 以上为评估用的模拟数据，非实时Wind行情。\n\n---\n\n### 🏛️ 前十大股东情况 (报告期: 2026Q2)\n\n| 排名 | 股东名称 | 持股比例 |\n|:---:|----------|:--------:|\n| 1 | 中国贵州茅台酒厂（集团）有限责任公司 | 54.07% |\n| 2 | 香港中央结算有限公司 | 6.45% |\n| 3 | 贵州省国有资本运营有限责任公司 | 4.54% |\n\n> ⚠️ **注意**: 以上为评估用的模拟数据，展示前3大股东，非真实Wind数据。\n\n---\n\n如需获取实时准确的贵州茅台数据，请使用真实的Wind数据接口。",
+  "usage": {
+    "input_tokens": 7705,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69632,
+    "output_tokens": 473,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.085166,
+  "latencyMs": 5870,
+  "numTurns": 3,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_price_indicators, get_stock_equity_holders"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_price_indicators.indexes"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

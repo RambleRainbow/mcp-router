@@ -1,0 +1,2523 @@
+{
+  "runId": "2026-08-09T13-08-49-915Z-process-mvp-2026-08",
+  "label": "NON-SCORED process-MVP set: six synthetic cases run once through A/B/C to prove the evaluation process is reproducible; makes no product-value claim and must not feed a later scored experiment",
+  "scored": false,
+  "processSet": {
+    "setId": "process-mvp-2026-08",
+    "hardLimits": {
+      "maxSessions": 18,
+      "maxCostUsd": 10
+    },
+    "caseIds": [
+      "case-001",
+      "case-002",
+      "case-003",
+      "case-004",
+      "case-005",
+      "case-006"
+    ]
+  },
+  "pinnedConfig": {
+    "model": "claude-opus-5[1m]",
+    "cliVersion": "2.1.226 (Claude Code)",
+    "codeRevision": "6588783aca31eef96dd19f87bc85cb35c503f020",
+    "worktreeDirty": true,
+    "catalogHash": "sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444",
+    "processSetPath": "evaluation/three-arm/process-set.json",
+    "processSetSha256": "82964d324b5d3d8adddd261315b7291b5a73a4b81fa43b2d549c230155ae3023",
+    "simpleRouterDiscoveryPromptRevision": "32dc7b91e11e",
+    "simpleRouterDiscoveryModel": "claude-opus-5[1m]",
+    "transport": "stdio"
+  },
+  "completeness": {
+    "complete": true,
+    "stopReason": null,
+    "sessionsUsed": 18,
+    "costUsd": 2.46149,
+    "skipped": [],
+    "discoveryCalls": 6
+  },
+  "cases": [
+    {
+      "case": {
+        "caseId": "case-001",
+        "kind": "clear-single-tool",
+        "scored": false,
+        "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+        "userPrompt": "帮我查一下贵州茅台2026年8月5日到8月7日的日K线数据",
+        "acceptableTools": [
+          "get_stock_kline"
+        ],
+        "toolExpectations": {
+          "get_stock_kline": {
+            "requiredArguments": [
+              "windcode",
+              "begin_date",
+              "end_date"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "600519.SH",
+                "贵州茅台"
+              ],
+              "begin_date": [
+                "2026-08-05"
+              ],
+              "end_date": [
+                "2026-08-07"
+              ],
+              "period": [
+                "1d"
+              ]
+            },
+            "resultFixture": [
+              {
+                "date": "2026-08-05",
+                "open": 1480,
+                "close": 1492.5,
+                "high": 1495,
+                "low": 1478.2,
+                "volume": 21345,
+                "amount": 3181240500
+              },
+              {
+                "date": "2026-08-06",
+                "open": 1493,
+                "close": 1487.6,
+                "high": 1496.8,
+                "low": 1484.1,
+                "volume": 18976,
+                "amount": 2823334400
+              },
+              {
+                "date": "2026-08-07",
+                "open": 1488.2,
+                "close": 1501.3,
+                "high": 1503.9,
+                "low": 1486,
+                "volume": 24510,
+                "amount": 3670114500
+              }
+            ]
+          }
+        },
+        "clarification": "无需澄清：标的、时间范围与频率在问句中均已明确。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中的工具"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "调用参数落在 acceptableArguments 声明的可接受取值内（period 可省略走默认 1d）"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情"
+          },
+          {
+            "id": "process_only",
+            "check": "只判断流程是否跑通，不评价回答质量、不对各 arm 排名"
+          }
+        ]
+      },
+      "caseFileSha256": "5296c10040f26ea50257cac5a04e4ae2f1c968b86a9e8445c4acf0628d2f54a3",
+      "armOrder": [
+        "A-full-tools",
+        "B-oracle-router",
+        "C-simple-router"
+      ],
+      "arms": [
+        {
+          "arm": "A-full-tools",
+          "prompt": "帮我查一下贵州茅台2026年8月5日到8月7日的日K线数据",
+          "toolCalls": [
+            {
+              "tool": "get_stock_kline",
+              "arguments": {
+                "windcode": "贵州茅台",
+                "begin_date": "2026-08-05",
+                "end_date": "2026-08-07",
+                "period": "1d"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_stock_kline",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"贵州茅台\",\"begin_date\":\"2026-08-05\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-05\",\"open\":1480,\"close\":1492.5,\"high\":1495,\"low\":1478.2,\"volume\":21345,\"amount\":3181240500},{\"date\":\"2026-08-06\",\"open\":1493,\"close\":1487.6,\"high\":1496.8,\"low\":1484.1,\"volume\":18976,\"amount\":2823334400},{\"date\":\"2026-08-07\",\"open\":1488"
+            }
+          ],
+          "finalAnswer": "以下是贵州茅台（600519.SH）2026年8月5日至8月7日的日K线数据：\n\n| 日期 | 开盘价 | 收盘价 | 最高价 | 最低价 | 成交量(手) | 成交额(元) |\n|------|--------|--------|--------|--------|-----------|-----------|\n| 2026-08-05 | 1480.00 | 1492.50 | 1495.00 | 1478.20 | 21,345 | 31.81亿 |\n| 2026-08-06 | 1493.00 | 1487.60 | 1496.80 | 1484.10 | 18,976 | 28.23亿 |\n| 2026-08-07 | 1488.20 | 1501.30 | 1503.90 | 1486.00 | 24,510 | 36.70亿 |\n\n**三日走势概览：**\n- 8月5日：小幅上涨，涨12.5元\n- 8月6日：小幅回调，跌5.4元\n- 8月7日：上涨，涨13.7元\n\n三日累计从1480涨至1501.3，整体涨幅约1.44%。",
+          "usage": {
+            "input_tokens": 22278,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 54976,
+            "output_tokens": 476,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.15077800000000002,
+          "latencyMs": 7798,
+          "numTurns": 2,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "unknown",
+              "evidence": "最终回答未检出 mock/模拟 字样，需人工核对"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "B-oracle-router",
+          "prompt": "帮我查一下贵州茅台2026年8月5日到8月7日的日K线数据",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台 600519 日K线数据 2026年8月5日到8月7日",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_4819ef81-7cc4-41ec-a1df-3d70e22e3983",
+                "arguments": {
+                  "windcode": "600519.SH",
+                  "begin_date": "2026-08-05",
+                  "end_date": "2026-08-07",
+                  "period": "1d"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_kline"
+          ],
+          "toolRefToName": {
+            "tr_4819ef81-7cc4-41ec-a1df-3d70e22e3983": "get_stock_kline"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_4819ef81-7cc4-41ec-a1df-3d70e22e3983\",\"name\":\"get_stock_kline\",\"description\":\"返回指定股票在给定时间范围内的聚合量价序列（K 线），时间范围由参数指定，聚合频率支持日、周、月及分钟级。每条记录代表一个周期，包含开盘价、收盘价、最高价、最低价、成交量、成交额、均价、换手率，并附带以起止日期为窗口的区间涨跌幅。不含当日分钟级走势；锚定当前的相对窗口统计（近 N 日涨跌幅、年初至今涨跌幅、52 周高低）与基准指数对比不在本工具范围。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"description\":\"Wind代码，格式如 贵州茅台  "
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"600519.SH\",\"begin_date\":\"2026-08-05\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-05\",\"open\":1480,\"close\":1492.5,\"high\":1495,\"low\":1478.2,\"volume\":21345,\"amount\":3181240500},{\"date\":\"2026-08-06\",\"open\":1493,\"close\":1487.6,\"high\":1496.8,\"low\":1484.1,\"volume\":18976,\"amount\":2823334400},{\"date\":\"2026-08-07\",\"open\""
+            }
+          ],
+          "finalAnswer": "成功查询到贵州茅台（600519.SH）2026年8月5日至8月7日的日K线数据：\n\n> ⚠️ **注意**：当前为评估模式，以下为模拟数据，非实时行情数据。\n\n| 日期 | 开盘价 | 收盘价 | 最高价 | 最低价 | 成交量(手) | 成交额(元) |\n|------|--------|--------|--------|--------|-----------|-----------|\n| 2026-08-05 | 1480.00 | 1492.50 | 1495.00 | 1478.20 | 21,345 | 3,181,240,500 |\n| 2026-08-06 | 1493.00 | 1487.60 | 1496.80 | 1484.10 | 18,976 | 2,823,334,400 |\n| 2026-08-07 | 1488.20 | 1501.30 | 1503.90 | 1486.00 | 24,510 | 3,670,114,500 |\n\n**三日走势概况：**\n- 8月5日：小幅上涨 +12.50元\n- 8月6日：小幅回调 -4.90元\n- 8月7日：反弹上涨 +13.70元\n- 三日累计：上涨 +21.30元，约 +1.44%\n\n8月7日成交最为活跃，成交量达24,510手，成交额约36.7亿元。",
+          "usage": {
+            "input_tokens": 14296,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 77056,
+            "output_tokens": 731,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.128283,
+          "latencyMs": 9396,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "C-simple-router",
+          "prompt": "帮我查一下贵州茅台2026年8月5日到8月7日的日K线数据",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台600519股票2026年8月5日到8月7日日K线数据",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_d7b5c6b1-f460-4f4a-82f9-a9cd115e1264",
+                "arguments": {
+                  "windcode": "600519.SH",
+                  "begin_date": "2026-08-05",
+                  "end_date": "2026-08-07",
+                  "period": "1d",
+                  "aftype": "0",
+                  "issusp": "1"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_kline"
+          ],
+          "toolRefToName": {
+            "tr_d7b5c6b1-f460-4f4a-82f9-a9cd115e1264": "get_stock_kline"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.116032,
+            "usage": {
+              "input_tokens": 19953,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 16384,
+              "output_tokens": 323,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.116032,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.116032,\"usage\":{\"input_tokens\":19953,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":16384,\"output_tokens\":323,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\""
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"600519.SH\",\"begin_date\":\"2026-08-05\",\"end_date\":\"2026-08-07\",\"period\":\"1d\",\"aftype\":\"0\",\"issusp\":\"1\"},\"data\":[{\"date\":\"2026-08-05\",\"open\":1480,\"close\":1492.5,\"high\":1495,\"low\":1478.2,\"volume\":21345,\"amount\":3181240500},{\"date\":\"2026-08-06\",\"open\":1493,\"close\":1487.6,\"high\":1496.8,\"low\":1484.1,\"volume\":18976,\"amount\":2823334400},{"
+            }
+          ],
+          "finalAnswer": "以下是贵州茅台（600519.SH）2026年8月5日至8月7日的日K线数据：\n\n| 日期 | 开盘价(元) | 收盘价(元) | 最高价(元) | 最低价(元) | 成交量(手) | 成交额(元) |\n|------|-----------|-----------|-----------|-----------|-----------|-----------|\n| 2026-08-05 | 1480.00 | 1492.50 | 1495.00 | 1478.20 | 21,345 | 3,181,240,500 |\n| 2026-08-06 | 1493.00 | 1487.60 | 1496.80 | 1484.10 | 18,976 | 2,823,334,400 |\n| 2026-08-07 | 1488.20 | 1501.30 | 1503.90 | 1486.00 | 24,510 | 3,670,114,500 |\n\n**数据说明：**\n- 复权类型：前复权\n- 8月5日：微涨 +0.84%\n- 8月6日：微跌 -0.33%\n- 8月7日：上涨 +0.92%\n\n> ⚠️ 注意：以上数据为评估用的模拟数据（mock），非实时Wind数据。如需真实行情数据，请连接实际数据源。",
+          "usage": {
+            "input_tokens": 14446,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 77248,
+            "output_tokens": 772,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.130154,
+          "latencyMs": 23513,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_kline.aftype, get_stock_kline.issusp"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-002",
+        "kind": "clear-single-tool",
+        "scored": false,
+        "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+        "userPrompt": "帮我查一下华夏上证50ETF（510050.SH）2026年8月3日到8月7日的日K线数据",
+        "acceptableTools": [
+          "get_fund_kline"
+        ],
+        "toolExpectations": {
+          "get_fund_kline": {
+            "requiredArguments": [
+              "windcode",
+              "begin_date",
+              "end_date"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "510050.SH",
+                "华夏上证50ETF",
+                "上证50ETF"
+              ],
+              "begin_date": [
+                "2026-08-03"
+              ],
+              "end_date": [
+                "2026-08-07"
+              ],
+              "period": [
+                "1d"
+              ]
+            },
+            "resultFixture": [
+              {
+                "date": "2026-08-03",
+                "open": 2.941,
+                "close": 2.958,
+                "high": 2.962,
+                "low": 2.937,
+                "volume": 412300,
+                "amount": 1218345600
+              },
+              {
+                "date": "2026-08-04",
+                "open": 2.959,
+                "close": 2.951,
+                "high": 2.965,
+                "low": 2.946,
+                "volume": 365120,
+                "amount": 1078454400
+              },
+              {
+                "date": "2026-08-05",
+                "open": 2.952,
+                "close": 2.973,
+                "high": 2.977,
+                "low": 2.949,
+                "volume": 448760,
+                "amount": 1334528800
+              },
+              {
+                "date": "2026-08-06",
+                "open": 2.974,
+                "close": 2.968,
+                "high": 2.981,
+                "low": 2.961,
+                "volume": 391450,
+                "amount": 1162395600
+              },
+              {
+                "date": "2026-08-07",
+                "open": 2.969,
+                "close": 2.985,
+                "high": 2.989,
+                "low": 2.965,
+                "volume": 470030,
+                "amount": 1403244500
+              }
+            ]
+          }
+        },
+        "clarification": "无需澄清：标的、时间范围与频率在问句中均已明确。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中的工具"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "调用参数落在 acceptableArguments 声明的可接受取值内（period 可省略走默认 1d）"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情"
+          },
+          {
+            "id": "process_only",
+            "check": "只判断流程是否跑通，不评价回答质量、不对各 arm 排名"
+          }
+        ]
+      },
+      "caseFileSha256": "cb2137c26698b31399ec5067fc63b304e42e002c91675ff4eab044b10bcc7d0f",
+      "armOrder": [
+        "B-oracle-router",
+        "C-simple-router",
+        "A-full-tools"
+      ],
+      "arms": [
+        {
+          "arm": "B-oracle-router",
+          "prompt": "帮我查一下华夏上证50ETF（510050.SH）2026年8月3日到8月7日的日K线数据",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "查询股票日K线数据，包括开盘价、收盘价、最高价、最低价、成交量等",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_21e3ce22-e8fd-4ba2-a9cf-68dbe9b40ac6",
+                "arguments": {
+                  "windcode": "510050.SH",
+                  "begin_date": "2026-08-03",
+                  "end_date": "2026-08-07",
+                  "period": "1d"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_fund_kline"
+          ],
+          "toolRefToName": {
+            "tr_21e3ce22-e8fd-4ba2-a9cf-68dbe9b40ac6": "get_fund_kline"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_21e3ce22-e8fd-4ba2-a9cf-68dbe9b40ac6\",\"name\":\"get_fund_kline\",\"description\":\"返回指定场内交易基金（ETF/LOF）在给定时间范围内的聚合价格序列（K 线），时间范围由参数指定，聚合频率支持日、周、月及分钟级。每条记录代表一个周期，包含开盘价、收盘价、最高价、最低价、成交量、换手率、涨跌幅与均价。不含当日分钟级走势；场外基金净值序列不在本工具范围。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"description\":\"Wind代码，格式如 华夏成长  或 000001.OF，用于标识具体的基金\",\"x-provenance\":\"de"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_fund_kline\",\"serverCategory\":\"fund_data\",\"arguments\":{\"windcode\":\"510050.SH\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":2.941,\"close\":2.958,\"high\":2.962,\"low\":2.937,\"volume\":412300,\"amount\":1218345600},{\"date\":\"2026-08-04\",\"open\":2.959,\"close\":2.951,\"high\":2.965,\"low\":2.946,\"volume\":365120,\"amount\":1078454400},{\"date\":\"2026-08-05\",\"open\":2"
+            }
+          ],
+          "finalAnswer": "## 华夏上证50ETF (510050.SH) 日K线数据\n\n| 日期 | 开盘价 | 收盘价 | 最高价 | 最低价 | 成交量(手) | 成交额(元) |\n|------|--------|--------|--------|--------|-----------|-----------|\n| 2026-08-03 | 2.941 | 2.958 | 2.962 | 2.937 | 412,300 | 1,218,345,600 |\n| 2026-08-04 | 2.959 | 2.951 | 2.965 | 2.946 | 365,120 | 1,078,454,400 |\n| 2026-08-05 | 2.952 | 2.973 | 2.977 | 2.949 | 448,760 | 1,334,528,800 |\n| 2026-08-06 | 2.974 | 2.968 | 2.981 | 2.961 | 391,450 | 1,162,395,600 |\n| 2026-08-07 | 2.969 | 2.985 | 2.989 | 2.965 | 470,030 | 1,403,244,500 |\n\n### 简要分析\n- **区间涨跌**：从8月3日收盘2.958到8月7日收盘2.985，涨幅约 **0.91%**\n- **最高价**：8月7日触及2.989（区间最高）\n- **最低价**：8月3日触及2.937（区间最低）\n- **最大成交量**：8月7日成交量最大（470,030手）\n\n> **注意**：当前返回的是评估用模拟数据，非实时Wind数据。",
+          "usage": {
+            "input_tokens": 11736,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 79744,
+            "output_tokens": 818,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.119002,
+          "latencyMs": 9038,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_fund_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "C-simple-router",
+          "prompt": "帮我查一下华夏上证50ETF（510050.SH）2026年8月3日到8月7日的日K线数据",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "查询股票日K线数据 510050.SH 华夏上证50ETF 2026年8月3日到8月7日"
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_9933359b-1bb3-40b3-9124-18d2aef14145",
+                "arguments": {
+                  "windcode": "510050.SH",
+                  "begin_date": "2026-08-03",
+                  "end_date": "2026-08-07",
+                  "period": "1d"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_fund_kline"
+          ],
+          "toolRefToName": {
+            "tr_9933359b-1bb3-40b3-9124-18d2aef14145": "get_fund_kline"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.061999,
+            "usage": {
+              "input_tokens": 7417,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28928,
+              "output_tokens": 418,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.061999,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.061999,\"usage\":{\"input_tokens\":7417,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28928,\"output_tokens\":418,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_fund_kline\",\"serverCategory\":\"fund_data\",\"arguments\":{\"windcode\":\"510050.SH\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":2.941,\"close\":2.958,\"high\":2.962,\"low\":2.937,\"volume\":412300,\"amount\":1218345600},{\"date\":\"2026-08-04\",\"open\":2.959,\"close\":2.951,\"high\":2.965,\"low\":2.946,\"volume\":365120,\"amount\":1078454400},{\"date\":\"2026-08-05\",\"open\":2"
+            }
+          ],
+          "finalAnswer": "已获取到华夏上证50ETF（510050.SH）2026年8月3日至8月7日的日K线数据：\n\n| 日期 | 开盘价 | 收盘价 | 最高价 | 最低价 | 成交量 | 成交额 |\n|------|--------|--------|--------|--------|---------|---------|\n| 2026-08-03 | 2.941 | 2.958 | 2.962 | 2.937 | 412,300 | 12.18亿 |\n| 2026-08-04 | 2.959 | 2.951 | 2.965 | 2.946 | 365,120 | 10.78亿 |\n| 2026-08-05 | 2.952 | 2.973 | 2.977 | 2.949 | 448,760 | 13.35亿 |\n| 2026-08-06 | 2.974 | 2.968 | 2.981 | 2.961 | 391,450 | 11.62亿 |\n| 2026-08-07 | 2.969 | 2.985 | 2.989 | 2.965 | 470,030 | 14.03亿 |\n\n> 注：当前返回的是评估用的确定性模拟数据，非实时Wind查询结果。",
+          "usage": {
+            "input_tokens": 11871,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 79936,
+            "output_tokens": 743,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.11789799999999999,
+          "latencyMs": 16773,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_fund_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "A-full-tools",
+          "prompt": "帮我查一下华夏上证50ETF（510050.SH）2026年8月3日到8月7日的日K线数据",
+          "toolCalls": [
+            {
+              "tool": "get_fund_kline",
+              "arguments": {
+                "windcode": "510050.SH",
+                "begin_date": "2026-08-03",
+                "end_date": "2026-08-07",
+                "period": "1d"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_fund_kline",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_fund_kline\",\"serverCategory\":\"fund_data\",\"arguments\":{\"windcode\":\"510050.SH\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":2.941,\"close\":2.958,\"high\":2.962,\"low\":2.937,\"volume\":412300,\"amount\":1218345600},{\"date\":\"2026-08-04\",\"open\":2.959,\"close\":2.951,\"high\":2.965,\"low\":2.946,\"volume\":365120,\"amount\":1078454400},{\"date\":\"2026-08-05\",\"open\":2"
+            }
+          ],
+          "finalAnswer": "以下是华夏上证50ETF（510050.SH）2026年8月3日至8月7日的日K线数据：\n\n| 日期 | 开盘价 | 收盘价 | 最高价 | 最低价 | 成交量 | 成交额 |\n|------|--------|--------|--------|--------|--------|---------|\n| 2026-08-03 | 2.941 | 2.958 | 2.962 | 2.937 | 41.23万手 | 12.18亿元 |\n| 2026-08-04 | 2.959 | 2.951 | 2.965 | 2.946 | 36.51万手 | 10.78亿元 |\n| 2026-08-05 | 2.952 | 2.973 | 2.977 | 2.949 | 44.88万手 | 13.35亿元 |\n| 2026-08-06 | 2.974 | 2.968 | 2.981 | 2.961 | 39.15万手 | 11.62亿元 |\n| 2026-08-07 | 2.969 | 2.985 | 2.989 | 2.965 | 47.00万手 | 14.03亿元 |\n\n**简要分析：**\n- 期间整体呈上涨趋势，从2.958涨至2.985\n- 涨幅约 +0.91%\n- 最高价出现在8月7日（2.989）\n- 最低价出现在8月3日（2.937）\n- 8月7日成交最活跃，成交额达14.03亿元\n\n> 注：当前为评估模式的模拟数据，非实时Wind数据。",
+          "usage": {
+            "input_tokens": 11095,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 66304,
+            "output_tokens": 654,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.104977,
+          "latencyMs": 7179,
+          "numTurns": 2,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_fund_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-003",
+        "kind": "metric-variant-ambiguity",
+        "scored": false,
+        "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+        "userPrompt": "查一下贵州茅台最新的ROE是多少",
+        "acceptableTools": [
+          "get_stock_fundamentals",
+          "get_financial_data"
+        ],
+        "toolExpectations": {
+          "get_stock_fundamentals": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": {
+              "windcode": "600519.SH",
+              "metric": "ROE",
+              "variant": "加权（报告期 2026Q2）",
+              "value": 17.42,
+              "unit": "%"
+            }
+          },
+          "get_financial_data": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": {
+              "windcode": "600519.SH",
+              "metric": "ROE",
+              "variant": "摊薄（报告期 2026Q2）",
+              "value": 17.05,
+              "unit": "%"
+            }
+          }
+        },
+        "clarification": "ROE 存在摊薄、加权、扣非、TTM 等 Metric Variant，问句未指定口径；接受任一可支持 ROE 查询的 acceptableTools 与任一口径，无需追问澄清，但回答须注明所用口径。question 为自由文本，任何表述均可接受（只记录、不判定）。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中至少一个工具"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "必填参数 question 已提供；其内容为自由文本，任何表述均可接受"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情"
+          },
+          {
+            "id": "process_only",
+            "check": "只判断流程是否跑通，不评价口径选择优劣、不对各 arm 排名"
+          }
+        ]
+      },
+      "caseFileSha256": "956b9896ea40e8b2f18a022602e215f29885a88b1e7ced62e0d20fe18cc19326",
+      "armOrder": [
+        "C-simple-router",
+        "A-full-tools",
+        "B-oracle-router"
+      ],
+      "arms": [
+        {
+          "arm": "C-simple-router",
+          "prompt": "查一下贵州茅台最新的ROE是多少",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台ROE净资产收益率",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_e1011017-7b82-4021-a126-b663d79eedee",
+                "arguments": {
+                  "question": "贵州茅台600519最新ROE净资产收益率"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_fundamentals"
+          ],
+          "toolRefToName": {
+            "tr_e1011017-7b82-4021-a126-b663d79eedee": "get_stock_fundamentals"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.059378999999999994,
+            "usage": {
+              "input_tokens": 7393,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28928,
+              "output_tokens": 318,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.059378999999999994,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.059378999999999994,\"usage\":{\"input_tokens\":7393,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28928,\"output_tokens\":318,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_in"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台600519最新ROE净资产收益率\"},\"data\":{\"windcode\":\"600519.SH\",\"metric\":\"ROE\",\"variant\":\"加权（报告期 2026Q2）\",\"value\":17.42,\"unit\":\"%\"}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，贵州茅台（600519.SH）的ROE数据如下：\n\n**注意：** 返回的是评估用的模拟数据，非实时Wind数据。\n\n| 指标 | 数值 |\n|------|------|\n| ROE（加权） | **17.42%** |\n| 报告期 | 2026Q2 |\n| 股票代码 | 600519.SH |\n\n**17.42%** 是系统返回的模拟数值，仅供参考。如需获取贵州茅台的真实实时ROE数据，建议通过Wind金融终端、同花顺、东方财富等金融数据平台查询。\n\n贵州茅台作为A股优质白酒龙头，历史上ROE通常保持在20%-30%的高水平区间，是典型的\"高ROE+高分红\"价值投资标的。",
+          "usage": {
+            "input_tokens": 8040,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 82752,
+            "output_tokens": 568,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.095776,
+          "latencyMs": 15986,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "A-full-tools",
+          "prompt": "查一下贵州茅台最新的ROE是多少",
+          "toolCalls": [
+            {
+              "tool": "get_stock_fundamentals",
+              "arguments": {
+                "question": "贵州茅台的最新ROE净资产收益率"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_stock_fundamentals",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台的最新ROE净资产收益率\"},\"data\":{\"windcode\":\"600519.SH\",\"metric\":\"ROE\",\"variant\":\"加权（报告期 2026Q2）\",\"value\":17.42,\"unit\":\"%\"}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，贵州茅台（600519.SH）的最新ROE（净资产收益率）为：\n\n**17.42%**（加权ROE，报告期2026年Q2）\n\n> ⚠️ **注意**：这是评估模式的模拟数据，非实时Wind数据。如需实时数据，请使用生产环境配置。",
+          "usage": {
+            "input_tokens": 7528,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 69504,
+            "output_tokens": 205,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.077517,
+          "latencyMs": 4946,
+          "numTurns": 2,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "B-oracle-router",
+          "prompt": "查一下贵州茅台最新的ROE是多少",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台 ROE 净资产收益率",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_7c098288-0f55-4590-9eb4-ed7fd8ac89de",
+                "arguments": {
+                  "question": "贵州茅台 ROE 净资产收益率 最新"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_fundamentals",
+            "get_financial_data"
+          ],
+          "toolRefToName": {
+            "tr_7c098288-0f55-4590-9eb4-ed7fd8ac89de": "get_stock_fundamentals",
+            "tr_edf2f543-064a-4d89-968d-00994971944f": "get_financial_data"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_7c098288-0f55-4590-9eb4-ed7fd8ac89de\",\"name\":\"get_stock_fundamentals\",\"description\":\"返回指定股票的两类基本面数据。第一类为财务原始指标：三大报表科目，偿债、盈利、成长、杠杆等财务比率（如 ROE、毛利率、资产负债率、速动比率），以及行业专项指标（如银行净息差、不良贷款率），时间维度为报告期。第二类为衍生估值指标：PE、PB、PS（TTM 口径）、股息率、总市值与流通市值及其历史分位数，随交易日变动。不含价格序列。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"description\":\"自然语言查询要求，为\\\"实体 + 指标 "
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台 ROE 净资产收益率 最新\"},\"data\":{\"windcode\":\"600519.SH\",\"metric\":\"ROE\",\"variant\":\"加权（报告期 2026Q2）\",\"value\":17.42,\"unit\":\"%\"}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，贵州茅台（600519.SH）的最新ROE数据如下：\n\n| 指标 | 数值 |\n|------|------|\n| **ROE（净资产收益率）** | **17.42%** |\n| 口径 | 加权 |\n| 报告期 | 2026年Q2 |\n\n> ⚠️ **注意**：以上为评估环境返回的模拟数据，非实时Wind数据。如需真实投资决策，请通过Wind终端或券商平台查询实时数据。",
+          "usage": {
+            "input_tokens": 8082,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 82816,
+            "output_tokens": 355,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.090693,
+          "latencyMs": 7635,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-004",
+        "kind": "time-ambiguity",
+        "scored": false,
+        "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+        "userPrompt": "帮我看看宁德时代最近的股价表现",
+        "acceptableTools": [
+          "get_stock_price_indicators",
+          "get_stock_quote",
+          "get_stock_kline"
+        ],
+        "toolExpectations": {
+          "get_stock_price_indicators": {
+            "requiredArguments": [
+              "windcode"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "300750.SZ",
+                "宁德时代"
+              ]
+            },
+            "resultFixture": {
+              "windcode": "300750.SZ",
+              "snapshot": "时点截面（latest）",
+              "latest": 412.36,
+              "pct_change": 1.85,
+              "turnover_rate": 0.92
+            }
+          },
+          "get_stock_quote": {
+            "requiredArguments": [
+              "windcode",
+              "begin",
+              "end"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "300750.SZ",
+                "宁德时代"
+              ],
+              "begin": [],
+              "end": []
+            },
+            "resultFixture": [
+              {
+                "time": "09:30",
+                "price": 405.1,
+                "volume": 15234
+              },
+              {
+                "time": "10:30",
+                "price": 408.72,
+                "volume": 12450
+              },
+              {
+                "time": "14:00",
+                "price": 411.05,
+                "volume": 9876
+              },
+              {
+                "time": "15:00",
+                "price": 412.36,
+                "volume": 20113
+              }
+            ]
+          },
+          "get_stock_kline": {
+            "requiredArguments": [
+              "windcode",
+              "begin_date",
+              "end_date"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "300750.SZ",
+                "宁德时代"
+              ],
+              "begin_date": [],
+              "end_date": [],
+              "period": []
+            },
+            "resultFixture": [
+              {
+                "date": "2026-08-03",
+                "open": 398.2,
+                "close": 401.55,
+                "high": 403.1,
+                "low": 397.4,
+                "volume": 31240
+              },
+              {
+                "date": "2026-08-04",
+                "open": 401.8,
+                "close": 399.86,
+                "high": 402.9,
+                "low": 398.1,
+                "volume": 28765
+              },
+              {
+                "date": "2026-08-05",
+                "open": 400.1,
+                "close": 404.32,
+                "high": 405.8,
+                "low": 399.5,
+                "volume": 33410
+              },
+              {
+                "date": "2026-08-06",
+                "open": 404.6,
+                "close": 405.48,
+                "high": 407.2,
+                "low": 403.3,
+                "volume": 30120
+              },
+              {
+                "date": "2026-08-07",
+                "open": 405.1,
+                "close": 412.36,
+                "high": 413,
+                "low": 404.2,
+                "volume": 38904
+              }
+            ]
+          }
+        },
+        "clarification": "“最近”时间口径不明：接受时点截面（get_stock_price_indicators）、当日分钟序列（get_stock_quote）或近期 K 线（get_stock_kline）任一解释，无需追问澄清，但回答须注明所用时间口径；日期与周期取值只记录、不判定。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中至少一个工具"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "windcode 指向宁德时代；日期与周期为自由取值，只记录、不判定"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情"
+          },
+          {
+            "id": "process_only",
+            "check": "只判断流程是否跑通，不评价时间口径选择优劣、不对各 arm 排名"
+          }
+        ]
+      },
+      "caseFileSha256": "54d8f626283b7c1918cb03fa37cc71b2448e8afecaa9bdedd20d15b9133c59ea",
+      "armOrder": [
+        "A-full-tools",
+        "B-oracle-router",
+        "C-simple-router"
+      ],
+      "arms": [
+        {
+          "arm": "A-full-tools",
+          "prompt": "帮我看看宁德时代最近的股价表现",
+          "toolCalls": [
+            {
+              "tool": "get_stock_price_indicators",
+              "arguments": {
+                "windcode": "宁德时代",
+                "indexes": "最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌幅,成交量,成交额,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,60日涨跌幅,年初至今涨跌幅"
+              }
+            },
+            {
+              "tool": "get_stock_kline",
+              "arguments": {
+                "windcode": "宁德时代",
+                "begin_date": "2026-07-01",
+                "end_date": "2026-08-09",
+                "period": "1d"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_stock_price_indicators",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_price_indicators\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"宁德时代\",\"indexes\":\"最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌幅,成交量,成交额,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,60日涨跌幅,年初至今涨跌幅\"},\"data\":{\"windcode\":\"300750.SZ\",\"snapshot\":\"时点截面（latest）\",\"latest\":412.36,\"pct_change\":1.85,\"turnover_rate\":0.92}}"
+            },
+            {
+              "tool": "get_stock_kline",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"宁德时代\",\"begin_date\":\"2026-07-01\",\"end_date\":\"2026-08-09\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":398.2,\"close\":401.55,\"high\":403.1,\"low\":397.4,\"volume\":31240},{\"date\":\"2026-08-04\",\"open\":401.8,\"close\":399.86,\"high\":402.9,\"low\":398.1,\"volume\":28765},{\"date\":\"2026-08-05\",\"open\":400.1,\"close\":404.32,\"high\":405.8,\"low\":399."
+            }
+          ],
+          "finalAnswer": "根据获取的数据，以下是宁德时代（300750.SZ）最近的股价表现：\n\n## 最新行情（2026-08-07）\n\n| 指标 | 数值 |\n|------|------|\n| 最新成交价 | **412.36 元** |\n| 涨跌幅 | **+1.85%** |\n| 换手率 | 0.92% |\n\n## 近5日走势\n\n| 日期 | 开盘价 | 收盘价 | 最高价 | 最低价 | 成交量（手） |\n|------|--------|--------|--------|--------|-------------|\n| 08-07 | 405.10 | **412.36** | 413.00 | 404.20 | 38,904 |\n| 08-06 | 404.60 | 405.48 | 407.20 | 403.30 | 30,120 |\n| 08-05 | 400.10 | 404.32 | 405.80 | 399.50 | 33,410 |\n| 08-04 | 401.80 | 399.86 | 402.90 | 398.10 | 28,765 |\n| 08-03 | 398.20 | 401.55 | 403.10 | 397.40 | 31,240 |\n\n## 表现总结\n\n- **近5日趋势**：整体呈上涨态势，从8月3日的401.55元上涨至8月7日的412.36元\n- **5日涨幅**：约 **+2.69%**\n- **成交量**：8月7日成交量放大至38,904手，显示市场关注度提升\n- **价格区间**：近期在397-413元区间波动\n\n---\n\n> ⚠️ **注意**：以上为评估用的模拟数据，不构成投资建议。如需实时行情数据，请通过Wind终端或其他金融数据平台查询。",
+          "usage": {
+            "input_tokens": 7841,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 69824,
+            "output_tokens": 904,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.096717,
+          "latencyMs": 9572,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_price_indicators, get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_price_indicators.indexes"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "B-oracle-router",
+          "prompt": "帮我看看宁德时代最近的股价表现",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "宁德时代 股价 行情 CATL stock",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_f0f82dda-13d4-41c4-8a8a-20e5ed0724c9",
+                "arguments": {
+                  "windcode": "宁德时代",
+                  "indexes": "最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,60日涨跌幅,年初至今涨跌幅"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "arguments": {
+                  "windcode": "宁德时代",
+                  "begin_date": "2026-07-10",
+                  "end_date": "2026-08-09",
+                  "period": "1d",
+                  "aftype": "0"
+                },
+                "toolRef": "tr_d814cfdb-e6db-47b3-a0ae-bf8c1778e60b"
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_price_indicators",
+            "get_stock_quote",
+            "get_stock_kline"
+          ],
+          "toolRefToName": {
+            "tr_f0f82dda-13d4-41c4-8a8a-20e5ed0724c9": "get_stock_price_indicators",
+            "tr_f3833365-2aec-4ec7-880a-f15c9e32bee7": "get_stock_quote",
+            "tr_d814cfdb-e6db-47b3-a0ae-bf8c1778e60b": "get_stock_kline"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_f0f82dda-13d4-41c4-8a8a-20e5ed0724c9\",\"name\":\"get_stock_price_indicators\",\"description\":\"返回指定股票当前时刻的截面状态，为时点数据，包括：最新成交价、前收盘价、今日开盘价、最高价、最低价、涨跌额与涨跌幅；成交量、成交额、换手率、量比、振幅、委比、买卖一档价量；涨停价、跌停价、总市值、流通市值。另含别名指标 PE（TTM）、PB、股息率及 5 日、20 日、60 日与年初至今涨跌幅，同名指标取值与相应主域工具一致。仅返回时点截面，不含过程序列（当日走势与指定时间范围）。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"desc"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_price_indicators\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"宁德时代\",\"indexes\":\"最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,60日涨跌幅,年初至今涨跌幅\"},\"data\":{\"windcode\":\"300750.SZ\",\"snapshot\":\"时点截面（latest）\",\"latest\":412.36,\"pct_change\":1.85,\"turnover_rate\":0.92}}"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"宁德时代\",\"begin_date\":\"2026-07-10\",\"end_date\":\"2026-08-09\",\"period\":\"1d\",\"aftype\":\"0\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":398.2,\"close\":401.55,\"high\":403.1,\"low\":397.4,\"volume\":31240},{\"date\":\"2026-08-04\",\"open\":401.8,\"close\":399.86,\"high\":402.9,\"low\":398.1,\"volume\":28765},{\"date\":\"2026-08-05\",\"open\":400.1,\"close\":404.32,\"high\":405"
+            }
+          ],
+          "finalAnswer": "## 宁德时代 (300750.SZ) 股价表现\n\n> ⚠️ **注意**：以下为评估用的模拟数据，非真实Wind数据。如需真实行情，请配置Wind接口。\n\n### 当前状态（模拟）\n| 指标 | 数值 |\n|------|------|\n| 最新价 | 412.36 元 |\n| 涨跌幅 | +1.85% |\n| 换手率 | 0.92% |\n\n### 近5日走势（模拟）\n| 日期 | 开盘 | 收盘 | 最高 | 最低 | 成交量(手) |\n|------|------|------|------|------|------------|\n| 08-03 | 398.20 | 401.55 | 403.10 | 397.40 | 31,240 |\n| 08-04 | 401.80 | 399.86 | 402.90 | 398.10 | 28,765 |\n| 08-05 | 400.10 | 404.32 | 405.80 | 399.50 | 33,410 |\n| 08-06 | 404.60 | 405.48 | 407.20 | 403.30 | 30,120 |\n| 08-07 | 405.10 | 412.36 | 413.00 | 404.20 | 38,904 |\n\n从模拟数据来看，宁德时代近期呈现**震荡上行**趋势，5日累计上涨约3.4%，成交量在8月7日显著放大。\n\n---\n\n如需查看真实行情，请确保：\n1. 已配置Wind终端/API授权\n2. MCP Oracle服务已连接到真实Wind数据源",
+          "usage": {
+            "input_tokens": 9236,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 115328,
+            "output_tokens": 1030,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.12959400000000001,
+          "latencyMs": 11167,
+          "numTurns": 4,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_price_indicators, get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_price_indicators.indexes, get_stock_kline.aftype"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "C-simple-router",
+          "prompt": "帮我看看宁德时代最近的股价表现",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "宁德时代 300750 股价 行情",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_680f4ab6-9d01-47b0-805a-1f3ad1737bc2",
+                "arguments": {
+                  "windcode": "300750.SZ",
+                  "indexes": "最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,年初至今涨跌幅"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_4e59335b-7ba5-4e9f-9e5c-df6e7b1ae5e0",
+                "arguments": {
+                  "windcode": "300750.SZ",
+                  "begin_date": "2025-07-09",
+                  "end_date": "2026-08-09",
+                  "period": "1d"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_price_indicators",
+            "get_stock_quote",
+            "get_stock_kline"
+          ],
+          "toolRefToName": {
+            "tr_680f4ab6-9d01-47b0-805a-1f3ad1737bc2": "get_stock_price_indicators",
+            "tr_de58b6d0-2a80-428f-a006-3f242f5bbc5c": "get_stock_quote",
+            "tr_4e59335b-7ba5-4e9f-9e5c-df6e7b1ae5e0": "get_stock_kline"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.060529,
+            "usage": {
+              "input_tokens": 7398,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28928,
+              "output_tokens": 363,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.060529,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.060529,\"usage\":{\"input_tokens\":7398,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28928,\"output_tokens\":363,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_price_indicators\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"300750.SZ\",\"indexes\":\"最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,年初至今涨跌幅\"},\"data\":{\"windcode\":\"300750.SZ\",\"snapshot\":\"时点截面（latest）\",\"latest\":412.36,\"pct_change\":1.85,\"turnover_rate\":0.92}}"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"300750.SZ\",\"begin_date\":\"2025-07-09\",\"end_date\":\"2026-08-09\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":398.2,\"close\":401.55,\"high\":403.1,\"low\":397.4,\"volume\":31240},{\"date\":\"2026-08-04\",\"open\":401.8,\"close\":399.86,\"high\":402.9,\"low\":398.1,\"volume\":28765},{\"date\":\"2026-08-05\",\"open\":400.1,\"close\":404.32,\"high\":405.8,\"low\""
+            }
+          ],
+          "finalAnswer": "根据查询结果，以下是宁德时代（300750.SZ）的股价表现：\n\n> ⚠️ **注意**：当前返回的是评估用的模拟数据，非实时Wind行情数据。\n\n## 📊 当前股价状态\n\n| 指标 | 数值 |\n|------|------|\n| **最新成交价** | 412.36 元 |\n| **涨跌幅** | +1.85% |\n| **换手率** | 0.92% |\n\n## 📈 近期走势（5个交易日）\n\n| 日期 | 开盘价 | 收盘价 | 最高价 | 最低价 | 成交量(手) |\n|------|--------|--------|--------|--------|------------|\n| 8月3日 | 398.2 | 401.55 | 403.1 | 397.4 | 31,240 |\n| 8月4日 | 401.8 | 399.86 | 402.9 | 398.1 | 28,765 |\n| 8月5日 | 400.1 | 404.32 | 405.8 | 399.5 | 33,410 |\n| 8月6日 | 404.6 | 405.48 | 407.2 | 403.3 | 30,120 |\n| 8月7日 | 405.1 | 412.36 | 413.0 | 404.2 | 38,904 |\n\n## 🔍 简要分析\n\n- **短期趋势**：股价从 401.55 → 412.36，5日累计上涨约 **2.7%**\n- **最新表现**：8月7日收涨 1.85%，成交量放大至 38,904 手\n- **价格区间**：近期在 397-413 元区间波动\n\n---\n\n如需查看更长时间范围（如最近1个月或1季度）的走势，我可以继续查询K线数据。需要我扩展查询范围吗？",
+          "usage": {
+            "input_tokens": 9298,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 83904,
+            "output_tokens": 1144,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.117042,
+          "latencyMs": 20538,
+          "numTurns": 4,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_price_indicators, get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_price_indicators.indexes"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-005",
+        "kind": "potential-multi-tool",
+        "scored": false,
+        "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+        "userPrompt": "查一下贵州茅台的最新行情快照，再看看它的前十大股东情况",
+        "acceptableTools": [
+          "get_stock_price_indicators",
+          "get_stock_equity_holders"
+        ],
+        "toolExpectations": {
+          "get_stock_price_indicators": {
+            "requiredArguments": [
+              "windcode"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "600519.SH",
+                "贵州茅台"
+              ]
+            },
+            "resultFixture": {
+              "windcode": "600519.SH",
+              "snapshot": "时点截面（latest）",
+              "latest": 1501.3,
+              "pct_change": 0.88,
+              "turnover_rate": 0.21
+            }
+          },
+          "get_stock_equity_holders": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": {
+              "windcode": "600519.SH",
+              "reportPeriod": "2026Q2",
+              "topHolders": [
+                {
+                  "rank": 1,
+                  "name": "中国贵州茅台酒厂（集团）有限责任公司",
+                  "pct": 54.07
+                },
+                {
+                  "rank": 2,
+                  "name": "香港中央结算有限公司",
+                  "pct": 6.45
+                },
+                {
+                  "rank": 3,
+                  "name": "贵州省国有资本运营有限责任公司",
+                  "pct": 4.54
+                }
+              ]
+            }
+          }
+        },
+        "clarification": "两个需求均需数据，可分别由两个 acceptableTools 满足；允许 Agent 只完成其中一部分（潜在多工具，不强制两次调用）。question 为自由文本，任何表述均可接受。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中至少一个工具（两个都调用也符合预期）"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "每次调用按其工具自身的 expectations 判定；question 为自由文本，只记录、不判定"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情"
+          },
+          {
+            "id": "process_only",
+            "check": "只判断流程是否跑通，不评价是否该拆成多次调用、不对各 arm 排名"
+          }
+        ]
+      },
+      "caseFileSha256": "094d2e56ff824937fd9a116b71e69867701e8970545bcc5809414a07805987c1",
+      "armOrder": [
+        "B-oracle-router",
+        "C-simple-router",
+        "A-full-tools"
+      ],
+      "arms": [
+        {
+          "arm": "B-oracle-router",
+          "prompt": "查一下贵州茅台的最新行情快照，再看看它的前十大股东情况",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台股票最新行情快照",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "股票前十大股东信息",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_80d2bfa2-aeb3-4659-98a2-855ee80c0129",
+                "arguments": {
+                  "windcode": "贵州茅台",
+                  "indexes": "最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,量比,振幅,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,60日涨跌幅,年初至今涨跌幅"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_0e3a451d-2a00-41be-a697-13860dcf1767",
+                "arguments": {
+                  "question": "贵州茅台前十大股东和前十大流通股东情况"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_price_indicators",
+            "get_stock_equity_holders"
+          ],
+          "toolRefToName": {
+            "tr_80d2bfa2-aeb3-4659-98a2-855ee80c0129": "get_stock_price_indicators",
+            "tr_0e3a451d-2a00-41be-a697-13860dcf1767": "get_stock_equity_holders",
+            "tr_cbf54372-6725-46c5-9351-48c23cdb7ff3": "get_stock_price_indicators",
+            "tr_d9cb07c0-d457-48ff-8217-64fd5e50e905": "get_stock_equity_holders"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_80d2bfa2-aeb3-4659-98a2-855ee80c0129\",\"name\":\"get_stock_price_indicators\",\"description\":\"返回指定股票当前时刻的截面状态，为时点数据，包括：最新成交价、前收盘价、今日开盘价、最高价、最低价、涨跌额与涨跌幅；成交量、成交额、换手率、量比、振幅、委比、买卖一档价量；涨停价、跌停价、总市值、流通市值。另含别名指标 PE（TTM）、PB、股息率及 5 日、20 日、60 日与年初至今涨跌幅，同名指标取值与相应主域工具一致。仅返回时点截面，不含过程序列（当日走势与指定时间范围）。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"desc"
+            },
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_cbf54372-6725-46c5-9351-48c23cdb7ff3\",\"name\":\"get_stock_price_indicators\",\"description\":\"返回指定股票当前时刻的截面状态，为时点数据，包括：最新成交价、前收盘价、今日开盘价、最高价、最低价、涨跌额与涨跌幅；成交量、成交额、换手率、量比、振幅、委比、买卖一档价量；涨停价、跌停价、总市值、流通市值。另含别名指标 PE（TTM）、PB、股息率及 5 日、20 日、60 日与年初至今涨跌幅，同名指标取值与相应主域工具一致。仅返回时点截面，不含过程序列（当日走势与指定时间范围）。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"desc"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_price_indicators\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"贵州茅台\",\"indexes\":\"最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,量比,振幅,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,60日涨跌幅,年初至今涨跌幅\"},\"data\":{\"windcode\":\"600519.SH\",\"snapshot\":\"时点截面（latest）\",\"latest\":1501.3,\"pct_change\":0.88,\"turnover_rate\":0.21}}"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_equity_holders\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台前十大股东和前十大流通股东情况\"},\"data\":{\"windcode\":\"600519.SH\",\"reportPeriod\":\"2026Q2\",\"topHolders\":[{\"rank\":1,\"name\":\"中国贵州茅台酒厂（集团）有限责任公司\",\"pct\":54.07},{\"rank\":2,\"name\":\"香港中央结算有限公司\",\"pct\":6.45},{\"rank\":3,\"name\":\"贵州省国有资本运营有限责任公司\",\"pct\":4.54}]}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，以下是贵州茅台（600519.SH）的行情和股东信息：\n\n## 📊 最新行情快照\n\n| 指标 | 数值 |\n|------|------|\n| **最新成交价** | ¥1,501.30 |\n| **涨跌幅** | +0.88% |\n| **换手率** | 0.21% |\n\n*注：当前返回的是评估模式的模拟数据，非实时行情。*\n\n## 🏢 前十大股东情况（2026Q2报告期）\n\n| 排名 | 股东名称 | 持股比例 |\n|------|----------|----------|\n| 1 | 中国贵州茅台酒厂（集团）有限责任公司 | 54.07% |\n| 2 | 香港中央结算有限公司 | 6.45% |\n| 3 | 贵州省国有资本运营有限责任公司 | 4.54% |\n\n---\n\n> ⚠️ **注意**：当前返回的是评估模式下的模拟数据，未连接实时Wind数据源。如需真实行情数据，需要配置正式的Wind接口。",
+          "usage": {
+            "input_tokens": 9120,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 83712,
+            "output_tokens": 631,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.10323099999999999,
+          "latencyMs": 7447,
+          "numTurns": 5,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_price_indicators, get_stock_equity_holders"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_price_indicators.indexes"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "C-simple-router",
+          "prompt": "查一下贵州茅台的最新行情快照，再看看它的前十大股东情况",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台股票最新行情快照",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "股票前十大股东信息",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_ff81b78b-78b1-4f1b-b5e5-65cf26757aa6",
+                "arguments": {
+                  "windcode": "600519.SH",
+                  "indexes": "最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,振幅,量比,总市值,流通市值,PE(TTM),PB,股息率"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_b42f8892-5c49-44f4-8404-4990c2282e2a",
+                "arguments": {
+                  "question": "贵州茅台600519.SH前十大股东及前十大流通股东最新情况"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_price_indicators",
+            "get_stock_quote",
+            "get_stock_technicals",
+            "get_stock_equity_holders"
+          ],
+          "toolRefToName": {
+            "tr_ff81b78b-78b1-4f1b-b5e5-65cf26757aa6": "get_stock_price_indicators",
+            "tr_71c70b5c-4015-48a8-aa1c-96aa35d71eb3": "get_stock_quote",
+            "tr_3cfc1a7b-5299-45a1-b83e-babe488c76e7": "get_stock_technicals",
+            "tr_b42f8892-5c49-44f4-8404-4990c2282e2a": "get_stock_equity_holders"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.060674,
+            "usage": {
+              "input_tokens": 7392,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28928,
+              "output_tokens": 370,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.060674,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.14003300000000002,\"usage\":{\"input_tokens\":24032,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":10496,\"output_tokens\":585,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_in"
+            },
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.060674,\"usage\":{\"input_tokens\":7392,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28928,\"output_tokens\":370,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_price_indicators\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"600519.SH\",\"indexes\":\"最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,振幅,量比,总市值,流通市值,PE(TTM),PB,股息率\"},\"data\":{\"windcode\":\"600519.SH\",\"snapshot\":\"时点截面（latest）\",\"latest\":1501.3,\"pct_change\":0.88,\"turnover_rate\":0.21}}"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_equity_holders\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台600519.SH前十大股东及前十大流通股东最新情况\"},\"data\":{\"windcode\":\"600519.SH\",\"reportPeriod\":\"2026Q2\",\"topHolders\":[{\"rank\":1,\"name\":\"中国贵州茅台酒厂（集团）有限责任公司\",\"pct\":54.07},{\"rank\":2,\"name\":\"香港中央结算有限公司\",\"pct\":6.45},{\"rank\":3,\"name\":\"贵州省国有资本运营有限责任公司\",\"pct\":4.54}]}}"
+            }
+          ],
+          "finalAnswer": "## 贵州茅台 (600519.SH) 数据快照\n\n> 📋 注：以下为评估用模拟数据，非实时行情\n\n### 📈 最新行情快照\n\n| 指标 | 值 |\n|------|-----|\n| **最新成交价** | ¥1,501.30 |\n| **涨跌幅** | +0.88% |\n| **换手率** | 0.21% |\n| **数据类型** | 时点截面 |\n\n---\n\n### 🏢 前十大股东 (2026Q2 报告期)\n\n| 排名 | 股东名称 | 持股比例 |\n|------|----------|----------|\n| 1 | 中国贵州茅台酒厂（集团）有限责任公司 | 54.07% |\n| 2 | 香港中央结算有限公司 | 6.45% |\n| 3 | 贵州省国有资本运营有限责任公司 | 4.54% |\n\n---\n\n**说明**：\n- 第一大股东为茅台集团（国企），持股超过50%，处于绝对控股地位\n- 香港中央结算有限公司代表北上资金/外资持股\n- 数据来源于 Wind 金融终端模拟接口",
+          "usage": {
+            "input_tokens": 9252,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 83968,
+            "output_tokens": 650,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.104494,
+          "latencyMs": 30315,
+          "numTurns": 5,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_price_indicators, get_stock_equity_holders"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_price_indicators.indexes"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "A-full-tools",
+          "prompt": "查一下贵州茅台的最新行情快照，再看看它的前十大股东情况",
+          "toolCalls": [
+            {
+              "tool": "get_stock_price_indicators",
+              "arguments": {
+                "windcode": "贵州茅台",
+                "indexes": "最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,总市值,流通市值,PE(TTM),PB,股息率"
+              }
+            },
+            {
+              "tool": "get_stock_equity_holders",
+              "arguments": {
+                "question": "贵州茅台的前十大股东情况"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_stock_price_indicators",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_price_indicators\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"贵州茅台\",\"indexes\":\"最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,总市值,流通市值,PE(TTM),PB,股息率\"},\"data\":{\"windcode\":\"600519.SH\",\"snapshot\":\"时点截面（latest）\",\"latest\":1501.3,\"pct_change\":0.88,\"turnover_rate\":0.21}}"
+            },
+            {
+              "tool": "get_stock_equity_holders",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_equity_holders\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台的前十大股东情况\"},\"data\":{\"windcode\":\"600519.SH\",\"reportPeriod\":\"2026Q2\",\"topHolders\":[{\"rank\":1,\"name\":\"中国贵州茅台酒厂（集团）有限责任公司\",\"pct\":54.07},{\"rank\":2,\"name\":\"香港中央结算有限公司\",\"pct\":6.45},{\"rank\":3,\"name\":\"贵州省国有资本运营有限责任公司\",\"pct\":4.54}]}}"
+            }
+          ],
+          "finalAnswer": "## 贵州茅台 (600519.SH)\n\n### 📊 最新行情快照\n\n| 指标 | 数值 |\n|------|------|\n| 最新价 | ¥1,501.30 |\n| 涨跌幅 | +0.88% |\n| 换手率 | 0.21% |\n\n> ⚠️ **注意**: 以上为评估用的模拟数据，非实时Wind行情。\n\n---\n\n### 🏛️ 前十大股东情况 (报告期: 2026Q2)\n\n| 排名 | 股东名称 | 持股比例 |\n|:---:|----------|:--------:|\n| 1 | 中国贵州茅台酒厂（集团）有限责任公司 | 54.07% |\n| 2 | 香港中央结算有限公司 | 6.45% |\n| 3 | 贵州省国有资本运营有限责任公司 | 4.54% |\n\n> ⚠️ **注意**: 以上为评估用的模拟数据，展示前3大股东，非真实Wind数据。\n\n---\n\n如需获取实时准确的贵州茅台数据，请使用真实的Wind数据接口。",
+          "usage": {
+            "input_tokens": 7705,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 69632,
+            "output_tokens": 473,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.085166,
+          "latencyMs": 5870,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_price_indicators, get_stock_equity_holders"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_price_indicators.indexes"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-006",
+        "kind": "potential-multi-tool",
+        "scored": false,
+        "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+        "userPrompt": "对比一下沪深300指数和贵州茅台2026年8月3日到8月7日的日K线走势",
+        "acceptableTools": [
+          "get_index_kline",
+          "get_stock_kline"
+        ],
+        "toolExpectations": {
+          "get_index_kline": {
+            "requiredArguments": [
+              "windcode",
+              "begin_date",
+              "end_date"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "000300.SH",
+                "沪深300"
+              ],
+              "begin_date": [
+                "2026-08-03"
+              ],
+              "end_date": [
+                "2026-08-07"
+              ],
+              "period": [
+                "1d"
+              ]
+            },
+            "resultFixture": [
+              {
+                "date": "2026-08-03",
+                "open": 4082.11,
+                "close": 4095.74,
+                "high": 4101.22,
+                "low": 4078.35
+              },
+              {
+                "date": "2026-08-04",
+                "open": 4096.02,
+                "close": 4088.19,
+                "high": 4099.87,
+                "low": 4083.44
+              },
+              {
+                "date": "2026-08-05",
+                "open": 4089.3,
+                "close": 4107.66,
+                "high": 4112.05,
+                "low": 4086.71
+              },
+              {
+                "date": "2026-08-06",
+                "open": 4108.24,
+                "close": 4102.38,
+                "high": 4115.6,
+                "low": 4098.12
+              },
+              {
+                "date": "2026-08-07",
+                "open": 4103.05,
+                "close": 4121.47,
+                "high": 4126.83,
+                "low": 4100.29
+              }
+            ]
+          },
+          "get_stock_kline": {
+            "requiredArguments": [
+              "windcode",
+              "begin_date",
+              "end_date"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "600519.SH",
+                "贵州茅台"
+              ],
+              "begin_date": [
+                "2026-08-03"
+              ],
+              "end_date": [
+                "2026-08-07"
+              ],
+              "period": [
+                "1d"
+              ]
+            },
+            "resultFixture": [
+              {
+                "date": "2026-08-03",
+                "open": 1472,
+                "close": 1481.6,
+                "high": 1486.4,
+                "low": 1469.8,
+                "volume": 19830
+              },
+              {
+                "date": "2026-08-04",
+                "open": 1482.1,
+                "close": 1477.9,
+                "high": 1488.2,
+                "low": 1475.3,
+                "volume": 17652
+              },
+              {
+                "date": "2026-08-05",
+                "open": 1480,
+                "close": 1492.5,
+                "high": 1495,
+                "low": 1478.2,
+                "volume": 21345
+              },
+              {
+                "date": "2026-08-06",
+                "open": 1493,
+                "close": 1487.6,
+                "high": 1496.8,
+                "low": 1484.1,
+                "volume": 18976
+              },
+              {
+                "date": "2026-08-07",
+                "open": 1488.2,
+                "close": 1501.3,
+                "high": 1503.9,
+                "low": 1486,
+                "volume": 24510
+              }
+            ]
+          }
+        },
+        "clarification": "对比两个不同实体（指数与个股），需要分别调用两个 acceptableTools；允许 Agent 合并解读或只完成一侧（潜在多工具，不强制两次调用）。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中至少一个工具（两个都调用也符合预期）"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "每次调用按其工具自身的 expectations 判定（period 可省略走默认 1d）"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情"
+          },
+          {
+            "id": "process_only",
+            "check": "只判断流程是否跑通，不评价对比质量、不对各 arm 排名"
+          }
+        ]
+      },
+      "caseFileSha256": "3ab9ad1a0c03fbd100d71b61d7657278073eb13631afa62e1107b03c895b41c3",
+      "armOrder": [
+        "C-simple-router",
+        "A-full-tools",
+        "B-oracle-router"
+      ],
+      "arms": [
+        {
+          "arm": "C-simple-router",
+          "prompt": "对比一下沪深300指数和贵州茅台2026年8月3日到8月7日的日K线走势",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "沪深300指数 000300 日K线行情数据 2026-08-03到2026-08-07",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台 600519 日K线行情数据 2026-08-03到2026-08-07",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_d6a7e851-c993-4ff8-a141-76105bbd26dc",
+                "arguments": {
+                  "windcode": "000300.SH",
+                  "begin_date": "2026-08-03",
+                  "end_date": "2026-08-07",
+                  "period": "1d"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_d464ca8a-f54d-40ec-b8db-b3e0e3d75314",
+                "arguments": {
+                  "windcode": "600519.SH",
+                  "begin_date": "2026-08-03",
+                  "end_date": "2026-08-07",
+                  "period": "1d"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_index_kline",
+            "get_stock_kline"
+          ],
+          "toolRefToName": {
+            "tr_d6a7e851-c993-4ff8-a141-76105bbd26dc": "get_index_kline",
+            "tr_d464ca8a-f54d-40ec-b8db-b3e0e3d75314": "get_stock_kline"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.062174,
+            "usage": {
+              "input_tokens": 7412,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28928,
+              "output_tokens": 426,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.062174,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.060224,\"usage\":{\"input_tokens\":7412,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28928,\"output_tokens\":348,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+            },
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.062174,\"usage\":{\"input_tokens\":7412,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28928,\"output_tokens\":426,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_index_kline\",\"serverCategory\":\"index_data\",\"arguments\":{\"windcode\":\"000300.SH\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":4082.11,\"close\":4095.74,\"high\":4101.22,\"low\":4078.35},{\"date\":\"2026-08-04\",\"open\":4096.02,\"close\":4088.19,\"high\":4099.87,\"low\":4083.44},{\"date\":\"2026-08-05\",\"open\":4089.3,\"close\":4107.66,\"high\":4112.05,\"low\":4086.71},{\""
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"600519.SH\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":1472,\"close\":1481.6,\"high\":1486.4,\"low\":1469.8,\"volume\":19830},{\"date\":\"2026-08-04\",\"open\":1482.1,\"close\":1477.9,\"high\":1488.2,\"low\":1475.3,\"volume\":17652},{\"date\":\"2026-08-05\",\"open\":1480,\"close\":1492.5,\"high\":1495,\"lo"
+            }
+          ],
+          "finalAnswer": "## 沪深300指数 vs 贵州茅台日K线走势对比（2026-08-03 至 2026-08-07）\n\n### 📊 沪深300指数（000300.SH）\n\n| 日期 | 开盘 | 收盘 | 最高 | 最低 | 涨跌幅 |\n|------|-------|-------|-------|-------|--------|\n| 08-03 | 4082.11 | **4095.74** | 4101.22 | 4078.35 | — |\n| 08-04 | 4096.02 | **4088.19** | 4099.87 | 4083.44 | -0.19% |\n| 08-05 | 4089.30 | **4107.66** | 4112.05 | 4086.71 | +0.48% |\n| 08-06 | 4108.24 | **4102.38** | 4115.60 | 4098.12 | -0.13% |\n| 08-07 | 4103.05 | **4121.47** | 4126.83 | 4100.29 | +0.46% |\n\n**区间涨幅**: +0.63% (4095.74 → 4121.47)\n\n---\n\n### 📈 贵州茅台（600519.SH）\n\n| 日期 | 开盘 | 收盘 | 最高 | 最低 | 成交量 | 涨跌幅 |\n|------|-------|-------|-------|-------|--------|--------|\n| 08-03 | 1472.00 | **1481.60** | 1486.40 | 1469.80 | 19,830 | — |\n| 08-04 | 1482.10 | **1477.90** | 1488.20 | 1475.30 | 17,652 | -0.28% |\n| 08-05 | 1480.00 | **1492.50** | 1495.00 | 1478.20 | 21,345 | +0.95% |\n| 08-06 | 1493.00 | **1487.60** | 1496.80 | 1484.10 | 18,976 | -0.36% |\n| 08-07 | 1488.20 | **1501.30** | 1503.90 | 1486.00 | 24,510 | +0.91% |\n\n**区间涨幅**: +1.32% (1481.60 → 1501.30)\n\n---\n\n### 🔍 对比分析\n\n| 指标 | 沪深300 | 贵州茅台 |\n|------|---------|----------|\n| 区间涨幅 | +0.63% | **+1.32%** ⭐ |\n| 震荡幅度 | 小幅震荡上行 | 小幅震荡上行 |\n| 走势特征 | 4阳1阴，涨跌交替 | 3阳2阴，涨多跌少 |\n| 8月7日收盘 | 4121.47 | 1501.30 |\n\n**核心观察**：\n- 贵州茅台本周表现强于沪深300指数（+1.32% vs +0.63%）\n- 两者走势节奏相似：都是周三、周五上涨，周二、周四回调\n- 8月7日（周五）两者均收出阳线，茅台放量上涨（成交量2.45万手为周内最高）\n\n> 📌 **数据来源**: 评估模式 Mock 数据（非实时 Wind 数据）",
+          "usage": {
+            "input_tokens": 9489,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 84032,
+            "output_tokens": 1787,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.13413600000000003,
+          "latencyMs": 31246,
+          "numTurns": 5,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_index_kline, get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "A-full-tools",
+          "prompt": "对比一下沪深300指数和贵州茅台2026年8月3日到8月7日的日K线走势",
+          "toolCalls": [
+            {
+              "tool": "get_index_kline",
+              "arguments": {
+                "windcode": "沪深300",
+                "begin_date": "2026-08-03",
+                "end_date": "2026-08-07",
+                "period": "1d"
+              }
+            },
+            {
+              "tool": "get_stock_kline",
+              "arguments": {
+                "windcode": "贵州茅台",
+                "begin_date": "2026-08-03",
+                "end_date": "2026-08-07",
+                "period": "1d"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_index_kline",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_index_kline\",\"serverCategory\":\"index_data\",\"arguments\":{\"windcode\":\"沪深300\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":4082.11,\"close\":4095.74,\"high\":4101.22,\"low\":4078.35},{\"date\":\"2026-08-04\",\"open\":4096.02,\"close\":4088.19,\"high\":4099.87,\"low\":4083.44},{\"date\":\"2026-08-05\",\"open\":4089.3,\"close\":4107.66,\"high\":4112.05,\"low\":4086.71},{\"date"
+            },
+            {
+              "tool": "get_stock_kline",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"贵州茅台\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":1472,\"close\":1481.6,\"high\":1486.4,\"low\":1469.8,\"volume\":19830},{\"date\":\"2026-08-04\",\"open\":1482.1,\"close\":1477.9,\"high\":1488.2,\"low\":1475.3,\"volume\":17652},{\"date\":\"2026-08-05\",\"open\":1480,\"close\":1492.5,\"high\":1495,\"low\":14"
+            }
+          ],
+          "finalAnswer": "## 沪深300 vs 贵州茅台 2026-08-03 至 08-07 日K线对比\n\n### 沪深300指数 (000300.SH)\n\n| 日期 | 开盘 | 收盘 | 最高 | 最低 | 涨跌幅 |\n|------|------|------|------|------|--------|\n| 08-03 | 4082.11 | 4095.74 | 4101.22 | 4078.35 | — |\n| 08-04 | 4096.02 | 4088.19 | 4099.87 | 4083.44 | -0.18% |\n| 08-05 | 4089.30 | 4107.66 | 4112.05 | 4086.71 | +0.48% |\n| 08-06 | 4108.24 | 4102.38 | 4115.60 | 4098.12 | -0.13% |\n| 08-07 | 4103.05 | 4121.47 | 4126.83 | 4100.29 | +0.45% |\n\n**期间表现**：4082.11 → 4121.47，**累计 +0.97%**\n\n---\n\n### 贵州茅台 (600519.SH)\n\n| 日期 | 开盘 | 收盘 | 最高 | 最低 | 成交量(手) | 涨跌幅 |\n|------|------|------|------|------|-----------|--------|\n| 08-03 | 1472.00 | 1481.60 | 1486.40 | 1469.80 | 19,830 | — |\n| 08-04 | 1482.10 | 1477.90 | 1488.20 | 1475.30 | 17,652 | -0.28% |\n| 08-05 | 1480.00 | 1492.50 | 1495.00 | 1478.20 | 21,345 | +0.95% |\n| 08-06 | 1493.00 | 1487.60 | 1496.80 | 1484.10 | 18,976 | -0.36% |\n| 08-07 | 1488.20 | 1501.30 | 1503.90 | 1486.00 | 24,510 | +0.92% |\n\n**期间表现**：1472.00 → 1501.30，**累计 +1.99%**\n\n---\n\n### 对比分析\n\n| 指标 | 沪深300 | 贵州茅台 |\n|------|---------|----------|\n| **期间涨幅** | +0.97% | +1.99% ⬆️ |\n| **走势节奏** | 震荡上行 | 震荡上行 |\n| **最大单日涨幅** | 08-05 +0.48% | 08-05 +0.95% |\n| **最大单日跌幅** | 08-04 -0.18% | 08-06 -0.36% |\n| **波动性** | 较低 | 较高 |\n\n**核心观察**：\n1. **贵州茅台表现更强**：期间涨幅约是沪深300的2倍（+1.99% vs +0.97%）\n2. **走势节奏相似**：两者均为\"涨-跌-涨-跌-涨\"的震荡上行模式，同步度较高\n3. **茅台波动更大**：单日涨跌幅均大于沪深300，体现个股的高波动特性\n4. **8月5日同步大涨**：两者均在该日创出阶段高点",
+          "usage": {
+            "input_tokens": 7971,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 69760,
+            "output_tokens": 1631,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.11551000000000002,
+          "latencyMs": 16928,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_index_kline, get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "unknown",
+              "evidence": "最终回答未检出 mock/模拟 字样，需人工核对"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "B-oracle-router",
+          "prompt": "对比一下沪深300指数和贵州茅台2026年8月3日到8月7日的日K线走势",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "沪深300指数 日K线行情数据 2026年8月",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台 股票日K线行情数据 2026年8月",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_d27e0305-99f4-44d2-ada1-600216778c0e",
+                "arguments": {
+                  "windcode": "沪深300",
+                  "begin_date": "2026-08-03",
+                  "end_date": "2026-08-07",
+                  "period": "1d"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_2e50754d-485e-4f89-90d9-ff5112b8bd89",
+                "arguments": {
+                  "windcode": "贵州茅台",
+                  "begin_date": "2026-08-03",
+                  "end_date": "2026-08-07",
+                  "period": "1d"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_index_kline",
+            "get_stock_kline"
+          ],
+          "toolRefToName": {
+            "tr_fdd0d048-1a12-47f3-9313-1aefe6926cd8": "get_index_kline",
+            "tr_70a99d53-9ef3-4a2d-bdcf-ba732319485d": "get_stock_kline",
+            "tr_d27e0305-99f4-44d2-ada1-600216778c0e": "get_index_kline",
+            "tr_2e50754d-485e-4f89-90d9-ff5112b8bd89": "get_stock_kline"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_fdd0d048-1a12-47f3-9313-1aefe6926cd8\",\"name\":\"get_index_kline\",\"description\":\"返回指定指数在给定时间范围内的聚合点位序列（K 线），时间范围由参数指定，聚合频率支持日、周、月及分钟级。每条记录代表一个周期，包含开盘价、收盘价、最高价、最低价等。不含当日分钟级走势；相对窗口统计与技术指标不在本工具范围。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"description\":\"指数名称或者指数代码，如沪深300或000300.SH\",\"x-provenance\":\"derived-from-reference-docs\"},\"begin"
+            },
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_d27e0305-99f4-44d2-ada1-600216778c0e\",\"name\":\"get_index_kline\",\"description\":\"返回指定指数在给定时间范围内的聚合点位序列（K 线），时间范围由参数指定，聚合频率支持日、周、月及分钟级。每条记录代表一个周期，包含开盘价、收盘价、最高价、最低价等。不含当日分钟级走势；相对窗口统计与技术指标不在本工具范围。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"description\":\"指数名称或者指数代码，如沪深300或000300.SH\",\"x-provenance\":\"derived-from-reference-docs\"},\"begin"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_index_kline\",\"serverCategory\":\"index_data\",\"arguments\":{\"windcode\":\"沪深300\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":4082.11,\"close\":4095.74,\"high\":4101.22,\"low\":4078.35},{\"date\":\"2026-08-04\",\"open\":4096.02,\"close\":4088.19,\"high\":4099.87,\"low\":4083.44},{\"date\":\"2026-08-05\",\"open\":4089.3,\"close\":4107.66,\"high\":4112.05,\"low\":4086.71},{\"date"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_kline\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"贵州茅台\",\"begin_date\":\"2026-08-03\",\"end_date\":\"2026-08-07\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-08-03\",\"open\":1472,\"close\":1481.6,\"high\":1486.4,\"low\":1469.8,\"volume\":19830},{\"date\":\"2026-08-04\",\"open\":1482.1,\"close\":1477.9,\"high\":1488.2,\"low\":1475.3,\"volume\":17652},{\"date\":\"2026-08-05\",\"open\":1480,\"close\":1492.5,\"high\":1495,\"low\":14"
+            }
+          ],
+          "finalAnswer": "已获取到数据。以下是 **沪深300指数** 和 **贵州茅台** 在 2026年8月3日至8月7日的日K线对比：\n\n## 📊 日K线数据对比\n\n### 沪深300指数\n| 日期 | 开盘 | 收盘 | 最高 | 最低 | 涨跌幅 |\n|------|------|------|------|------|--------|\n| 08-03 | 4082.11 | 4095.74 | 4101.22 | 4078.35 | +0.33% |\n| 08-04 | 4096.02 | 4088.19 | 4099.87 | 4083.44 | -0.19% |\n| 08-05 | 4089.30 | 4107.66 | 4112.05 | 4086.71 | +0.45% |\n| 08-06 | 4108.24 | 4102.38 | 4115.60 | 4098.12 | -0.14% |\n| 08-07 | 4103.05 | 4121.47 | 4126.83 | 4100.29 | +0.45% |\n\n### 贵州茅台\n| 日期 | 开盘 | 收盘 | 最高 | 最低 | 成交量(手) | 涨跌幅 |\n|------|------|------|------|------|-----------|--------|\n| 08-03 | 1472.00 | 1481.60 | 1486.40 | 1469.80 | 19,830 | +0.65% |\n| 08-04 | 1482.10 | 1477.90 | 1488.20 | 1475.30 | 17,652 | -0.28% |\n| 08-05 | 1480.00 | 1492.50 | 1495.00 | 1478.20 | 21,345 | +0.95% |\n| 08-06 | 1493.00 | 1487.60 | 1496.80 | 1484.10 | 18,976 | -0.36% |\n| 08-07 | 1488.20 | 1501.30 | 1503.90 | 1486.00 | 24,510 | +0.92% |\n\n## 📈 走势分析\n\n### 区间表现对比\n| 指标 | 沪深300 | 贵州茅台 |\n|------|---------|----------|\n| 区间涨幅 | **+0.90%** | **+2.00%** |\n| 涨跌天数 | 3涨2跌 | 3涨2跌 |\n| 波动特征 | 震荡上行 | 震荡上行，弹性更强 |\n\n### 走势特点\n1. **贵州茅台表现更强**：区间涨幅2.00%，明显高于沪深300的0.90%\n2. **走势同步性高**：两者都是\"涨-跌-涨-跌-涨\"的节奏，涨跌日完全同步\n3. **茅台弹性更大**：上涨日涨幅平均+0.84%，大于指数的+0.41%；下跌日跌幅平均-0.32%，也略大于指数的-0.17%\n4. **8月7日成交量放大**：茅台周五成交量达24,510手，为本周最高\n\n> ⚠️ **注**：以上数据为评估用的确定性模拟数据，非实时Wind数据。实际投资决策请参考真实行情数据。",
+          "usage": {
+            "input_tokens": 10177,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 84800,
+            "output_tokens": 1858,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.139735,
+          "latencyMs": 42909,
+          "numTurns": 5,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_index_kline, get_stock_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rederived": {
+    "at": "2026-08-09T13:38:28.495Z",
+    "codeRevision": "6588783aca31eef96dd19f87bc85cb35c503f020",
+    "reason": "explicit hard-limit accounting: arm sessions (limit-scoped) reported separately from Simple Router discovery CLI calls"
+  }
+}

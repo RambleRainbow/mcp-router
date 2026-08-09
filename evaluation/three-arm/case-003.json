@@ -1,0 +1,39 @@
+{
+  "caseId": "case-003",
+  "kind": "metric-variant-ambiguity",
+  "scored": false,
+  "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+  "userPrompt": "查一下贵州茅台最新的ROE是多少",
+  "acceptableTools": ["get_stock_fundamentals", "get_financial_data"],
+  "toolExpectations": {
+    "get_stock_fundamentals": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": {
+        "windcode": "600519.SH",
+        "metric": "ROE",
+        "variant": "加权（报告期 2026Q2）",
+        "value": 17.42,
+        "unit": "%"
+      }
+    },
+    "get_financial_data": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": {
+        "windcode": "600519.SH",
+        "metric": "ROE",
+        "variant": "摊薄（报告期 2026Q2）",
+        "value": 17.05,
+        "unit": "%"
+      }
+    }
+  },
+  "clarification": "ROE 存在摊薄、加权、扣非、TTM 等 Metric Variant，问句未指定口径；接受任一可支持 ROE 查询的 acceptableTools 与任一口径，无需追问澄清，但回答须注明所用口径。question 为自由文本，任何表述均可接受（只记录、不判定）。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中至少一个工具" },
+    { "id": "arguments_acceptable", "check": "必填参数 question 已提供；其内容为自由文本，任何表述均可接受" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情" },
+    { "id": "process_only", "check": "只判断流程是否跑通，不评价口径选择优劣、不对各 arm 排名" }
+  ]
+}

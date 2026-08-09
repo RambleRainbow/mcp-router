@@ -5,19 +5,23 @@
   "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
   "userPrompt": "帮我查一下贵州茅台2026年8月5日到8月7日的日K线数据",
   "acceptableTools": ["get_stock_kline"],
-  "requiredArguments": ["windcode", "begin_date", "end_date"],
-  "acceptableArguments": {
-    "windcode": ["600519.SH", "贵州茅台"],
-    "begin_date": ["2026-08-05"],
-    "end_date": ["2026-08-07"],
-    "period": ["1d"]
+  "toolExpectations": {
+    "get_stock_kline": {
+      "requiredArguments": ["windcode", "begin_date", "end_date"],
+      "acceptableArguments": {
+        "windcode": ["600519.SH", "贵州茅台"],
+        "begin_date": ["2026-08-05"],
+        "end_date": ["2026-08-07"],
+        "period": ["1d"]
+      },
+      "resultFixture": [
+        { "date": "2026-08-05", "open": 1480.0, "close": 1492.5, "high": 1495.0, "low": 1478.2, "volume": 21345, "amount": 3181240500 },
+        { "date": "2026-08-06", "open": 1493.0, "close": 1487.6, "high": 1496.8, "low": 1484.1, "volume": 18976, "amount": 2823334400 },
+        { "date": "2026-08-07", "open": 1488.2, "close": 1501.3, "high": 1503.9, "low": 1486.0, "volume": 24510, "amount": 3670114500 }
+      ]
+    }
   },
   "clarification": "无需澄清：标的、时间范围与频率在问句中均已明确。",
-  "resultFixture": [
-    { "date": "2026-08-05", "open": 1480.0, "close": 1492.5, "high": 1495.0, "low": 1478.2, "volume": 21345, "amount": 3181240500 },
-    { "date": "2026-08-06", "open": 1493.0, "close": 1487.6, "high": 1496.8, "low": 1484.1, "volume": 18976, "amount": 2823334400 },
-    { "date": "2026-08-07", "open": 1488.2, "close": 1501.3, "high": 1503.9, "low": 1486.0, "volume": 24510, "amount": 3670114500 }
-  ],
   "successRubric": [
     { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中的工具" },
     { "id": "arguments_acceptable", "check": "调用参数落在 acceptableArguments 声明的可接受取值内（period 可省略走默认 1d）" },

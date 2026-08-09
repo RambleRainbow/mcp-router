@@ -92,7 +92,9 @@ describe("Simple Router arm", () => {
     });
     const payload = result.structuredContent as { mock: boolean; data: unknown };
     expect(payload.mock).toBe(true);
-    expect(payload.data).toEqual(armCase.resultFixture);
+    expect(payload.data).toEqual(
+      armCase.toolExpectations["get_stock_kline"]!.resultFixture,
+    );
   });
 });
 

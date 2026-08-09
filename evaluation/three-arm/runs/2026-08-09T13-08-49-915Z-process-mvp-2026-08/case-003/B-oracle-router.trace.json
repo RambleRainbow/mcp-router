@@ -1,0 +1,87 @@
+{
+  "arm": "B-oracle-router",
+  "prompt": "查一下贵州茅台最新的ROE是多少",
+  "toolCalls": [
+    {
+      "tool": "find_tools",
+      "arguments": {
+        "query": "贵州茅台 ROE 净资产收益率",
+        "limit": 5
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_7c098288-0f55-4590-9eb4-ed7fd8ac89de",
+        "arguments": {
+          "question": "贵州茅台 ROE 净资产收益率 最新"
+        }
+      }
+    }
+  ],
+  "discoveredCandidates": [
+    "get_stock_fundamentals",
+    "get_financial_data"
+  ],
+  "toolRefToName": {
+    "tr_7c098288-0f55-4590-9eb4-ed7fd8ac89de": "get_stock_fundamentals",
+    "tr_edf2f543-064a-4d89-968d-00994971944f": "get_financial_data"
+  },
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "find_tools",
+      "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_7c098288-0f55-4590-9eb4-ed7fd8ac89de\",\"name\":\"get_stock_fundamentals\",\"description\":\"返回指定股票的两类基本面数据。第一类为财务原始指标：三大报表科目，偿债、盈利、成长、杠杆等财务比率（如 ROE、毛利率、资产负债率、速动比率），以及行业专项指标（如银行净息差、不良贷款率），时间维度为报告期。第二类为衍生估值指标：PE、PB、PS（TTM 口径）、股息率、总市值与流通市值及其历史分位数，随交易日变动。不含价格序列。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"description\":\"自然语言查询要求，为\\\"实体 + 指标 "
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台 ROE 净资产收益率 最新\"},\"data\":{\"windcode\":\"600519.SH\",\"metric\":\"ROE\",\"variant\":\"加权（报告期 2026Q2）\",\"value\":17.42,\"unit\":\"%\"}}"
+    }
+  ],
+  "finalAnswer": "根据查询结果，贵州茅台（600519.SH）的最新ROE数据如下：\n\n| 指标 | 数值 |\n|------|------|\n| **ROE（净资产收益率）** | **17.42%** |\n| 口径 | 加权 |\n| 报告期 | 2026年Q2 |\n\n> ⚠️ **注意**：以上为评估环境返回的模拟数据，非实时Wind数据。如需真实投资决策，请通过Wind终端或券商平台查询实时数据。",
+  "usage": {
+    "input_tokens": 8082,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 82816,
+    "output_tokens": 355,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.090693,
+  "latencyMs": 7635,
+  "numTurns": 3,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_fundamentals"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

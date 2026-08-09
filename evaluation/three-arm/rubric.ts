@@ -3,9 +3,12 @@ import type { ArmTrace } from "./trace.js";
 import { CATALOG_BY_NAME } from "../full-tools/server.js";
 
 /**
- * Process-only rubric evaluation for a three-arm run (issue #7): mechanical
- * checks against the case declaration. Verdicts say only whether the process
- * executed as declared — they never rank arms or judge answer quality.
+ * Process-only rubric evaluation for a three-arm run (issues #7/#8):
+ * mechanical checks against the case declaration. Every invoked acceptable
+ * tool call is validated against that tool's own expectations; an empty
+ * acceptable-value list means "any value, recorded but not judged".
+ * Verdicts say only whether the process executed as declared — they never
+ * rank arms or judge answer quality.
  */
 export function evaluateRubric(
   armCase: ThreeArmCase,
@@ -13,56 +16,59 @@ export function evaluateRubric(
   trace: ArmTrace,
 ): Array<{ id: string; verdict: string; evidence: string }> {
   const isRouterArm = armId !== "A-full-tools";
-  const catalogTool = CATALOG_BY_NAME.get(armCase.acceptableTools[0]!)!;
 
-  // Resolve the acceptable-tool invocation: direct (arm A) or via call_tool
-  // whose toolRef maps to an acceptable candidate (arms B/C).
-  let invokedName: string | null = null;
-  let invokedArgs: Record<string, unknown> | null = null;
+  // Resolve every acceptable-tool invocation: direct (arm A) or via
+  // call_tool whose toolRef maps to an acceptable candidate (arms B/C).
+  const invokedCalls: Array<{ name: string; args: Record<string, unknown> }> =
+    [];
   if (!isRouterArm) {
-    const direct = trace.toolCalls.find((c) =>
-      armCase.acceptableTools.includes(c.tool),
-    );
-    if (direct) {
-      invokedName = direct.tool;
-      invokedArgs = direct.arguments;
+    for (const call of trace.toolCalls) {
+      if (armCase.acceptableTools.includes(call.tool)) {
+        invokedCalls.push({ name: call.tool, args: call.arguments });
+      }
     }
   } else {
     const refToName = new Map(Object.entries(trace.toolRefToName ?? {}));
-    const call = trace.toolCalls.find(
-      (c) =>
-        c.tool === "call_tool" &&
-        armCase.acceptableTools.includes(
-          refToName.get(String(c.arguments["toolRef"])) ?? "",
-        ),
-    );
-    if (call) {
-      invokedName = refToName.get(String(call.arguments["toolRef"]))!;
-      invokedArgs =
-        (call.arguments["arguments"] as Record<string, unknown>) ?? {};
+    for (const call of trace.toolCalls) {
+      if (call.tool !== "call_tool") continue;
+      const name = refToName.get(String(call.arguments["toolRef"]));
+      if (name && armCase.acceptableTools.includes(name)) {
+        invokedCalls.push({
+          name,
+          args: (call.arguments["arguments"] as Record<string, unknown>) ?? {},
+        });
+      }
     }
   }
 
   const argumentViolations: string[] = [];
   const undeclaredExtras: string[] = [];
-  if (invokedArgs) {
-    for (const required of armCase.requiredArguments) {
-      if (!(required in invokedArgs)) {
-        argumentViolations.push(`缺少必填参数 ${required}`);
+  for (const invoked of invokedCalls) {
+    const expectation = armCase.toolExpectations[invoked.name]!;
+    for (const required of expectation.requiredArguments) {
+      if (!(required in invoked.args)) {
+        argumentViolations.push(`${invoked.name}: 缺少必填参数 ${required}`);
       }
     }
-    for (const [arg, acceptable] of Object.entries(armCase.acceptableArguments)) {
-      if (arg in invokedArgs && !acceptable.includes(invokedArgs[arg])) {
+    for (const [arg, acceptable] of Object.entries(
+      expectation.acceptableArguments,
+    )) {
+      if (
+        arg in invoked.args &&
+        acceptable.length > 0 &&
+        !acceptable.includes(invoked.args[arg])
+      ) {
         argumentViolations.push(
-          `${arg}=${JSON.stringify(invokedArgs[arg])} 不在可接受取值内`,
+          `${invoked.name}: ${arg}=${JSON.stringify(invoked.args[arg])} 不在可接受取值内`,
         );
       }
     }
-    const schemaProperties = catalogTool.inputSchema.properties ?? {};
-    for (const arg of Object.keys(invokedArgs)) {
-      if (!(arg in armCase.acceptableArguments)) {
+    const schemaProperties =
+      CATALOG_BY_NAME.get(invoked.name)!.inputSchema.properties ?? {};
+    for (const arg of Object.keys(invoked.args)) {
+      if (!(arg in expectation.acceptableArguments)) {
         undeclaredExtras.push(
-          arg in schemaProperties ? arg : `${arg}（不在 inputSchema 中!）`,
+          `${invoked.name}.${arg}${arg in schemaProperties ? "" : "（不在 inputSchema 中!）"}`,
         );
       }
     }
@@ -72,7 +78,7 @@ export function evaluateRubric(
   const mentionsMock = /mock|模拟|仿真|示例数据/i.test(answer);
 
   const argsEvidence = () => {
-    if (!invokedArgs) return "无可评估的工具调用";
+    if (invokedCalls.length === 0) return "无可评估的工具调用";
     const parts: string[] = [];
     if (argumentViolations.length > 0) {
       parts.push(`违规: ${argumentViolations.join("；")}`);
@@ -88,17 +94,18 @@ export function evaluateRubric(
   return [
     {
       id: "invoked_acceptable_tool",
-      verdict: invokedName ? "pass" : "fail",
-      evidence: invokedName
-        ? `调用了 ${invokedName}`
-        : `未调用 acceptableTools；实际调用: ${trace.toolCalls.map((c) => c.tool).join(", ") || "无"}`,
+      verdict: invokedCalls.length > 0 ? "pass" : "fail",
+      evidence:
+        invokedCalls.length > 0
+          ? `调用了 ${invokedCalls.map((c) => c.name).join(", ")}`
+          : `未调用 acceptableTools；实际调用: ${trace.toolCalls.map((c) => c.tool).join(", ") || "无"}`,
     },
     {
       id: "arguments_acceptable",
       verdict:
-        invokedArgs && argumentViolations.length === 0
+        invokedCalls.length > 0 && argumentViolations.length === 0
           ? "pass"
-          : invokedArgs
+          : invokedCalls.length > 0
             ? "fail"
             : "unknown",
       evidence: argsEvidence(),

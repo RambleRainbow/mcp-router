@@ -129,13 +129,22 @@ export function parseArmTrace(
                 candidates?: Array<{ toolRef: string; name: string }>;
                 discovery?: Record<string, unknown>;
               };
-              discoveredCandidates = (payload.candidates ?? []).map(
-                (c) => c.name,
-              );
-              toolRefToName = Object.fromEntries(
-                (payload.candidates ?? []).map((c) => [c.toolRef, c.name]),
-              );
-              discoveryMeta = payload.discovery ?? null;
+              const candidates = payload.candidates ?? [];
+              // Accumulate across repeated find_tools calls: earlier Tool
+              // References stay valid for later call_tool invocations.
+              discoveredCandidates = [
+                ...new Set([
+                  ...(discoveredCandidates ?? []),
+                  ...candidates.map((c) => c.name),
+                ]),
+              ];
+              toolRefToName = {
+                ...(toolRefToName ?? {}),
+                ...Object.fromEntries(
+                  candidates.map((c) => [c.toolRef, c.name]),
+                ),
+              };
+              discoveryMeta = payload.discovery ?? discoveryMeta;
             } catch {
               errors.push("find_tools result was not parseable JSON");
             }

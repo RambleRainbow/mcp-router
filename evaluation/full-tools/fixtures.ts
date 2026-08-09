@@ -20,21 +20,22 @@ const MOCK_NOTE =
 
 /**
  * Builds the mock result envelope for a catalog tool. When a three-arm case
- * declares a result fixture for this tool, `data` is that fixture; otherwise
- * `data` is empty. Output depends only on the inputs — no clocks, no random.
+ * declares a per-tool result fixture for this tool, `data` is that fixture;
+ * otherwise `data` is empty. Output depends only on the inputs — no clocks,
+ * no random.
  */
 export function resolveMockResult(
   tool: CatalogTool,
   args: Record<string, unknown>,
   armCase?: ThreeArmCase,
 ): MockResultEnvelope {
-  const hasFixture = armCase?.acceptableTools.includes(tool.name) ?? false;
+  const expectation = armCase?.toolExpectations[tool.name];
   return {
     mock: true,
     note: MOCK_NOTE,
     tool: tool.name,
     serverCategory: tool.serverCategory,
     arguments: args,
-    data: hasFixture && armCase ? armCase.resultFixture : [],
+    data: expectation ? expectation.resultFixture : [],
   };
 }

@@ -1,0 +1,60 @@
+{
+  "caseId": "case-004",
+  "kind": "time-ambiguity",
+  "scored": false,
+  "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+  "userPrompt": "帮我看看宁德时代最近的股价表现",
+  "acceptableTools": ["get_stock_price_indicators", "get_stock_quote", "get_stock_kline"],
+  "toolExpectations": {
+    "get_stock_price_indicators": {
+      "requiredArguments": ["windcode"],
+      "acceptableArguments": {
+        "windcode": ["300750.SZ", "宁德时代"]
+      },
+      "resultFixture": {
+        "windcode": "300750.SZ",
+        "snapshot": "时点截面（latest）",
+        "latest": 412.36,
+        "pct_change": 1.85,
+        "turnover_rate": 0.92
+      }
+    },
+    "get_stock_quote": {
+      "requiredArguments": ["windcode", "begin", "end"],
+      "acceptableArguments": {
+        "windcode": ["300750.SZ", "宁德时代"],
+        "begin": [],
+        "end": []
+      },
+      "resultFixture": [
+        { "time": "09:30", "price": 405.1, "volume": 15234 },
+        { "time": "10:30", "price": 408.72, "volume": 12450 },
+        { "time": "14:00", "price": 411.05, "volume": 9876 },
+        { "time": "15:00", "price": 412.36, "volume": 20113 }
+      ]
+    },
+    "get_stock_kline": {
+      "requiredArguments": ["windcode", "begin_date", "end_date"],
+      "acceptableArguments": {
+        "windcode": ["300750.SZ", "宁德时代"],
+        "begin_date": [],
+        "end_date": [],
+        "period": []
+      },
+      "resultFixture": [
+        { "date": "2026-08-03", "open": 398.2, "close": 401.55, "high": 403.1, "low": 397.4, "volume": 31240 },
+        { "date": "2026-08-04", "open": 401.8, "close": 399.86, "high": 402.9, "low": 398.1, "volume": 28765 },
+        { "date": "2026-08-05", "open": 400.1, "close": 404.32, "high": 405.8, "low": 399.5, "volume": 33410 },
+        { "date": "2026-08-06", "open": 404.6, "close": 405.48, "high": 407.2, "low": 403.3, "volume": 30120 },
+        { "date": "2026-08-07", "open": 405.1, "close": 412.36, "high": 413.0, "low": 404.2, "volume": 38904 }
+      ]
+    }
+  },
+  "clarification": "“最近”时间口径不明：接受时点截面（get_stock_price_indicators）、当日分钟序列（get_stock_quote）或近期 K 线（get_stock_kline）任一解释，无需追问澄清，但回答须注明所用时间口径；日期与周期取值只记录、不判定。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中至少一个工具" },
+    { "id": "arguments_acceptable", "check": "windcode 指向宁德时代；日期与周期为自由取值，只记录、不判定" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情" },
+    { "id": "process_only", "check": "只判断流程是否跑通，不评价时间口径选择优劣、不对各 arm 排名" }
+  ]
+}

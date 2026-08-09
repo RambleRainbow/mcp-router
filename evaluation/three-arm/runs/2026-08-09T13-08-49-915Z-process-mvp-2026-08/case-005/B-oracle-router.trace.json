@@ -1,0 +1,114 @@
+{
+  "arm": "B-oracle-router",
+  "prompt": "查一下贵州茅台的最新行情快照，再看看它的前十大股东情况",
+  "toolCalls": [
+    {
+      "tool": "find_tools",
+      "arguments": {
+        "query": "贵州茅台股票最新行情快照",
+        "limit": 5
+      }
+    },
+    {
+      "tool": "find_tools",
+      "arguments": {
+        "query": "股票前十大股东信息",
+        "limit": 5
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_80d2bfa2-aeb3-4659-98a2-855ee80c0129",
+        "arguments": {
+          "windcode": "贵州茅台",
+          "indexes": "最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,量比,振幅,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,60日涨跌幅,年初至今涨跌幅"
+        }
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_0e3a451d-2a00-41be-a697-13860dcf1767",
+        "arguments": {
+          "question": "贵州茅台前十大股东和前十大流通股东情况"
+        }
+      }
+    }
+  ],
+  "discoveredCandidates": [
+    "get_stock_price_indicators",
+    "get_stock_equity_holders"
+  ],
+  "toolRefToName": {
+    "tr_80d2bfa2-aeb3-4659-98a2-855ee80c0129": "get_stock_price_indicators",
+    "tr_0e3a451d-2a00-41be-a697-13860dcf1767": "get_stock_equity_holders",
+    "tr_cbf54372-6725-46c5-9351-48c23cdb7ff3": "get_stock_price_indicators",
+    "tr_d9cb07c0-d457-48ff-8217-64fd5e50e905": "get_stock_equity_holders"
+  },
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "find_tools",
+      "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_80d2bfa2-aeb3-4659-98a2-855ee80c0129\",\"name\":\"get_stock_price_indicators\",\"description\":\"返回指定股票当前时刻的截面状态，为时点数据，包括：最新成交价、前收盘价、今日开盘价、最高价、最低价、涨跌额与涨跌幅；成交量、成交额、换手率、量比、振幅、委比、买卖一档价量；涨停价、跌停价、总市值、流通市值。另含别名指标 PE（TTM）、PB、股息率及 5 日、20 日、60 日与年初至今涨跌幅，同名指标取值与相应主域工具一致。仅返回时点截面，不含过程序列（当日走势与指定时间范围）。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"desc"
+    },
+    {
+      "tool": "find_tools",
+      "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_cbf54372-6725-46c5-9351-48c23cdb7ff3\",\"name\":\"get_stock_price_indicators\",\"description\":\"返回指定股票当前时刻的截面状态，为时点数据，包括：最新成交价、前收盘价、今日开盘价、最高价、最低价、涨跌额与涨跌幅；成交量、成交额、换手率、量比、振幅、委比、买卖一档价量；涨停价、跌停价、总市值、流通市值。另含别名指标 PE（TTM）、PB、股息率及 5 日、20 日、60 日与年初至今涨跌幅，同名指标取值与相应主域工具一致。仅返回时点截面，不含过程序列（当日走势与指定时间范围）。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"desc"
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_price_indicators\",\"serverCategory\":\"stock_data\",\"arguments\":{\"windcode\":\"贵州茅台\",\"indexes\":\"最新交易日,交易时间,最新成交价,前收盘价,今日开盘价,今日最高价,今日最低价,涨跌额,涨跌幅,成交量,成交额,换手率,量比,振幅,总市值,流通市值,PE(TTM),PB,股息率,5日涨跌幅,20日涨跌幅,60日涨跌幅,年初至今涨跌幅\"},\"data\":{\"windcode\":\"600519.SH\",\"snapshot\":\"时点截面（latest）\",\"latest\":1501.3,\"pct_change\":0.88,\"turnover_rate\":0.21}}"
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_equity_holders\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台前十大股东和前十大流通股东情况\"},\"data\":{\"windcode\":\"600519.SH\",\"reportPeriod\":\"2026Q2\",\"topHolders\":[{\"rank\":1,\"name\":\"中国贵州茅台酒厂（集团）有限责任公司\",\"pct\":54.07},{\"rank\":2,\"name\":\"香港中央结算有限公司\",\"pct\":6.45},{\"rank\":3,\"name\":\"贵州省国有资本运营有限责任公司\",\"pct\":4.54}]}}"
+    }
+  ],
+  "finalAnswer": "根据查询结果，以下是贵州茅台（600519.SH）的行情和股东信息：\n\n## 📊 最新行情快照\n\n| 指标 | 数值 |\n|------|------|\n| **最新成交价** | ¥1,501.30 |\n| **涨跌幅** | +0.88% |\n| **换手率** | 0.21% |\n\n*注：当前返回的是评估模式的模拟数据，非实时行情。*\n\n## 🏢 前十大股东情况（2026Q2报告期）\n\n| 排名 | 股东名称 | 持股比例 |\n|------|----------|----------|\n| 1 | 中国贵州茅台酒厂（集团）有限责任公司 | 54.07% |\n| 2 | 香港中央结算有限公司 | 6.45% |\n| 3 | 贵州省国有资本运营有限责任公司 | 4.54% |\n\n---\n\n> ⚠️ **注意**：当前返回的是评估模式下的模拟数据，未连接实时Wind数据源。如需真实行情数据，需要配置正式的Wind接口。",
+  "usage": {
+    "input_tokens": 9120,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 83712,
+    "output_tokens": 631,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.10323099999999999,
+  "latencyMs": 7447,
+  "numTurns": 5,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_price_indicators, get_stock_equity_holders"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_stock_price_indicators.indexes"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

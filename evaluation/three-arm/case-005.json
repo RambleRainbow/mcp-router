@@ -1,0 +1,43 @@
+{
+  "caseId": "case-005",
+  "kind": "potential-multi-tool",
+  "scored": false,
+  "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+  "userPrompt": "查一下贵州茅台的最新行情快照，再看看它的前十大股东情况",
+  "acceptableTools": ["get_stock_price_indicators", "get_stock_equity_holders"],
+  "toolExpectations": {
+    "get_stock_price_indicators": {
+      "requiredArguments": ["windcode"],
+      "acceptableArguments": {
+        "windcode": ["600519.SH", "贵州茅台"]
+      },
+      "resultFixture": {
+        "windcode": "600519.SH",
+        "snapshot": "时点截面（latest）",
+        "latest": 1501.3,
+        "pct_change": 0.88,
+        "turnover_rate": 0.21
+      }
+    },
+    "get_stock_equity_holders": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": {
+        "windcode": "600519.SH",
+        "reportPeriod": "2026Q2",
+        "topHolders": [
+          { "rank": 1, "name": "中国贵州茅台酒厂（集团）有限责任公司", "pct": 54.07 },
+          { "rank": 2, "name": "香港中央结算有限公司", "pct": 6.45 },
+          { "rank": 3, "name": "贵州省国有资本运营有限责任公司", "pct": 4.54 }
+        ]
+      }
+    }
+  },
+  "clarification": "两个需求均需数据，可分别由两个 acceptableTools 满足；允许 Agent 只完成其中一部分（潜在多工具，不强制两次调用）。question 为自由文本，任何表述均可接受。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中至少一个工具（两个都调用也符合预期）" },
+    { "id": "arguments_acceptable", "check": "每次调用按其工具自身的 expectations 判定；question 为自由文本，只记录、不判定" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情" },
+    { "id": "process_only", "check": "只判断流程是否跑通，不评价是否该拆成多次调用、不对各 arm 排名" }
+  ]
+}

@@ -83,7 +83,9 @@ describe("Oracle Router arm", () => {
     };
     expect(payload.mock).toBe(true);
     expect(payload.tool).toBe("get_stock_kline");
-    expect(payload.data).toEqual(armCase.resultFixture);
+    expect(payload.data).toEqual(
+      armCase.toolExpectations["get_stock_kline"]!.resultFixture,
+    );
   });
 
   it("rejects an unknown Tool Reference with INVALID_TOOL_REF", async () => {

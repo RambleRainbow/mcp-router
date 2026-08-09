@@ -1,0 +1,33 @@
+{
+  "caseId": "case-002",
+  "kind": "clear-single-tool",
+  "scored": false,
+  "label": "NON-SCORED process-validation case; makes no claim that any arm is better than another",
+  "userPrompt": "帮我查一下华夏上证50ETF（510050.SH）2026年8月3日到8月7日的日K线数据",
+  "acceptableTools": ["get_fund_kline"],
+  "toolExpectations": {
+    "get_fund_kline": {
+      "requiredArguments": ["windcode", "begin_date", "end_date"],
+      "acceptableArguments": {
+        "windcode": ["510050.SH", "华夏上证50ETF", "上证50ETF"],
+        "begin_date": ["2026-08-03"],
+        "end_date": ["2026-08-07"],
+        "period": ["1d"]
+      },
+      "resultFixture": [
+        { "date": "2026-08-03", "open": 2.941, "close": 2.958, "high": 2.962, "low": 2.937, "volume": 412300, "amount": 1218345600 },
+        { "date": "2026-08-04", "open": 2.959, "close": 2.951, "high": 2.965, "low": 2.946, "volume": 365120, "amount": 1078454400 },
+        { "date": "2026-08-05", "open": 2.952, "close": 2.973, "high": 2.977, "low": 2.949, "volume": 448760, "amount": 1334528800 },
+        { "date": "2026-08-06", "open": 2.974, "close": 2.968, "high": 2.981, "low": 2.961, "volume": 391450, "amount": 1162395600 },
+        { "date": "2026-08-07", "open": 2.969, "close": 2.985, "high": 2.989, "low": 2.965, "volume": 470030, "amount": 1403244500 }
+      ]
+    }
+  },
+  "clarification": "无需澄清：标的、时间范围与频率在问句中均已明确。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中的工具" },
+    { "id": "arguments_acceptable", "check": "调用参数落在 acceptableArguments 声明的可接受取值内（period 可省略走默认 1d）" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情" },
+    { "id": "process_only", "check": "只判断流程是否跑通，不评价回答质量、不对各 arm 排名" }
+  ]
+}
