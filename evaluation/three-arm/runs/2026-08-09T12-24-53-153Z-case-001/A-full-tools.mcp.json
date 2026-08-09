@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "full-tools": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "evaluation/three-arm/full-tools-stdio.ts"
+      ]
+    }
+  }
+}

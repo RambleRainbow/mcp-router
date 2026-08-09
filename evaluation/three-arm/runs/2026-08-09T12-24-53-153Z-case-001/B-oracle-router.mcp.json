@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "oracle": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "evaluation/three-arm/oracle-stdio.ts"
+      ]
+    }
+  }
+}

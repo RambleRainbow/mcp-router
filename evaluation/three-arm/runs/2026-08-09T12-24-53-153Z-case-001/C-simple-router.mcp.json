@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "simple": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "evaluation/three-arm/simple-stdio.ts"
+      ]
+    }
+  }
+}
