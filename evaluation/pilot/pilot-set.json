@@ -1,0 +1,33 @@
+{
+  "setId": "pilot-2026-08",
+  "scored": false,
+  "label": "DIRECTIONAL pilot (not the #5 scored experiment): five real-style financial questions, LLM-drafted single-reviewer labels, mechanical completion proxy only; results are directional and must not feed the formal 30-case scored set",
+  "hardLimits": { "maxSessions": 15, "maxCostUsd": 5 },
+  "caseFiles": [
+    "case-p01.json",
+    "case-p02.json",
+    "case-p03.json",
+    "case-p04.json",
+    "case-p05.json"
+  ],
+  "reportFooter": [
+    "## Pilot outcome (directional only)",
+    "",
+    "This pilot previews the end-to-end effect before the formal experiment.",
+    "It is NOT the #5 scored experiment: five LLM-drafted, single-reviewer",
+    "cases, no independent financial adjudication, no blinded scoring —",
+    "completion is a mechanical proxy (acceptable tool invoked with declared",
+    "arguments, fixture data reported). The pre-registered decision rule in",
+    "#5 has no statistical meaning at this sample size; no continue/stop",
+    "decision may be derived from this run.",
+    "",
+    "## Recorded deviations from the #5 protocol",
+    "",
+    "- 30 questions reduced to 5 (Acting PM decision, to be revisited)",
+    "- Gold labels drafted by LLM, adjudicated by the Acting PM alone — no two independent financial reviewers",
+    "- No blinded scorer: mechanical rubric plus Acting PM review",
+    "- Catalog: frozen public wind-skills fallback (hash above); live `tools/list` snapshot still unconfirmed",
+    "- These five cases must not be merged into the formal scored set",
+    ""
+  ]
+}

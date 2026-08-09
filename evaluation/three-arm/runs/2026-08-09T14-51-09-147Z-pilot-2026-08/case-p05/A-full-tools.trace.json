@@ -1,0 +1,78 @@
+{
+  "arm": "A-full-tools",
+  "prompt": "贵州茅台最近有没有分红或股本变动？顺便把相关公告也找出来看看",
+  "toolCalls": [
+    {
+      "tool": "get_stock_events",
+      "arguments": {
+        "question": "贵州茅台600519.SH最近的分红派息、股本变动、限售解禁事件，2024年以来的"
+      }
+    },
+    {
+      "tool": "get_company_announcements",
+      "arguments": {
+        "query": "贵州茅台 分红 股本 股东大会 2024年",
+        "top_k": 10
+      }
+    }
+  ],
+  "discoveredCandidates": null,
+  "toolRefToName": null,
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "get_stock_events",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_events\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台600519.SH最近的分红派息、股本变动、限售解禁事件，2024年以来的\"},\"data\":[{\"type\":\"分红派息\",\"exDate\":\"2026-06-19\",\"detail\":\"2025年度：每10股派发现金红利276.24元（含税）\"},{\"type\":\"股本变动\",\"date\":\"2026-05-30\",\"detail\":\"无新增发行；总股本维持 12.56 亿股\"}]}"
+    },
+    {
+      "tool": "get_company_announcements",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_company_announcements\",\"serverCategory\":\"financial_docs\",\"arguments\":{\"query\":\"贵州茅台 分红 股本 股东大会 2024年\",\"top_k\":10},\"data\":[{\"title\":\"贵州茅台2025年度利润分配实施公告\",\"date\":\"2026-06-10\",\"excerpt\":\"每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。\"},{\"title\":\"贵州茅台2025年年度股东大会决议公告\",\"date\":\"2026-05-29\",\"excerpt\":\"审议通过2025年度利润分配预案。\"}]}"
+    }
+  ],
+  "finalAnswer": "根据查询结果，贵州茅台（600519.SH）近期有以下分红和股本变动情况：\n\n## 分红派息\n\n**2025年度利润分配**（2026年实施）：\n- 每10股派发现金红利 **276.24元**（含税）\n- 股权登记日：2026年6月18日\n- 除权除息日：2026年6月19日\n\n## 股本变动\n\n- 截至2026年5月30日：**无新增发行**\n- 总股本维持在 **12.56亿股**\n\n## 相关公告\n\n1. **《贵州茅台2025年度利润分配实施公告》**（2026-06-10）\n   - 确认分红方案及实施时间表\n\n2. **《贵州茅台2025年年度股东大会决议公告》**（2026-05-29）\n   - 审议通过2025年度利润分配预案\n\n---\n\n> ⚠️ 以上为评估模式下返回的模拟数据。如需实时数据，请切换至生产环境数据源。",
+  "usage": {
+    "input_tokens": 7738,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69248,
+    "output_tokens": 395,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.083189,
+  "latencyMs": 6453,
+  "numTurns": 3,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_events, get_company_announcements"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_company_announcements.top_k"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "caseId": "case-p03",
+  "kind": "challenge-metric-variant",
+  "scored": false,
+  "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+  "userPrompt": "对比一下宁德时代和比亚迪最新的毛利率",
+  "acceptableTools": ["get_stock_fundamentals", "get_financial_data"],
+  "toolExpectations": {
+    "get_stock_fundamentals": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": {
+        "variant": "整体销售毛利率（报告期 2026Q1）",
+        "300750.SZ": { "简称": "宁德时代", "毛利率": "25.8%" },
+        "002594.SZ": { "简称": "比亚迪", "毛利率": "18.9%" }
+      }
+    },
+    "get_financial_data": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": {
+        "variant": "整体销售毛利率（TTM，截至 2026Q1）",
+        "300750.SZ": { "简称": "宁德时代", "毛利率": "25.1%" },
+        "002594.SZ": { "简称": "比亚迪", "毛利率": "19.4%" }
+      }
+    }
+  },
+  "clarification": "毛利率存在整体/分业务、单季/累计/TTM 等 Metric Variant，问句未指定口径；接受任一 acceptableTools 与任一口径，无需追问澄清，但回答须注明所用口径并使两家公司口径一致。question 为自由文本，任何表述均可接受（只记录、不判定）。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中至少一个工具" },
+    { "id": "arguments_acceptable", "check": "必填参数 question 已提供；内容为自由文本，只记录、不判定" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实财务数据" },
+    { "id": "process_only", "check": "机械完成度代理，方向性参考，不作产品价值结论" }
+  ]
+}

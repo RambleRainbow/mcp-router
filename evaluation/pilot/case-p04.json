@@ -1,0 +1,42 @@
+{
+  "caseId": "case-p04",
+  "kind": "challenge-time",
+  "scored": false,
+  "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+  "userPrompt": "最近三个月沪深300指数表现怎么样",
+  "acceptableTools": ["get_index_kline", "get_index_technicals"],
+  "toolExpectations": {
+    "get_index_kline": {
+      "requiredArguments": ["windcode", "begin_date", "end_date"],
+      "acceptableArguments": {
+        "windcode": ["000300.SH", "沪深300"],
+        "begin_date": [],
+        "end_date": [],
+        "period": []
+      },
+      "resultFixture": [
+        { "date": "2026-05-09", "close": 4021.55, "period": "1w" },
+        { "date": "2026-06-09", "close": 4058.12, "period": "1w" },
+        { "date": "2026-07-09", "close": 4079.83, "period": "1w" },
+        { "date": "2026-08-07", "close": 4121.47, "period": "1w" }
+      ]
+    },
+    "get_index_technicals": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": {
+        "windcode": "000300.SH",
+        "window": "近三个月（2026-05-09 至 2026-08-07）",
+        "区间涨跌幅": "+2.49%",
+        "区间最大回撤": "-1.8%"
+      }
+    }
+  },
+  "clarification": "“最近三个月”为相对时间，Time 口径不明：接受 K 线区间（get_index_kline）或派生区间统计（get_index_technicals）任一解释，无需追问澄清，但回答须注明实际起止日期；日期与周期取值只记录、不判定。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中至少一个工具" },
+    { "id": "arguments_acceptable", "check": "windcode 指向沪深300（K线路径）；其余取值只记录、不判定" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情" },
+    { "id": "process_only", "check": "机械完成度代理，方向性参考，不作产品价值结论" }
+  ]
+}

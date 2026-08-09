@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "simple": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "evaluation/three-arm/simple-stdio.ts"
+      ],
+      "env": {
+        "THREE_ARM_CASE_PATH": "evaluation/pilot/case-p01.json"
+      }
+    }
+  }
+}

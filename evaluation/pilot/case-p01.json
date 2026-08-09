@@ -1,0 +1,28 @@
+{
+  "caseId": "case-p01",
+  "kind": "representative",
+  "scored": false,
+  "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+  "userPrompt": "平安银行2026年一季报的营业收入和净利润分别是多少",
+  "acceptableTools": ["get_stock_fundamentals"],
+  "toolExpectations": {
+    "get_stock_fundamentals": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": {
+        "windcode": "000001.SZ",
+        "reportPeriod": "2026Q1",
+        "营业收入": "452.31亿元",
+        "净利润": "158.42亿元",
+        "同比": { "营业收入": "+3.1%", "净利润": "+2.4%" }
+      }
+    }
+  },
+  "clarification": "无需澄清：实体、指标与报告期在问句中均已明确。question 为自由文本，任何表述均可接受（只记录、不判定）。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中的工具" },
+    { "id": "arguments_acceptable", "check": "必填参数 question 已提供；内容为自由文本，只记录、不判定" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实财报" },
+    { "id": "process_only", "check": "机械完成度代理，方向性参考，不作产品价值结论" }
+  ]
+}

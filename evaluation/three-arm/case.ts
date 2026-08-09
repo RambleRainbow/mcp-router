@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 
 /**
  * Synthetic, non-scored three-arm case declarations (issues #7/#8). Loaded
@@ -57,6 +58,12 @@ export interface ProcessSet {
   cases: ThreeArmCase[];
   /** Resolved declaration path per case, aligned with `cases`. */
   casePaths: string[];
+  /**
+   * Optional closing prose for the run summary, replacing the default
+   * process-MVP footer (e.g. for a directional pilot with different
+   * boundaries).
+   */
+  reportFooter?: string[];
 }
 
 /** Loads a three-arm case declaration from its JSON file. */
@@ -72,7 +79,10 @@ export function loadArmCaseFromEnv(): ThreeArmCase {
   return loadThreeArmCase(process.env[CASE_PATH_ENV] ?? DEFAULT_CASE_PATH);
 }
 
-/** Loads the frozen process set and all of its case declarations. */
+/**
+ * Loads a declared case set and all of its case declarations. Case file
+ * paths resolve relative to the set file's own directory.
+ */
 export function loadProcessSet(path: string): ProcessSet {
   const raw = JSON.parse(readFileSync(path, "utf8")) as {
     setId: string;
@@ -80,10 +90,10 @@ export function loadProcessSet(path: string): ProcessSet {
     label: string;
     hardLimits: HardLimits;
     caseFiles: string[];
+    reportFooter?: string[];
   };
-  const casePaths = raw.caseFiles.map(
-    (file) => `evaluation/three-arm/${file}`,
-  );
+  const setDir = dirname(path);
+  const casePaths = raw.caseFiles.map((file) => join(setDir, file));
   return {
     setId: raw.setId,
     scored: raw.scored,
@@ -91,5 +101,6 @@ export function loadProcessSet(path: string): ProcessSet {
     hardLimits: raw.hardLimits,
     cases: casePaths.map(loadThreeArmCase),
     casePaths,
+    ...(raw.reportFooter ? { reportFooter: raw.reportFooter } : {}),
   };
 }

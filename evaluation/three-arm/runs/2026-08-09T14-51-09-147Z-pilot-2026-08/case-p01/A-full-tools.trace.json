@@ -1,0 +1,78 @@
+{
+  "arm": "A-full-tools",
+  "prompt": "平安银行2026年一季报的营业收入和净利润分别是多少",
+  "toolCalls": [
+    {
+      "tool": "get_company_announcements",
+      "arguments": {
+        "query": "平安银行 2026年一季报 营业收入 净利润",
+        "top_k": 5
+      }
+    },
+    {
+      "tool": "get_stock_fundamentals",
+      "arguments": {
+        "question": "平安银行 2026年一季度 营业收入 净利润"
+      }
+    }
+  ],
+  "discoveredCandidates": null,
+  "toolRefToName": null,
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "get_company_announcements",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_company_announcements\",\"serverCategory\":\"financial_docs\",\"arguments\":{\"query\":\"平安银行 2026年一季报 营业收入 净利润\",\"top_k\":5},\"data\":[]}"
+    },
+    {
+      "tool": "get_stock_fundamentals",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"平安银行 2026年一季度 营业收入 净利润\"},\"data\":{\"windcode\":\"000001.SZ\",\"reportPeriod\":\"2026Q1\",\"营业收入\":\"452.31亿元\",\"净利润\":\"158.42亿元\",\"同比\":{\"营业收入\":\"+3.1%\",\"净利润\":\"+2.4%\"}}}"
+    }
+  ],
+  "finalAnswer": "根据查询结果，我需要告知您当前的限制：\n\n## 数据不可用\n\n当前配置的金融数据工具处于**评估模式**，返回的是模拟数据，而非真实的 Wind 金融数据。查询结果显示：\n\n- **Wind 代码**: 000001.SZ（平安银行）\n- **报告期**: 2026年一季度\n- **营业收入**: 452.31亿元（模拟数据）\n- **净利润**: 158.42亿元（模拟数据）\n\n以上数字**不是真实数据**，仅用于系统测试评估。\n\n---\n\n### 获取真实数据的建议\n\n如需查询平安银行（000001.SZ）2026年一季度的真实营业收入和净利润，您可以：\n\n1. **Wind 金融终端** - 如您有 Wind 账户，可直接查询\n2. **公司公告** - 访问平安银行官网或深交所公告\n3. **财经网站** - 东方财富、同花顺等平台会披露季报数据\n4. **证监会指定披露网站** - 巨潮资讯网 (www.cninfo.com.cn)\n\n如果您需要我协助配置真实的金融数据接口或有其他问题，请告知。",
+  "usage": {
+    "input_tokens": 22075,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 93312,
+    "output_tokens": 507,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.169706,
+  "latencyMs": 8928,
+  "numTurns": 3,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_fundamentals"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

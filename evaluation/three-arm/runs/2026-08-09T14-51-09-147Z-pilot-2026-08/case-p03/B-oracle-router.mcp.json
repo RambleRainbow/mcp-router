@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "oracle": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "evaluation/three-arm/oracle-stdio.ts"
+      ],
+      "env": {
+        "THREE_ARM_CASE_PATH": "evaluation/pilot/case-p03.json"
+      }
+    }
+  }
+}

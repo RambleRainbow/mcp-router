@@ -3,7 +3,7 @@ import {
   loadProcessSet,
   PROCESS_SET_PATH,
 } from "../evaluation/three-arm/case.js";
-import { TOOL_CATALOG } from "../evaluation/full-tools/server.js";
+import { expectCaseDeclarationsConsistent } from "./case-set.js";
 
 /**
  * The frozen process set (issue #8): exactly six synthetic, non-scored
@@ -12,15 +12,12 @@ import { TOOL_CATALOG } from "../evaluation/full-tools/server.js";
  */
 describe("frozen process set (issue #8)", () => {
   const processSet = loadProcessSet(PROCESS_SET_PATH);
-  const catalogNames = new Set(TOOL_CATALOG.map((t) => t.name));
 
   it("contains exactly six synthetic, non-scored cases with unique ids", () => {
     expect(processSet.cases.length).toBe(6);
     expect(new Set(processSet.cases.map((c) => c.caseId)).size).toBe(6);
     for (const armCase of processSet.cases) {
-      expect(armCase.scored, armCase.caseId).toBe(false);
       expect(armCase.label, armCase.caseId).toContain("NON-SCORED");
-      expect(armCase.userPrompt.length, armCase.caseId).toBeGreaterThan(0);
     }
   });
 
@@ -40,75 +37,16 @@ describe("frozen process set (issue #8)", () => {
     expect(processSet.hardLimits.maxCostUsd).toBe(10);
   });
 
-  it("every case declares acceptable tools that exist in the frozen catalog", () => {
-    for (const armCase of processSet.cases) {
-      expect(armCase.acceptableTools.length, armCase.caseId).toBeGreaterThan(0);
-      for (const tool of armCase.acceptableTools) {
-        expect(catalogNames, `${armCase.caseId}: ${tool}`).toContain(tool);
-      }
+  it("resolves a declaration path per case", () => {
+    expect(processSet.casePaths.length).toBe(6);
+    for (const path of processSet.casePaths) {
+      expect(path).toMatch(/^evaluation\/three-arm\/case-00[1-6]\.json$/);
     }
   });
 
-  it("tool expectations cover exactly the acceptable tools", () => {
+  it("every case declaration is consistent with the frozen catalog", () => {
     for (const armCase of processSet.cases) {
-      expect(
-        Object.keys(armCase.toolExpectations).sort(),
-        armCase.caseId,
-      ).toEqual([...armCase.acceptableTools].sort());
-    }
-  });
-
-  it("argument declarations are consistent with each tool's inputSchema", () => {
-    for (const armCase of processSet.cases) {
-      for (const [toolName, expectation] of Object.entries(
-        armCase.toolExpectations,
-      )) {
-        const tool = TOOL_CATALOG.find((t) => t.name === toolName)!;
-        const properties = tool.inputSchema.properties ?? {};
-        for (const arg of Object.keys(expectation.acceptableArguments)) {
-          expect(
-            properties,
-            `${armCase.caseId}/${toolName}: unknown argument ${arg}`,
-          ).toHaveProperty(arg);
-        }
-        expect([...expectation.requiredArguments].sort()).toEqual(
-          [...(tool.inputSchema.required ?? [])].sort(),
-        );
-        for (const required of expectation.requiredArguments) {
-          expect(
-            expectation.acceptableArguments,
-            `${armCase.caseId}/${toolName}: required argument ${required} has no declared acceptable values`,
-          ).toHaveProperty(required);
-        }
-      }
-    }
-  });
-
-  it("declares deterministic result fixtures and a process-only rubric", () => {
-    const knownRubricIds = new Set([
-      "invoked_acceptable_tool",
-      "arguments_acceptable",
-      "reported_mock_data",
-      "process_only",
-    ]);
-    for (const armCase of processSet.cases) {
-      for (const [toolName, expectation] of Object.entries(
-        armCase.toolExpectations,
-      )) {
-        expect(
-          expectation.resultFixture,
-          `${armCase.caseId}/${toolName}`,
-        ).toBeDefined();
-        expect(
-          JSON.parse(JSON.stringify(expectation.resultFixture)),
-          `${armCase.caseId}/${toolName}: fixture must be JSON-serializable`,
-        ).toEqual(expectation.resultFixture);
-      }
-      const rubricIds = armCase.successRubric.map((r) => r.id);
-      expect(rubricIds, armCase.caseId).toContain("process_only");
-      for (const id of rubricIds) {
-        expect(knownRubricIds, `${armCase.caseId}: ${id}`).toContain(id);
-      }
+      expectCaseDeclarationsConsistent(armCase);
     }
   });
 });

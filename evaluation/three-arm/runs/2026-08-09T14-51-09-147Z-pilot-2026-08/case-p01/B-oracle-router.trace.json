@@ -1,0 +1,85 @@
+{
+  "arm": "B-oracle-router",
+  "prompt": "平安银行2026年一季报的营业收入和净利润分别是多少",
+  "toolCalls": [
+    {
+      "tool": "find_tools",
+      "arguments": {
+        "query": "平安银行 2026年一季报 营业收入 净利润",
+        "limit": 5
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_2b6af19b-f494-48d4-8087-5ff8e930b5d7",
+        "arguments": {
+          "question": "平安银行 2026年一季报 营业收入 净利润"
+        }
+      }
+    }
+  ],
+  "discoveredCandidates": [
+    "get_stock_fundamentals"
+  ],
+  "toolRefToName": {
+    "tr_2b6af19b-f494-48d4-8087-5ff8e930b5d7": "get_stock_fundamentals"
+  },
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "find_tools",
+      "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_2b6af19b-f494-48d4-8087-5ff8e930b5d7\",\"name\":\"get_stock_fundamentals\",\"description\":\"返回指定股票的两类基本面数据。第一类为财务原始指标：三大报表科目，偿债、盈利、成长、杠杆等财务比率（如 ROE、毛利率、资产负债率、速动比率），以及行业专项指标（如银行净息差、不良贷款率），时间维度为报告期。第二类为衍生估值指标：PE、PB、PS（TTM 口径）、股息率、总市值与流通市值及其历史分位数，随交易日变动。不含价格序列。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"description\":\"自然语言查询要求，为\\\"实体 + 指标 "
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"平安银行 2026年一季报 营业收入 净利润\"},\"data\":{\"windcode\":\"000001.SZ\",\"reportPeriod\":\"2026Q1\",\"营业收入\":\"452.31亿元\",\"净利润\":\"158.42亿元\",\"同比\":{\"营业收入\":\"+3.1%\",\"净利润\":\"+2.4%\"}}}"
+    }
+  ],
+  "finalAnswer": "根据查询结果，平安银行2026年一季报的关键财务数据如下：\n\n| 指标 | 金额 | 同比增长 |\n|------|------|----------|\n| **营业收入** | 452.31亿元 | +3.1% |\n| **净利润** | 158.42亿元 | +2.4% |\n\n> 注：这是评估模式的模拟数据（Evaluation-only deterministic mock），并非实时查询的Wind真实数据。",
+  "usage": {
+    "input_tokens": 13751,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 76288,
+    "output_tokens": 377,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.11632400000000001,
+  "latencyMs": 7674,
+  "numTurns": 3,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_fundamentals"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

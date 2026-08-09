@@ -1,0 +1,108 @@
+{
+  "arm": "C-simple-router",
+  "prompt": "平安银行2026年一季报的营业收入和净利润分别是多少",
+  "toolCalls": [
+    {
+      "tool": "find_tools",
+      "arguments": {
+        "query": "平安银行2026年一季报营业收入净利润",
+        "limit": 5
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_7a6d1df1-9d2c-4d7c-97ec-75abfa955bda",
+        "arguments": {
+          "question": "平安银行2026年一季度营业收入净利润"
+        }
+      }
+    }
+  ],
+  "discoveredCandidates": [
+    "get_stock_fundamentals"
+  ],
+  "toolRefToName": {
+    "tr_7a6d1df1-9d2c-4d7c-97ec-75abfa955bda": "get_stock_fundamentals"
+  },
+  "discoveryMeta": {
+    "model": "claude-opus-5[1m]",
+    "promptRevision": "32dc7b91e11e",
+    "isError": false,
+    "costUsd": 0.11697199999999999,
+    "usage": {
+      "input_tokens": 19776,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 16384,
+      "output_tokens": 396,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    }
+  },
+  "discoveryCostUsd": 0.11697199999999999,
+  "toolResults": [
+    {
+      "tool": "find_tools",
+      "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.11697199999999999,\"usage\":{\"input_tokens\":19776,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":16384,\"output_tokens\":396,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_in"
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"平安银行2026年一季度营业收入净利润\"},\"data\":{\"windcode\":\"000001.SZ\",\"reportPeriod\":\"2026Q1\",\"营业收入\":\"452.31亿元\",\"净利润\":\"158.42亿元\",\"同比\":{\"营业收入\":\"+3.1%\",\"净利润\":\"+2.4%\"}}}"
+    }
+  ],
+  "finalAnswer": "根据查询结果，平安银行（000001.SZ）2026年一季度财务数据如下：\n\n| 指标 | 金额 | 同比增长 |\n|------|------|----------|\n| **营业收入** | 452.31亿元 | +3.1% |\n| **净利润** | 158.42亿元 | +2.4% |\n\n> 注：此为评估环境的确定性模拟数据，非实时Wind数据。如需最新官方数据，建议查阅平安银行官方财报或交易所公告。",
+  "usage": {
+    "input_tokens": 13839,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 76480,
+    "output_tokens": 440,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.11843500000000001,
+  "latencyMs": 17885,
+  "numTurns": 3,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_fundamentals"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

@@ -28,6 +28,8 @@ export interface RunSummary {
     setId: string;
     hardLimits: HardLimits;
     caseIds: string[];
+    /** Custom closing prose replacing the default process-MVP footer. */
+    reportFooter?: string[];
   };
   pinnedConfig: Record<string, unknown>;
   completeness: {
@@ -56,9 +58,9 @@ function renderArmCost(arm: ArmTrace): string {
 
 export function renderSummary(run: RunSummary): string {
   const lines = [
-    `# Three-Arm Process-MVP Run ${run.runId}`,
+    `# Three-Arm Run ${run.runId}`,
     "",
-    `**NON-SCORED** — ${run.label}`,
+    `**${run.scored ? "SCORED" : "NON-SCORED"}** — ${run.label}`,
     "",
     "## Pinned configuration",
     "",
@@ -111,24 +113,28 @@ export function renderSummary(run: RunSummary): string {
     lines.push("");
   }
 
-  lines.push(
-    "## Process outcome",
-    "",
-    "This run states only whether the evaluation process could be run and",
-    `reproduced: ${run.processSet.caseIds.length} synthetic cases, one frozen Tool Catalog, equivalent`,
-    "deterministic fixtures, one pass per arm, full traces preserved. It does",
-    "not rank arms, does not estimate product value, and the six cases must",
-    "not be reused in a later scored experiment.",
-    "",
-    "## Unmet prerequisites for the later 30-case scored experiment",
-    "",
-    "- 实名 PM：Acting PM 须由项目发起人替换为实名负责人",
-    "- 两名独立金融评审人已落实，分歧裁决机制已安排",
-    "- Catalog 数据负责人已实名；真实 `tools/list` 快照（或经批准的替代快照）已冻结",
-    "- 30 个真实问题及可接受调用路径已完成独立标注与裁决",
-    "- 实验工程师与盲评人已实名且角色分离（运行者不参与匿名金融评分）",
-    "- Prompt、模型、Catalog、评分规则、预算与停止门槛已在查看正式结果前锁定",
-    "",
-  );
+  if (run.processSet.reportFooter) {
+    lines.push(...run.processSet.reportFooter, "");
+  } else {
+    lines.push(
+      "## Process outcome",
+      "",
+      "This run states only whether the evaluation process could be run and",
+      `reproduced: ${run.processSet.caseIds.length} synthetic cases, one frozen Tool Catalog, equivalent`,
+      "deterministic fixtures, one pass per arm, full traces preserved. It does",
+      "not rank arms, does not estimate product value, and the six cases must",
+      "not be reused in a later scored experiment.",
+      "",
+      "## Unmet prerequisites for the later 30-case scored experiment",
+      "",
+      "- 实名 PM：Acting PM 须由项目发起人替换为实名负责人",
+      "- 两名独立金融评审人已落实，分歧裁决机制已安排",
+      "- Catalog 数据负责人已实名；真实 `tools/list` 快照（或经批准的替代快照）已冻结",
+      "- 30 个真实问题及可接受调用路径已完成独立标注与裁决",
+      "- 实验工程师与盲评人已实名且角色分离（运行者不参与匿名金融评分）",
+      "- Prompt、模型、Catalog、评分规则、预算与停止门槛已在查看正式结果前锁定",
+      "",
+    );
+  }
   return lines.join("\n") + "\n";
 }

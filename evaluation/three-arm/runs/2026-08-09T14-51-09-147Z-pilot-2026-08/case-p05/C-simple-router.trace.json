@@ -1,0 +1,124 @@
+{
+  "arm": "C-simple-router",
+  "prompt": "贵州茅台最近有没有分红或股本变动？顺便把相关公告也找出来看看",
+  "toolCalls": [
+    {
+      "tool": "find_tools",
+      "arguments": {
+        "query": "贵州茅台 600519 分红 股本变动 公告",
+        "limit": 10
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_bf903b37-4bd5-4731-b84b-07e2ecad375f",
+        "arguments": {
+          "question": "贵州茅台 600519 分红 股本变动 公司行动 2024年 2025年"
+        }
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_1a15ac0b-6f54-4e12-bef6-2c1c819db6df",
+        "arguments": {
+          "query": "贵州茅台 600519 分红 派息 公告 2024年 2025年",
+          "top_k": 10
+        }
+      }
+    }
+  ],
+  "discoveredCandidates": [
+    "get_company_announcements",
+    "get_stock_events"
+  ],
+  "toolRefToName": {
+    "tr_1a15ac0b-6f54-4e12-bef6-2c1c819db6df": "get_company_announcements",
+    "tr_bf903b37-4bd5-4731-b84b-07e2ecad375f": "get_stock_events"
+  },
+  "discoveryMeta": {
+    "model": "claude-opus-5[1m]",
+    "promptRevision": "32dc7b91e11e",
+    "isError": false,
+    "costUsd": 0.061168,
+    "usage": {
+      "input_tokens": 7435,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 28736,
+      "output_tokens": 385,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    }
+  },
+  "discoveryCostUsd": 0.061168,
+  "toolResults": [
+    {
+      "tool": "find_tools",
+      "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.061168,\"usage\":{\"input_tokens\":7435,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28736,\"output_tokens\":385,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_events\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台 600519 分红 股本变动 公司行动 2024年 2025年\"},\"data\":[{\"type\":\"分红派息\",\"exDate\":\"2026-06-19\",\"detail\":\"2025年度：每10股派发现金红利276.24元（含税）\"},{\"type\":\"股本变动\",\"date\":\"2026-05-30\",\"detail\":\"无新增发行；总股本维持 12.56 亿股\"}]}"
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_company_announcements\",\"serverCategory\":\"financial_docs\",\"arguments\":{\"query\":\"贵州茅台 600519 分红 派息 公告 2024年 2025年\",\"top_k\":10},\"data\":[{\"title\":\"贵州茅台2025年度利润分配实施公告\",\"date\":\"2026-06-10\",\"excerpt\":\"每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。\"},{\"title\":\"贵州茅台2025年年度股东大会决议公告\",\"date\":\"2026-05-29\",\"excerpt\":\"审议通过2025年度利润分配预案。\"}]}"
+    }
+  ],
+  "finalAnswer": "我查询了贵州茅台的分红和股本变动信息，但需要注意：**这些是模拟数据**，因为金融数据工具目前处于评估模式，没有连接真实的 Wind 数据源。\n\n## 模拟查询结果\n\n### 分红派息\n- **2025年度**：每10股派发现金红利 **276.24元**（含税）\n  - 股权登记日：2026年6月18日\n  - 除权除息日：2026年6月19日\n\n### 股本变动\n- **2026年5月30日**：无新增发行；总股本维持 **12.56亿股**\n\n---\n\n## 获取真实信息的方式\n\n要获取贵州茅台最新的真实分红和股本变动信息，你可以通过以下渠道：\n\n1. **上海证券交易所官网** (www.sse.com.cn)\n   - 搜索\"贵州茅台\"或代码\"600519\"\n   - 查看\"公告\"栏目\n\n2. **巨潮资讯网** (www.cninfo.com.cn)\n   - 输入\"600519\"搜索\n   - 筛选\"分红\"或\"股本变动\"相关公告\n\n3. **Wind/同花顺/东方财富等金融终端**\n\n4. **贵州茅台投资者关系**\n   - 官网投资者关系栏目\n   - 投资者关系电话\n\n需要我帮你通过其他方式查找真实的公开信息吗？",
+  "usage": {
+    "input_tokens": 8407,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 113600,
+    "output_tokens": 829,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.11956,
+  "latencyMs": 40112,
+  "numTurns": 4,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_events, get_company_announcements"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_company_announcements.top_k"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

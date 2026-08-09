@@ -28,18 +28,18 @@ import {
 import { CATALOG_ARTIFACT_HASH, TOOL_CATALOG } from "../full-tools/server.js";
 
 /**
- * Process-MVP runner (issue #8): runs the frozen process set — six
- * synthetic, non-scored financial cases — once through A — Full Tools,
- * B — Oracle Router, and C — Simple Router, each in a fresh Claude Code CLI
- * process with `claude-opus-5[1m]` over stdio. Arm order is counterbalanced
- * across cases; execution stops before exceeding either hard limit (18
- * sessions / USD 10), and a partial run is recorded honestly. Produces
+ * Three-arm case-set runner (issues #7/#8): runs a declared case set — by
+ * default the frozen process-MVP set, or any set file passed as the first
+ * argument — once through A — Full Tools, B — Oracle Router, and
+ * C — Simple Router, each case in a fresh Claude Code CLI process with
+ * `claude-opus-5[1m]` over stdio. Arm order is counterbalanced across
+ * cases; execution stops before exceeding either hard limit declared in
+ * the set, and a partial run is recorded honestly. Produces
  * machine-readable raw traces plus a human-readable summary under
- * evaluation/three-arm/runs/<runId>/. The run is explicitly NON-SCORED: it
- * proves the evaluation process is reproducible, and makes no claim that
- * one arm is better.
+ * evaluation/three-arm/runs/<runId>/. Whether the set is scored is its own
+ * declaration; the runner itself never ranks arms.
  *
- * Run with: npm run eval:three-arm
+ * Run with: npm run eval:three-arm [-- <setPath>]
  */
 
 const execFileAsync = promisify(execFile);
@@ -123,7 +123,10 @@ async function runArm(
 }
 
 async function run() {
-  const processSet = loadProcessSet(PROCESS_SET_PATH);
+  // Optional argument: path to a declared case set (default: the frozen
+  // process-MVP set).
+  const setPath = process.argv[2] ?? PROCESS_SET_PATH;
+  const processSet = loadProcessSet(setPath);
   const limits = processSet.hardLimits;
 
   const { stdout: cliVersionRaw } = await execFileAsync("claude", ["--version"]);
@@ -149,9 +152,9 @@ async function run() {
     codeRevision: codeRevisionRaw.trim(),
     worktreeDirty: dirtyRaw.trim().length > 0,
     catalogHash: CATALOG_ARTIFACT_HASH,
-    processSetPath: PROCESS_SET_PATH,
+    processSetPath: setPath,
     processSetSha256: createHash("sha256")
-      .update(readFileSync(PROCESS_SET_PATH))
+      .update(readFileSync(setPath))
       .digest("hex"),
     simpleRouterDiscoveryPromptRevision: PROMPT_REVISION,
     simpleRouterDiscoveryModel: REFERENCE_AGENT_MODEL,
@@ -218,11 +221,14 @@ async function run() {
   const runSummary: RunSummary = {
     runId,
     label: processSet.label,
-    scored: false,
+    scored: processSet.scored,
     processSet: {
       setId: processSet.setId,
       hardLimits: limits,
       caseIds: processSet.cases.map((c) => c.caseId),
+      ...(processSet.reportFooter
+        ? { reportFooter: processSet.reportFooter }
+        : {}),
     },
     pinnedConfig,
     completeness: {

@@ -81,3 +81,23 @@ in `three-arm/runs/<runId>/`. The summary states only whether the process
 could be run and reproduced — it does not rank arms, makes no product-value
 claim, and lists the unmet prerequisites for the later 30-case scored
 experiment.
+
+If derived artifacts ever need regenerating from the immutable raw logs
+(e.g. after a harness-side parsing fix), use
+`npm run eval:three-arm:rederive -- <runDir> "<reason>"` — the rewrite is
+recorded in `run.json` under `rederived`.
+
+## Directional pilot (`pilot/`)
+
+A 5-question preview of the end-to-end effect, run at the Acting PM's
+request ahead of the formal #5 experiment. The runner accepts any declared
+case set as its first argument; `pilot/pilot-set.json` declares its own
+hard limits (15 sessions / USD 5) and a custom report footer recording the
+pilot's deviations from the #5 protocol (single-reviewer labels, no blinded
+scoring, 30→5 questions). `pilot/PROTOCOL.md` is the frozen protocol and
+honest personnel record. Pilot results are directional only and must not
+feed the formal scored set.
+
+```bash
+npm run eval:pilot
+```

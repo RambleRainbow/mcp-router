@@ -1,0 +1,85 @@
+{
+  "arm": "B-oracle-router",
+  "prompt": "帮我查一下华泰柏瑞沪深300ETF（510300.SH）的最新规模、管理费率和跟踪的指数",
+  "toolCalls": [
+    {
+      "tool": "find_tools",
+      "arguments": {
+        "query": "华泰柏瑞沪深300ETF 510300.SH 规模 管理费率 跟踪指数 最新数据",
+        "limit": 5
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_59569eae-fe35-40c5-ae76-5b37159bbfd0",
+        "arguments": {
+          "question": "华泰柏瑞沪深300ETF 510300.SH 规模 管理费率 跟踪指数 最新数据"
+        }
+      }
+    }
+  ],
+  "discoveredCandidates": [
+    "get_fund_info"
+  ],
+  "toolRefToName": {
+    "tr_59569eae-fe35-40c5-ae76-5b37159bbfd0": "get_fund_info"
+  },
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "find_tools",
+      "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_59569eae-fe35-40c5-ae76-5b37159bbfd0\",\"name\":\"get_fund_info\",\"description\":\"返回指定基金的产品档案，为静态或准静态数据，包括：代码、简称、全称；投资类型与风格；业绩比较基准与风险等级；费率结构（如管理费、托管费、申购赎回费）；基金经理（现任与历任，如任职期限、管理规模）；生命周期记录（如成立、转型、清盘、更名）；运作状态（如申购赎回状态）；管理人与托管人；发行信息（如成立日期、发行规模）；指数跟踪信息（如跟踪指数、上市日期、封闭运作期）。不含规模与变动、业绩数据与持仓明细。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"descript"
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_fund_info\",\"serverCategory\":\"fund_data\",\"arguments\":{\"question\":\"华泰柏瑞沪深300ETF 510300.SH 规模 管理费率 跟踪指数 最新数据\"},\"data\":{\"fundcode\":\"510300.SH\",\"简称\":\"华泰柏瑞沪深300ETF\",\"最新规模\":\"3,852.6亿元\",\"管理费率\":\"0.15%/年\",\"托管费率\":\"0.05%/年\",\"跟踪指数\":\"沪深300指数（000300.SH）\"}}"
+    }
+  ],
+  "finalAnswer": "根据查询结果，华泰柏瑞沪深300ETF（510300.SH）的最新信息如下：\n\n| 指标 | 数据 |\n|------|------|\n| **基金全称** | 华泰柏瑞沪深300ETF |\n| **基金代码** | 510300.SH |\n| **最新规模** | **3,852.6亿元** |\n| **管理费率** | **0.15%/年** |\n| **托管费率** | **0.05%/年** |\n| **跟踪指数** | **沪深300指数（000300.SH）** |\n\n**补充说明：**\n- 这是目前规模最大的沪深300ETF之一\n- 0.15%的管理费率属于标准股票ETF费率水平\n- 该基金紧密跟踪沪深300指数，投资于沪深300指数的成份股\n\n> 注：以上为评估环境的模拟数据，实际投资请以基金公司官方公告或Wind等金融数据终端的实时数据为准。",
+  "usage": {
+    "input_tokens": 11109,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 79040,
+    "output_tokens": 475,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.10694,
+  "latencyMs": 7861,
+  "numTurns": 3,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_fund_info"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}

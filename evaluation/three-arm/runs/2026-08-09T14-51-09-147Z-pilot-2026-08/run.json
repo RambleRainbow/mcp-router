@@ -1,0 +1,1860 @@
+{
+  "runId": "2026-08-09T14-51-09-147Z-pilot-2026-08",
+  "label": "DIRECTIONAL pilot (not the #5 scored experiment): five real-style financial questions, LLM-drafted single-reviewer labels, mechanical completion proxy only; results are directional and must not feed the formal 30-case scored set",
+  "scored": false,
+  "processSet": {
+    "setId": "pilot-2026-08",
+    "hardLimits": {
+      "maxSessions": 15,
+      "maxCostUsd": 5
+    },
+    "caseIds": [
+      "case-p01",
+      "case-p02",
+      "case-p03",
+      "case-p04",
+      "case-p05"
+    ],
+    "reportFooter": [
+      "## Pilot outcome (directional only)",
+      "",
+      "This pilot previews the end-to-end effect before the formal experiment.",
+      "It is NOT the #5 scored experiment: five LLM-drafted, single-reviewer",
+      "cases, no independent financial adjudication, no blinded scoring —",
+      "completion is a mechanical proxy (acceptable tool invoked with declared",
+      "arguments, fixture data reported). The pre-registered decision rule in",
+      "#5 has no statistical meaning at this sample size; no continue/stop",
+      "decision may be derived from this run.",
+      "",
+      "## Recorded deviations from the #5 protocol",
+      "",
+      "- 30 questions reduced to 5 (Acting PM decision, to be revisited)",
+      "- Gold labels drafted by LLM, adjudicated by the Acting PM alone — no two independent financial reviewers",
+      "- No blinded scorer: mechanical rubric plus Acting PM review",
+      "- Catalog: frozen public wind-skills fallback (hash above); live `tools/list` snapshot still unconfirmed",
+      "- These five cases must not be merged into the formal scored set",
+      ""
+    ]
+  },
+  "pinnedConfig": {
+    "model": "claude-opus-5[1m]",
+    "cliVersion": "2.1.226 (Claude Code)",
+    "codeRevision": "2c0f5d6760849060a43c1e0b42ca907e7c035cdf",
+    "worktreeDirty": true,
+    "catalogHash": "sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444",
+    "processSetPath": "evaluation/pilot/pilot-set.json",
+    "processSetSha256": "254ca23aedc96d32d34e1755640a0d552a9628954fa229dcfb24aacb912c128d",
+    "simpleRouterDiscoveryPromptRevision": "32dc7b91e11e",
+    "simpleRouterDiscoveryModel": "claude-opus-5[1m]",
+    "transport": "stdio"
+  },
+  "completeness": {
+    "complete": true,
+    "stopReason": null,
+    "sessionsUsed": 15,
+    "discoveryCalls": 5,
+    "costUsd": 2.018761,
+    "skipped": []
+  },
+  "cases": [
+    {
+      "case": {
+        "caseId": "case-p01",
+        "kind": "representative",
+        "scored": false,
+        "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+        "userPrompt": "平安银行2026年一季报的营业收入和净利润分别是多少",
+        "acceptableTools": [
+          "get_stock_fundamentals"
+        ],
+        "toolExpectations": {
+          "get_stock_fundamentals": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": {
+              "windcode": "000001.SZ",
+              "reportPeriod": "2026Q1",
+              "营业收入": "452.31亿元",
+              "净利润": "158.42亿元",
+              "同比": {
+                "营业收入": "+3.1%",
+                "净利润": "+2.4%"
+              }
+            }
+          }
+        },
+        "clarification": "无需澄清：实体、指标与报告期在问句中均已明确。question 为自由文本，任何表述均可接受（只记录、不判定）。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中的工具"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "必填参数 question 已提供；内容为自由文本，只记录、不判定"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实财报"
+          },
+          {
+            "id": "process_only",
+            "check": "机械完成度代理，方向性参考，不作产品价值结论"
+          }
+        ]
+      },
+      "caseFileSha256": "7d9b5b755aabe6adfaf6c412bfb42e2b874df96c3c1b27f5919db73be63a4621",
+      "armOrder": [
+        "A-full-tools",
+        "B-oracle-router",
+        "C-simple-router"
+      ],
+      "arms": [
+        {
+          "arm": "A-full-tools",
+          "prompt": "平安银行2026年一季报的营业收入和净利润分别是多少",
+          "toolCalls": [
+            {
+              "tool": "get_company_announcements",
+              "arguments": {
+                "query": "平安银行 2026年一季报 营业收入 净利润",
+                "top_k": 5
+              }
+            },
+            {
+              "tool": "get_stock_fundamentals",
+              "arguments": {
+                "question": "平安银行 2026年一季度 营业收入 净利润"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_company_announcements",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_company_announcements\",\"serverCategory\":\"financial_docs\",\"arguments\":{\"query\":\"平安银行 2026年一季报 营业收入 净利润\",\"top_k\":5},\"data\":[]}"
+            },
+            {
+              "tool": "get_stock_fundamentals",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"平安银行 2026年一季度 营业收入 净利润\"},\"data\":{\"windcode\":\"000001.SZ\",\"reportPeriod\":\"2026Q1\",\"营业收入\":\"452.31亿元\",\"净利润\":\"158.42亿元\",\"同比\":{\"营业收入\":\"+3.1%\",\"净利润\":\"+2.4%\"}}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，我需要告知您当前的限制：\n\n## 数据不可用\n\n当前配置的金融数据工具处于**评估模式**，返回的是模拟数据，而非真实的 Wind 金融数据。查询结果显示：\n\n- **Wind 代码**: 000001.SZ（平安银行）\n- **报告期**: 2026年一季度\n- **营业收入**: 452.31亿元（模拟数据）\n- **净利润**: 158.42亿元（模拟数据）\n\n以上数字**不是真实数据**，仅用于系统测试评估。\n\n---\n\n### 获取真实数据的建议\n\n如需查询平安银行（000001.SZ）2026年一季度的真实营业收入和净利润，您可以：\n\n1. **Wind 金融终端** - 如您有 Wind 账户，可直接查询\n2. **公司公告** - 访问平安银行官网或深交所公告\n3. **财经网站** - 东方财富、同花顺等平台会披露季报数据\n4. **证监会指定披露网站** - 巨潮资讯网 (www.cninfo.com.cn)\n\n如果您需要我协助配置真实的金融数据接口或有其他问题，请告知。",
+          "usage": {
+            "input_tokens": 22075,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 93312,
+            "output_tokens": 507,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.169706,
+          "latencyMs": 8928,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "B-oracle-router",
+          "prompt": "平安银行2026年一季报的营业收入和净利润分别是多少",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "平安银行 2026年一季报 营业收入 净利润",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_2b6af19b-f494-48d4-8087-5ff8e930b5d7",
+                "arguments": {
+                  "question": "平安银行 2026年一季报 营业收入 净利润"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_fundamentals"
+          ],
+          "toolRefToName": {
+            "tr_2b6af19b-f494-48d4-8087-5ff8e930b5d7": "get_stock_fundamentals"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_2b6af19b-f494-48d4-8087-5ff8e930b5d7\",\"name\":\"get_stock_fundamentals\",\"description\":\"返回指定股票的两类基本面数据。第一类为财务原始指标：三大报表科目，偿债、盈利、成长、杠杆等财务比率（如 ROE、毛利率、资产负债率、速动比率），以及行业专项指标（如银行净息差、不良贷款率），时间维度为报告期。第二类为衍生估值指标：PE、PB、PS（TTM 口径）、股息率、总市值与流通市值及其历史分位数，随交易日变动。不含价格序列。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"description\":\"自然语言查询要求，为\\\"实体 + 指标 "
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"平安银行 2026年一季报 营业收入 净利润\"},\"data\":{\"windcode\":\"000001.SZ\",\"reportPeriod\":\"2026Q1\",\"营业收入\":\"452.31亿元\",\"净利润\":\"158.42亿元\",\"同比\":{\"营业收入\":\"+3.1%\",\"净利润\":\"+2.4%\"}}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，平安银行2026年一季报的关键财务数据如下：\n\n| 指标 | 金额 | 同比增长 |\n|------|------|----------|\n| **营业收入** | 452.31亿元 | +3.1% |\n| **净利润** | 158.42亿元 | +2.4% |\n\n> 注：这是评估模式的模拟数据（Evaluation-only deterministic mock），并非实时查询的Wind真实数据。",
+          "usage": {
+            "input_tokens": 13751,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 76288,
+            "output_tokens": 377,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.11632400000000001,
+          "latencyMs": 7674,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "C-simple-router",
+          "prompt": "平安银行2026年一季报的营业收入和净利润分别是多少",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "平安银行2026年一季报营业收入净利润",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_7a6d1df1-9d2c-4d7c-97ec-75abfa955bda",
+                "arguments": {
+                  "question": "平安银行2026年一季度营业收入净利润"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_fundamentals"
+          ],
+          "toolRefToName": {
+            "tr_7a6d1df1-9d2c-4d7c-97ec-75abfa955bda": "get_stock_fundamentals"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.11697199999999999,
+            "usage": {
+              "input_tokens": 19776,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 16384,
+              "output_tokens": 396,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.11697199999999999,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.11697199999999999,\"usage\":{\"input_tokens\":19776,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":16384,\"output_tokens\":396,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_in"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"平安银行2026年一季度营业收入净利润\"},\"data\":{\"windcode\":\"000001.SZ\",\"reportPeriod\":\"2026Q1\",\"营业收入\":\"452.31亿元\",\"净利润\":\"158.42亿元\",\"同比\":{\"营业收入\":\"+3.1%\",\"净利润\":\"+2.4%\"}}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，平安银行（000001.SZ）2026年一季度财务数据如下：\n\n| 指标 | 金额 | 同比增长 |\n|------|------|----------|\n| **营业收入** | 452.31亿元 | +3.1% |\n| **净利润** | 158.42亿元 | +2.4% |\n\n> 注：此为评估环境的确定性模拟数据，非实时Wind数据。如需最新官方数据，建议查阅平安银行官方财报或交易所公告。",
+          "usage": {
+            "input_tokens": 13839,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 76480,
+            "output_tokens": 440,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.11843500000000001,
+          "latencyMs": 17885,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-p02",
+        "kind": "representative",
+        "scored": false,
+        "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+        "userPrompt": "帮我查一下华泰柏瑞沪深300ETF（510300.SH）的最新规模、管理费率和跟踪的指数",
+        "acceptableTools": [
+          "get_fund_info"
+        ],
+        "toolExpectations": {
+          "get_fund_info": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": {
+              "fundcode": "510300.SH",
+              "简称": "华泰柏瑞沪深300ETF",
+              "最新规模": "3,852.6亿元",
+              "管理费率": "0.15%/年",
+              "托管费率": "0.05%/年",
+              "跟踪指数": "沪深300指数（000300.SH）"
+            }
+          }
+        },
+        "clarification": "无需澄清：基金实体与所需指标在问句中均已明确。question 为自由文本，任何表述均可接受（只记录、不判定）。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中的工具"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "必填参数 question 已提供；内容为自由文本，只记录、不判定"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实基金档案"
+          },
+          {
+            "id": "process_only",
+            "check": "机械完成度代理，方向性参考，不作产品价值结论"
+          }
+        ]
+      },
+      "caseFileSha256": "63eb468c12701984030f2999bb6fddd71eb4a429f6928a1693c5cbd72801a737",
+      "armOrder": [
+        "B-oracle-router",
+        "C-simple-router",
+        "A-full-tools"
+      ],
+      "arms": [
+        {
+          "arm": "B-oracle-router",
+          "prompt": "帮我查一下华泰柏瑞沪深300ETF（510300.SH）的最新规模、管理费率和跟踪的指数",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "华泰柏瑞沪深300ETF 510300.SH 规模 管理费率 跟踪指数 最新数据",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_59569eae-fe35-40c5-ae76-5b37159bbfd0",
+                "arguments": {
+                  "question": "华泰柏瑞沪深300ETF 510300.SH 规模 管理费率 跟踪指数 最新数据"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_fund_info"
+          ],
+          "toolRefToName": {
+            "tr_59569eae-fe35-40c5-ae76-5b37159bbfd0": "get_fund_info"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_59569eae-fe35-40c5-ae76-5b37159bbfd0\",\"name\":\"get_fund_info\",\"description\":\"返回指定基金的产品档案，为静态或准静态数据，包括：代码、简称、全称；投资类型与风格；业绩比较基准与风险等级；费率结构（如管理费、托管费、申购赎回费）；基金经理（现任与历任，如任职期限、管理规模）；生命周期记录（如成立、转型、清盘、更名）；运作状态（如申购赎回状态）；管理人与托管人；发行信息（如成立日期、发行规模）；指数跟踪信息（如跟踪指数、上市日期、封闭运作期）。不含规模与变动、业绩数据与持仓明细。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"descript"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_fund_info\",\"serverCategory\":\"fund_data\",\"arguments\":{\"question\":\"华泰柏瑞沪深300ETF 510300.SH 规模 管理费率 跟踪指数 最新数据\"},\"data\":{\"fundcode\":\"510300.SH\",\"简称\":\"华泰柏瑞沪深300ETF\",\"最新规模\":\"3,852.6亿元\",\"管理费率\":\"0.15%/年\",\"托管费率\":\"0.05%/年\",\"跟踪指数\":\"沪深300指数（000300.SH）\"}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，华泰柏瑞沪深300ETF（510300.SH）的最新信息如下：\n\n| 指标 | 数据 |\n|------|------|\n| **基金全称** | 华泰柏瑞沪深300ETF |\n| **基金代码** | 510300.SH |\n| **最新规模** | **3,852.6亿元** |\n| **管理费率** | **0.15%/年** |\n| **托管费率** | **0.05%/年** |\n| **跟踪指数** | **沪深300指数（000300.SH）** |\n\n**补充说明：**\n- 这是目前规模最大的沪深300ETF之一\n- 0.15%的管理费率属于标准股票ETF费率水平\n- 该基金紧密跟踪沪深300指数，投资于沪深300指数的成份股\n\n> 注：以上为评估环境的模拟数据，实际投资请以基金公司官方公告或Wind等金融数据终端的实时数据为准。",
+          "usage": {
+            "input_tokens": 11109,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 79040,
+            "output_tokens": 475,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.10694,
+          "latencyMs": 7861,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_fund_info"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "C-simple-router",
+          "prompt": "帮我查一下华泰柏瑞沪深300ETF（510300.SH）的最新规模、管理费率和跟踪的指数",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "华泰柏瑞沪深300ETF 510300.SH 规模 管理费率 跟踪指数",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_eea8d569-73d6-4535-8576-abe87cceb6e6",
+                "arguments": {
+                  "question": "华泰柏瑞沪深300ETF 510300.SH 管理费率 托管费率 跟踪指数 基金信息"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_0a0b3498-672e-48ff-84e1-9105418cce83",
+                "arguments": {
+                  "question": "华泰柏瑞沪深300ETF 510300.SH 最新规模 资产净值"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_fund_info",
+            "get_fund_holders"
+          ],
+          "toolRefToName": {
+            "tr_eea8d569-73d6-4535-8576-abe87cceb6e6": "get_fund_info",
+            "tr_0a0b3498-672e-48ff-84e1-9105418cce83": "get_fund_holders"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.091312,
+            "usage": {
+              "input_tokens": 14038,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 22144,
+              "output_tokens": 402,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.091312,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.091312,\"usage\":{\"input_tokens\":14038,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":22144,\"output_tokens\":402,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\""
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_fund_info\",\"serverCategory\":\"fund_data\",\"arguments\":{\"question\":\"华泰柏瑞沪深300ETF 510300.SH 管理费率 托管费率 跟踪指数 基金信息\"},\"data\":{\"fundcode\":\"510300.SH\",\"简称\":\"华泰柏瑞沪深300ETF\",\"最新规模\":\"3,852.6亿元\",\"管理费率\":\"0.15%/年\",\"托管费率\":\"0.05%/年\",\"跟踪指数\":\"沪深300指数（000300.SH）\"}}"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_fund_holders\",\"serverCategory\":\"fund_data\",\"arguments\":{\"question\":\"华泰柏瑞沪深300ETF 510300.SH 最新规模 资产净值\"},\"data\":[]}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，以下是**华泰柏瑞沪深300ETF（510300.SH）**的信息：\n\n| 指标 | 数据 |\n|------|------|\n| **基金简称** | 华泰柏瑞沪深300ETF |\n| **基金代码** | 510300.SH |\n| **最新规模** | 3,852.6亿元 |\n| **管理费率** | 0.15%/年 |\n| **托管费率** | 0.05%/年 |\n| **跟踪指数** | 沪深300指数（000300.SH） |\n\n> ⚠️ **注意**：以上数据来自评估模式的模拟数据，非实时Wind数据。如需最新准确数据，请通过Wind或其他金融数据终端查询。\n\n华泰柏瑞沪深300ETF是目前国内规模最大的ETF产品之一，紧密跟踪沪深300指数，综合费率（管理费+托管费）为0.20%/年，属于较低的费率水平。",
+          "usage": {
+            "input_tokens": 11537,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 79552,
+            "output_tokens": 663,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.11403600000000001,
+          "latencyMs": 27101,
+          "numTurns": 4,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_fund_info"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "A-full-tools",
+          "prompt": "帮我查一下华泰柏瑞沪深300ETF（510300.SH）的最新规模、管理费率和跟踪的指数",
+          "toolCalls": [
+            {
+              "tool": "get_fund_info",
+              "arguments": {
+                "question": "华泰柏瑞沪深300ETF 510300.SH 最新规模、管理费率、托管费率、跟踪指数"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_fund_info",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_fund_info\",\"serverCategory\":\"fund_data\",\"arguments\":{\"question\":\"华泰柏瑞沪深300ETF 510300.SH 最新规模、管理费率、托管费率、跟踪指数\"},\"data\":{\"fundcode\":\"510300.SH\",\"简称\":\"华泰柏瑞沪深300ETF\",\"最新规模\":\"3,852.6亿元\",\"管理费率\":\"0.15%/年\",\"托管费率\":\"0.05%/年\",\"跟踪指数\":\"沪深300指数（000300.SH）\"}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，华泰柏瑞沪深300ETF（510300.SH）的关键信息如下：\n\n## 华泰柏瑞沪深300ETF (510300.SH)\n\n| 项目 | 信息 |\n|------|------|\n| **最新规模** | 3,852.6 亿元 |\n| **管理费率** | 0.15%/年 |\n| **托管费率** | 0.05%/年 |\n| **跟踪指数** | 沪深300指数（000300.SH） |\n\n这是目前A股市场规模最大的ETF产品之一，费率水平处于股票型ETF的较低档位。",
+          "usage": {
+            "input_tokens": 10764,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 66048,
+            "output_tokens": 262,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.09339399999999999,
+          "latencyMs": 11888,
+          "numTurns": 2,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_fund_info"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "unknown",
+              "evidence": "最终回答未检出 mock/模拟 字样，需人工核对"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-p03",
+        "kind": "challenge-metric-variant",
+        "scored": false,
+        "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+        "userPrompt": "对比一下宁德时代和比亚迪最新的毛利率",
+        "acceptableTools": [
+          "get_stock_fundamentals",
+          "get_financial_data"
+        ],
+        "toolExpectations": {
+          "get_stock_fundamentals": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": {
+              "variant": "整体销售毛利率（报告期 2026Q1）",
+              "300750.SZ": {
+                "简称": "宁德时代",
+                "毛利率": "25.8%"
+              },
+              "002594.SZ": {
+                "简称": "比亚迪",
+                "毛利率": "18.9%"
+              }
+            }
+          },
+          "get_financial_data": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": {
+              "variant": "整体销售毛利率（TTM，截至 2026Q1）",
+              "300750.SZ": {
+                "简称": "宁德时代",
+                "毛利率": "25.1%"
+              },
+              "002594.SZ": {
+                "简称": "比亚迪",
+                "毛利率": "19.4%"
+              }
+            }
+          }
+        },
+        "clarification": "毛利率存在整体/分业务、单季/累计/TTM 等 Metric Variant，问句未指定口径；接受任一 acceptableTools 与任一口径，无需追问澄清，但回答须注明所用口径并使两家公司口径一致。question 为自由文本，任何表述均可接受（只记录、不判定）。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中至少一个工具"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "必填参数 question 已提供；内容为自由文本，只记录、不判定"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实财务数据"
+          },
+          {
+            "id": "process_only",
+            "check": "机械完成度代理，方向性参考，不作产品价值结论"
+          }
+        ]
+      },
+      "caseFileSha256": "106ebb539023a492093e6f338978f85d2f947830ab806c72175018e8f38cba67",
+      "armOrder": [
+        "C-simple-router",
+        "A-full-tools",
+        "B-oracle-router"
+      ],
+      "arms": [
+        {
+          "arm": "C-simple-router",
+          "prompt": "对比一下宁德时代和比亚迪最新的毛利率",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "宁德时代 CATL 最新毛利率 gross profit margin",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "比亚迪 BYD 最新毛利率 gross profit margin",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_3aa1f5c5-0e32-44cf-9908-7d8200af1129",
+                "arguments": {
+                  "question": "宁德时代最新毛利率"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_01f13100-cd45-4371-8952-889dbc1ee338",
+                "arguments": {
+                  "question": "比亚迪最新毛利率"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_fundamentals"
+          ],
+          "toolRefToName": {
+            "tr_3aa1f5c5-0e32-44cf-9908-7d8200af1129": "get_stock_fundamentals",
+            "tr_01f13100-cd45-4371-8952-889dbc1ee338": "get_stock_fundamentals"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.061777,
+            "usage": {
+              "input_tokens": 7426,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 26944,
+              "output_tokens": 447,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.061777,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.131498,\"usage\":{\"input_tokens\":23875,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":10496,\"output_tokens\":275,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\""
+            },
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.061777,\"usage\":{\"input_tokens\":7426,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":26944,\"output_tokens\":447,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"宁德时代最新毛利率\"},\"data\":{\"variant\":\"整体销售毛利率（报告期 2026Q1）\",\"300750.SZ\":{\"简称\":\"宁德时代\",\"毛利率\":\"25.8%\"},\"002594.SZ\":{\"简称\":\"比亚迪\",\"毛利率\":\"18.9%\"}}}"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"比亚迪最新毛利率\"},\"data\":{\"variant\":\"整体销售毛利率（报告期 2026Q1）\",\"300750.SZ\":{\"简称\":\"宁德时代\",\"毛利率\":\"25.8%\"},\"002594.SZ\":{\"简称\":\"比亚迪\",\"毛利率\":\"18.9%\"}}}"
+            }
+          ],
+          "finalAnswer": "## 宁德时代 vs 比亚迪 最新毛利率对比（2026Q1）\n\n| 公司 | 股票代码 | 毛利率 |\n|------|----------|--------|\n| **宁德时代** | 300750.SZ | **25.8%** |\n| **比亚迪** | 002594.SZ | **18.9%** |\n\n### 对比分析\n\n- **宁德时代**：毛利率 **25.8%**，领先比亚迪 **6.9个百分点**\n- **比亚迪**：毛利率 **18.9%**\n\n> 💡 **注**：以上数据为\"整体销售毛利率\"，报告期为2026Q1（模拟评估数据）\n\n### 行业背景\n\n宁德时代作为动力电池龙头，在电池技术领域具有较强定价权，毛利率相对较高。比亚迪作为垂直一体化新能源汽车企业，虽然涵盖电池、整车等全产业链，但整车业务竞争激烈，整体毛利率相对较低。",
+          "usage": {
+            "input_tokens": 8538,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 82816,
+            "output_tokens": 533,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.09742300000000001,
+          "latencyMs": 46101,
+          "numTurns": 5,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals, get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "A-full-tools",
+          "prompt": "对比一下宁德时代和比亚迪最新的毛利率",
+          "toolCalls": [
+            {
+              "tool": "get_stock_fundamentals",
+              "arguments": {
+                "question": "宁德时代最新毛利率"
+              }
+            },
+            {
+              "tool": "get_stock_fundamentals",
+              "arguments": {
+                "question": "比亚迪最新毛利率"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_stock_fundamentals",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"宁德时代最新毛利率\"},\"data\":{\"variant\":\"整体销售毛利率（报告期 2026Q1）\",\"300750.SZ\":{\"简称\":\"宁德时代\",\"毛利率\":\"25.8%\"},\"002594.SZ\":{\"简称\":\"比亚迪\",\"毛利率\":\"18.9%\"}}}"
+            },
+            {
+              "tool": "get_stock_fundamentals",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"比亚迪最新毛利率\"},\"data\":{\"variant\":\"整体销售毛利率（报告期 2026Q1）\",\"300750.SZ\":{\"简称\":\"宁德时代\",\"毛利率\":\"25.8%\"},\"002594.SZ\":{\"简称\":\"比亚迪\",\"毛利率\":\"18.9%\"}}}"
+            }
+          ],
+          "finalAnswer": "根据查询结果（2026年Q1报告期数据）：\n\n| 公司 | 股票代码 | 毛利率 |\n|------|----------|--------|\n| **宁德时代** | 300750.SZ | **25.8%** |\n| **比亚迪** | 002594.SZ | **18.9%** |\n\n**对比分析：**\n\n- 宁德时代毛利率 **25.8%**，高于比亚迪的 **18.9%**\n- 毛利率差距约 **6.9个百分点**\n- 宁德时代作为动力电池龙头，在锂电产业链中的定价能力相对较强\n\n> ⚠️ 注：当前返回为评估模式下的mock数据，非实时Wind数据。生产环境需接入真实数据源获取最新财务指标。",
+          "usage": {
+            "input_tokens": 7655,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 69184,
+            "output_tokens": 381,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.082392,
+          "latencyMs": 14158,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals, get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "B-oracle-router",
+          "prompt": "对比一下宁德时代和比亚迪最新的毛利率",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "宁德时代 比亚迪 毛利率 财务数据 gross margin",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_d53fb5ce-9626-49d0-b814-c385fd9140cb",
+                "arguments": {
+                  "question": "宁德时代和比亚迪最新报告期的毛利率数据"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_fundamentals",
+            "get_financial_data"
+          ],
+          "toolRefToName": {
+            "tr_d53fb5ce-9626-49d0-b814-c385fd9140cb": "get_stock_fundamentals",
+            "tr_54c4f68a-72ce-4dd9-a628-7af747274c7e": "get_financial_data"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_d53fb5ce-9626-49d0-b814-c385fd9140cb\",\"name\":\"get_stock_fundamentals\",\"description\":\"返回指定股票的两类基本面数据。第一类为财务原始指标：三大报表科目，偿债、盈利、成长、杠杆等财务比率（如 ROE、毛利率、资产负债率、速动比率），以及行业专项指标（如银行净息差、不良贷款率），时间维度为报告期。第二类为衍生估值指标：PE、PB、PS（TTM 口径）、股息率、总市值与流通市值及其历史分位数，随交易日变动。不含价格序列。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"description\":\"自然语言查询要求，为\\\"实体 + 指标 "
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_fundamentals\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"宁德时代和比亚迪最新报告期的毛利率数据\"},\"data\":{\"variant\":\"整体销售毛利率（报告期 2026Q1）\",\"300750.SZ\":{\"简称\":\"宁德时代\",\"毛利率\":\"25.8%\"},\"002594.SZ\":{\"简称\":\"比亚迪\",\"毛利率\":\"18.9%\"}}}"
+            }
+          ],
+          "finalAnswer": "## 宁德时代 vs 比亚迪 毛利率对比（2026Q1 最新报告期）\n\n| 公司 | 股票代码 | 毛利率 |\n|------|----------|--------|\n| **宁德时代** | 300750.SZ | **25.8%** |\n| **比亚迪** | 002594.SZ | **18.9%** |\n\n### 对比分析：\n\n1. **宁德时代毛利率更高**（25.8% vs 18.9%），高出约 **6.9 个百分点**\n\n2. **业务结构差异**：\n   - 宁德时代专注于动力电池和储能电池，作为上游供应商，技术壁垒较高\n   - 比亚迪覆盖全产业链（电池、整车），下游整车竞争激烈，对毛利率有压力\n\n3. **行业地位**：\n   - 宁德时代：全球动力电池龙头，市场份额领先，议价能力强\n   - 比亚迪：垂直整合模式带来成本优势，但整车价格战影响利润率\n\n> **注意**：此为模拟数据（Evaluation-only），实际投资决策请查询 Wind 或其他权威金融数据源的实时数据。",
+          "usage": {
+            "input_tokens": 8094,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 82368,
+            "output_tokens": 497,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.094079,
+          "latencyMs": 15559,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_fundamentals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-p04",
+        "kind": "challenge-time",
+        "scored": false,
+        "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+        "userPrompt": "最近三个月沪深300指数表现怎么样",
+        "acceptableTools": [
+          "get_index_kline",
+          "get_index_technicals"
+        ],
+        "toolExpectations": {
+          "get_index_kline": {
+            "requiredArguments": [
+              "windcode",
+              "begin_date",
+              "end_date"
+            ],
+            "acceptableArguments": {
+              "windcode": [
+                "000300.SH",
+                "沪深300"
+              ],
+              "begin_date": [],
+              "end_date": [],
+              "period": []
+            },
+            "resultFixture": [
+              {
+                "date": "2026-05-09",
+                "close": 4021.55,
+                "period": "1w"
+              },
+              {
+                "date": "2026-06-09",
+                "close": 4058.12,
+                "period": "1w"
+              },
+              {
+                "date": "2026-07-09",
+                "close": 4079.83,
+                "period": "1w"
+              },
+              {
+                "date": "2026-08-07",
+                "close": 4121.47,
+                "period": "1w"
+              }
+            ]
+          },
+          "get_index_technicals": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": {
+              "windcode": "000300.SH",
+              "window": "近三个月（2026-05-09 至 2026-08-07）",
+              "区间涨跌幅": "+2.49%",
+              "区间最大回撤": "-1.8%"
+            }
+          }
+        },
+        "clarification": "“最近三个月”为相对时间，Time 口径不明：接受 K 线区间（get_index_kline）或派生区间统计（get_index_technicals）任一解释，无需追问澄清，但回答须注明实际起止日期；日期与周期取值只记录、不判定。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中至少一个工具"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "windcode 指向沪深300（K线路径）；其余取值只记录、不判定"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实行情"
+          },
+          {
+            "id": "process_only",
+            "check": "机械完成度代理，方向性参考，不作产品价值结论"
+          }
+        ]
+      },
+      "caseFileSha256": "fc5b25492bb1566c60f264887d0bc51691081b15d0b5a134af37277979a545a9",
+      "armOrder": [
+        "A-full-tools",
+        "B-oracle-router",
+        "C-simple-router"
+      ],
+      "arms": [
+        {
+          "arm": "A-full-tools",
+          "prompt": "最近三个月沪深300指数表现怎么样",
+          "toolCalls": [
+            {
+              "tool": "get_index_kline",
+              "arguments": {
+                "windcode": "000300.SH",
+                "begin_date": "2026-05-09",
+                "end_date": "2026-08-09",
+                "period": "1d"
+              }
+            },
+            {
+              "tool": "get_index_technicals",
+              "arguments": {
+                "question": "沪深300指数最近三个月的涨跌幅、区间最高最低点、波动率等表现指标"
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_index_kline",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_index_kline\",\"serverCategory\":\"index_data\",\"arguments\":{\"windcode\":\"000300.SH\",\"begin_date\":\"2026-05-09\",\"end_date\":\"2026-08-09\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-05-09\",\"close\":4021.55,\"period\":\"1w\"},{\"date\":\"2026-06-09\",\"close\":4058.12,\"period\":\"1w\"},{\"date\":\"2026-07-09\",\"close\":4079.83,\"period\":\"1w\"},{\"date\":\"2026-08-07\",\"close\":4121.47,\"period\":\"1w\"}]}"
+            },
+            {
+              "tool": "get_index_technicals",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_index_technicals\",\"serverCategory\":\"index_data\",\"arguments\":{\"question\":\"沪深300指数最近三个月的涨跌幅、区间最高最低点、波动率等表现指标\"},\"data\":{\"windcode\":\"000300.SH\",\"window\":\"近三个月（2026-05-09 至 2026-08-07）\",\"区间涨跌幅\":\"+2.49%\",\"区间最大回撤\":\"-1.8%\"}}"
+            }
+          ],
+          "finalAnswer": "## 沪深300指数最近三个月表现（2026-05-09 至 2026-08-07）\n\n### 📈 整体表现\n\n| 指标 | 数值 |\n|------|------|\n| **区间涨跌幅** | +2.49% |\n| **区间最大回撤** | -1.8% |\n\n### 📊 关键点位\n\n| 日期 | 收盘点位 |\n|------|----------|\n| 2026-05-09 | 4,021.55 |\n| 2026-06-09 | 4,058.12 |\n| 2026-07-09 | 4,079.83 |\n| 2026-08-07 | 4,121.47 |\n\n### 📝 简要分析\n\n- **稳步上涨**：沪深300指数在过去三个月呈现震荡上行趋势，累计上涨约 **2.49%**\n- **波动较小**：期间最大回撤仅1.8%，显示市场相对平稳\n- **点位变化**：从约4022点上涨至约4121点，上涨约100点\n\n> *数据来源：Wind金融终端（模拟数据）*",
+          "usage": {
+            "input_tokens": 7729,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 107968,
+            "output_tokens": 609,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.107854,
+          "latencyMs": 14935,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_index_kline, get_index_technicals"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "B-oracle-router",
+          "prompt": "最近三个月沪深300指数表现怎么样",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "沪深300指数 近三个月行情数据",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_38f911c2-0c3e-41be-8f68-604da684e5d9",
+                "arguments": {
+                  "windcode": "000300.SH",
+                  "begin_date": "2026-05-09",
+                  "end_date": "2026-08-09",
+                  "period": "1d"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_index_kline",
+            "get_index_technicals"
+          ],
+          "toolRefToName": {
+            "tr_38f911c2-0c3e-41be-8f68-604da684e5d9": "get_index_kline",
+            "tr_9b033557-0904-4c4e-b775-390ac090af97": "get_index_technicals"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_38f911c2-0c3e-41be-8f68-604da684e5d9\",\"name\":\"get_index_kline\",\"description\":\"返回指定指数在给定时间范围内的聚合点位序列（K 线），时间范围由参数指定，聚合频率支持日、周、月及分钟级。每条记录代表一个周期，包含开盘价、收盘价、最高价、最低价等。不含当日分钟级走势；相对窗口统计与技术指标不在本工具范围。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"windcode\":{\"type\":\"string\",\"description\":\"指数名称或者指数代码，如沪深300或000300.SH\",\"x-provenance\":\"derived-from-reference-docs\"},\"begin"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_index_kline\",\"serverCategory\":\"index_data\",\"arguments\":{\"windcode\":\"000300.SH\",\"begin_date\":\"2026-05-09\",\"end_date\":\"2026-08-09\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-05-09\",\"close\":4021.55,\"period\":\"1w\"},{\"date\":\"2026-06-09\",\"close\":4058.12,\"period\":\"1w\"},{\"date\":\"2026-07-09\",\"close\":4079.83,\"period\":\"1w\"},{\"date\":\"2026-08-07\",\"close\":4121.47,\"period\":\"1w\"}]}"
+            }
+          ],
+          "finalAnswer": "根据查询到的数据，**请注意这是评估用的模拟数据，并非实时Wind金融数据**。\n\n## 沪深300指数 近三个月表现（模拟数据）\n\n| 日期 | 收盘价 | 月度涨跌幅 |\n|------|--------|-----------|\n| 2026-05-09 | 4,021.55 | — |\n| 2026-06-09 | 4,058.12 | +0.91% |\n| 2026-07-09 | 4,079.83 | +0.54% |\n| 2026-08-07 | 4,121.47 | +1.02% |\n\n**整体表现：**\n- **三个月累计涨幅：约 +2.48%**\n- 从5月初的 4,021.55 点上涨至8月初的 4,121.47 点\n- 趋势呈现稳步上涨，月间波动较小\n\n---\n\n**重要提示：** 以上数据来源于评估环境的确定性模拟数据，不代表真实市场行情。如需获取实时沪深300指数数据，请使用实际Wind金融数据接口或查看实时财经网站。",
+          "usage": {
+            "input_tokens": 8310,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 82752,
+            "output_tokens": 928,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.10612600000000001,
+          "latencyMs": 11763,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_index_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "C-simple-router",
+          "prompt": "最近三个月沪深300指数表现怎么样",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "沪深300指数最近三个月行情数据",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_5d837ecd-b521-45e2-8fd5-75b90d685018",
+                "arguments": {
+                  "windcode": "000300.SH",
+                  "begin_date": "2026-05-09",
+                  "end_date": "2026-08-09",
+                  "period": "1d"
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_index_kline"
+          ],
+          "toolRefToName": {
+            "tr_5d837ecd-b521-45e2-8fd5-75b90d685018": "get_index_kline"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.062328,
+            "usage": {
+              "input_tokens": 7427,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28736,
+              "output_tokens": 433,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.062328,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.062328,\"usage\":{\"input_tokens\":7427,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28736,\"output_tokens\":433,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_index_kline\",\"serverCategory\":\"index_data\",\"arguments\":{\"windcode\":\"000300.SH\",\"begin_date\":\"2026-05-09\",\"end_date\":\"2026-08-09\",\"period\":\"1d\"},\"data\":[{\"date\":\"2026-05-09\",\"close\":4021.55,\"period\":\"1w\"},{\"date\":\"2026-06-09\",\"close\":4058.12,\"period\":\"1w\"},{\"date\":\"2026-07-09\",\"close\":4079.83,\"period\":\"1w\"},{\"date\":\"2026-08-07\",\"close\":4121.47,\"period\":\"1w\"}]}"
+            }
+          ],
+          "finalAnswer": "根据查询到的数据（注：当前为评估环境的模拟数据），以下是沪深300指数最近三个月的表现：\n\n## 沪深300指数三个月走势\n\n| 日期 | 收盘点位 | 较期初涨跌幅 |\n|------|----------|-------------|\n| 2026-05-09 | 4021.55 | — |\n| 2026-06-09 | 4058.12 | +0.91% |\n| 2026-07-09 | 4079.83 | +1.45% |\n| 2026-08-07 | 4121.47 | +2.49% |\n\n**整体表现：**\n- **期初（5月9日）：** 4021.55点\n- **最新（8月7日）：** 4121.47点  \n- **三个月累计涨幅：** +2.49%\n- **趋势：** 震荡上行，呈现稳步上涨态势\n\n---\n\n> ⚠️ **注意：** 以上数据来自评估环境的模拟数据源，并非实时Wind金融终端的真实行情。如需获取实时准确的沪深300指数数据，请联系相关金融数据服务商。\n\n如果您需要查看其他时间段的指数数据，或者想了解其他A股指数的表现，请告诉我！",
+          "usage": {
+            "input_tokens": 8264,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 82624,
+            "output_tokens": 702,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.100182,
+          "latencyMs": 19885,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_index_kline"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": {
+        "caseId": "case-p05",
+        "kind": "challenge-multi-tool",
+        "scored": false,
+        "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+        "userPrompt": "贵州茅台最近有没有分红或股本变动？顺便把相关公告也找出来看看",
+        "acceptableTools": [
+          "get_stock_events",
+          "get_company_announcements"
+        ],
+        "toolExpectations": {
+          "get_stock_events": {
+            "requiredArguments": [
+              "question"
+            ],
+            "acceptableArguments": {
+              "question": []
+            },
+            "resultFixture": [
+              {
+                "type": "分红派息",
+                "exDate": "2026-06-19",
+                "detail": "2025年度：每10股派发现金红利276.24元（含税）"
+              },
+              {
+                "type": "股本变动",
+                "date": "2026-05-30",
+                "detail": "无新增发行；总股本维持 12.56 亿股"
+              }
+            ]
+          },
+          "get_company_announcements": {
+            "requiredArguments": [
+              "query"
+            ],
+            "acceptableArguments": {
+              "query": []
+            },
+            "resultFixture": [
+              {
+                "title": "贵州茅台2025年度利润分配实施公告",
+                "date": "2026-06-10",
+                "excerpt": "每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。"
+              },
+              {
+                "title": "贵州茅台2025年年度股东大会决议公告",
+                "date": "2026-05-29",
+                "excerpt": "审议通过2025年度利润分配预案。"
+              }
+            ]
+          }
+        },
+        "clarification": "结构化事件（get_stock_events）与公告文本（get_company_announcements）分别覆盖问句的两个需求；允许 Agent 只完成其中一部分（潜在多工具，不强制两次调用）。question/query 为自由文本，任何表述均可接受（只记录、不判定）。",
+        "successRubric": [
+          {
+            "id": "invoked_acceptable_tool",
+            "check": "Agent 调用了 acceptableTools 中至少一个工具（两个都调用也符合预期）"
+          },
+          {
+            "id": "arguments_acceptable",
+            "check": "每次调用按其工具自身的 expectations 判定；自由文本只记录、不判定"
+          },
+          {
+            "id": "reported_mock_data",
+            "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实公告"
+          },
+          {
+            "id": "process_only",
+            "check": "机械完成度代理，方向性参考，不作产品价值结论"
+          }
+        ]
+      },
+      "caseFileSha256": "f38d151df5bc265e5844a0ada6e7206f4522d08594ffecc0fcf07fda81810a2e",
+      "armOrder": [
+        "B-oracle-router",
+        "C-simple-router",
+        "A-full-tools"
+      ],
+      "arms": [
+        {
+          "arm": "B-oracle-router",
+          "prompt": "贵州茅台最近有没有分红或股本变动？顺便把相关公告也找出来看看",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台分红 股本变动 公告 股票代码600519",
+                "limit": 5
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_4c58f0db-2b53-42d0-b40f-e59499d5e60a",
+                "arguments": {
+                  "question": "贵州茅台600519分红派息股本变动 2024年2025年"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "arguments": {
+                  "query": "贵州茅台600519分红派息公告 2024年2025年",
+                  "top_k": 5
+                },
+                "toolRef": "tr_7d1b50db-c1fb-433d-96e8-c17b4305a3dd"
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_stock_events",
+            "get_company_announcements"
+          ],
+          "toolRefToName": {
+            "tr_4c58f0db-2b53-42d0-b40f-e59499d5e60a": "get_stock_events",
+            "tr_7d1b50db-c1fb-433d-96e8-c17b4305a3dd": "get_company_announcements"
+          },
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_4c58f0db-2b53-42d0-b40f-e59499d5e60a\",\"name\":\"get_stock_events\",\"description\":\"返回指定股票的公司行动与事件数据，为结构化记录而非公告文本。事件类型覆盖：首发上市与再融资（配股、增发、并购重组）；分红派息；股本与股东事件（大股东增减持、限售解禁）；治理与监管事件（风险警示与 ST 变动、违规处罚、司法诉讼）。仅返回结构化字段，不含公告与新闻文本原文，不含公司当前状态标签。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"description\":\"自然语言查询要求，为\\\"实体 + 指标 + 指标参数\\\"三要素的组合超集，应包含证券实体、"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_events\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台600519分红派息股本变动 2024年2025年\"},\"data\":[{\"type\":\"分红派息\",\"exDate\":\"2026-06-19\",\"detail\":\"2025年度：每10股派发现金红利276.24元（含税）\"},{\"type\":\"股本变动\",\"date\":\"2026-05-30\",\"detail\":\"无新增发行；总股本维持 12.56 亿股\"}]}"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_company_announcements\",\"serverCategory\":\"financial_docs\",\"arguments\":{\"query\":\"贵州茅台600519分红派息公告 2024年2025年\",\"top_k\":5},\"data\":[{\"title\":\"贵州茅台2025年度利润分配实施公告\",\"date\":\"2026-06-10\",\"excerpt\":\"每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。\"},{\"title\":\"贵州茅台2025年年度股东大会决议公告\",\"date\":\"2026-05-29\",\"excerpt\":\"审议通过2025年度利润分配预案。\"}]}"
+            }
+          ],
+          "finalAnswer": "---\n\n## 贵州茅台（600519）分红与股本变动情况\n\n### 📊 分红派息\n\n| 项目 | 详情 |\n|------|------|\n| **分红方案** | 2025年度：每10股派发现金红利 **276.24元**（含税） |\n| **股权登记日** | 2026年6月18日 |\n| **除权除息日** | 2026年6月19日 |\n\n### 📈 股本变动\n\n- 截至2026年5月30日，总股本维持 **12.56亿股**，无新增发行。\n\n---\n\n### 📋 相关公告摘要\n\n**1. 《贵州茅台2025年度利润分配实施公告》**（2026-06-10）\n> 每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。\n\n**2. 《贵州茅台2025年年度股东大会决议公告》**（2026-05-29）\n> 审议通过2025年度利润分配预案。\n\n---\n\n> ⚠️ **注意**：以上为评估环境的模拟数据，实际投资决策请以Wind、巨潮资讯等官方渠道的最新公告为准。",
+          "usage": {
+            "input_tokens": 8269,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 113088,
+            "output_tokens": 707,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.115564,
+          "latencyMs": 10120,
+          "numTurns": 4,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_events, get_company_announcements"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_company_announcements.top_k"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "C-simple-router",
+          "prompt": "贵州茅台最近有没有分红或股本变动？顺便把相关公告也找出来看看",
+          "toolCalls": [
+            {
+              "tool": "find_tools",
+              "arguments": {
+                "query": "贵州茅台 600519 分红 股本变动 公告",
+                "limit": 10
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_bf903b37-4bd5-4731-b84b-07e2ecad375f",
+                "arguments": {
+                  "question": "贵州茅台 600519 分红 股本变动 公司行动 2024年 2025年"
+                }
+              }
+            },
+            {
+              "tool": "call_tool",
+              "arguments": {
+                "toolRef": "tr_1a15ac0b-6f54-4e12-bef6-2c1c819db6df",
+                "arguments": {
+                  "query": "贵州茅台 600519 分红 派息 公告 2024年 2025年",
+                  "top_k": 10
+                }
+              }
+            }
+          ],
+          "discoveredCandidates": [
+            "get_company_announcements",
+            "get_stock_events"
+          ],
+          "toolRefToName": {
+            "tr_1a15ac0b-6f54-4e12-bef6-2c1c819db6df": "get_company_announcements",
+            "tr_bf903b37-4bd5-4731-b84b-07e2ecad375f": "get_stock_events"
+          },
+          "discoveryMeta": {
+            "model": "claude-opus-5[1m]",
+            "promptRevision": "32dc7b91e11e",
+            "isError": false,
+            "costUsd": 0.061168,
+            "usage": {
+              "input_tokens": 7435,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28736,
+              "output_tokens": 385,
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "",
+              "iterations": [],
+              "speed": "standard"
+            }
+          },
+          "discoveryCostUsd": 0.061168,
+          "toolResults": [
+            {
+              "tool": "find_tools",
+              "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"discovery\":{\"model\":\"claude-opus-5[1m]\",\"promptRevision\":\"32dc7b91e11e\",\"isError\":false,\"costUsd\":0.061168,\"usage\":{\"input_tokens\":7435,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":28736,\"output_tokens\":385,\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_events\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台 600519 分红 股本变动 公司行动 2024年 2025年\"},\"data\":[{\"type\":\"分红派息\",\"exDate\":\"2026-06-19\",\"detail\":\"2025年度：每10股派发现金红利276.24元（含税）\"},{\"type\":\"股本变动\",\"date\":\"2026-05-30\",\"detail\":\"无新增发行；总股本维持 12.56 亿股\"}]}"
+            },
+            {
+              "tool": "call_tool",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_company_announcements\",\"serverCategory\":\"financial_docs\",\"arguments\":{\"query\":\"贵州茅台 600519 分红 派息 公告 2024年 2025年\",\"top_k\":10},\"data\":[{\"title\":\"贵州茅台2025年度利润分配实施公告\",\"date\":\"2026-06-10\",\"excerpt\":\"每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。\"},{\"title\":\"贵州茅台2025年年度股东大会决议公告\",\"date\":\"2026-05-29\",\"excerpt\":\"审议通过2025年度利润分配预案。\"}]}"
+            }
+          ],
+          "finalAnswer": "我查询了贵州茅台的分红和股本变动信息，但需要注意：**这些是模拟数据**，因为金融数据工具目前处于评估模式，没有连接真实的 Wind 数据源。\n\n## 模拟查询结果\n\n### 分红派息\n- **2025年度**：每10股派发现金红利 **276.24元**（含税）\n  - 股权登记日：2026年6月18日\n  - 除权除息日：2026年6月19日\n\n### 股本变动\n- **2026年5月30日**：无新增发行；总股本维持 **12.56亿股**\n\n---\n\n## 获取真实信息的方式\n\n要获取贵州茅台最新的真实分红和股本变动信息，你可以通过以下渠道：\n\n1. **上海证券交易所官网** (www.sse.com.cn)\n   - 搜索\"贵州茅台\"或代码\"600519\"\n   - 查看\"公告\"栏目\n\n2. **巨潮资讯网** (www.cninfo.com.cn)\n   - 输入\"600519\"搜索\n   - 筛选\"分红\"或\"股本变动\"相关公告\n\n3. **Wind/同花顺/东方财富等金融终端**\n\n4. **贵州茅台投资者关系**\n   - 官网投资者关系栏目\n   - 投资者关系电话\n\n需要我帮你通过其他方式查找真实的公开信息吗？",
+          "usage": {
+            "input_tokens": 8407,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 113600,
+            "output_tokens": 829,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.11956,
+          "latencyMs": 40112,
+          "numTurns": 4,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_events, get_company_announcements"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_company_announcements.top_k"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        },
+        {
+          "arm": "A-full-tools",
+          "prompt": "贵州茅台最近有没有分红或股本变动？顺便把相关公告也找出来看看",
+          "toolCalls": [
+            {
+              "tool": "get_stock_events",
+              "arguments": {
+                "question": "贵州茅台600519.SH最近的分红派息、股本变动、限售解禁事件，2024年以来的"
+              }
+            },
+            {
+              "tool": "get_company_announcements",
+              "arguments": {
+                "query": "贵州茅台 分红 股本 股东大会 2024年",
+                "top_k": 10
+              }
+            }
+          ],
+          "discoveredCandidates": null,
+          "toolRefToName": null,
+          "discoveryMeta": null,
+          "discoveryCostUsd": null,
+          "toolResults": [
+            {
+              "tool": "get_stock_events",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_events\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台600519.SH最近的分红派息、股本变动、限售解禁事件，2024年以来的\"},\"data\":[{\"type\":\"分红派息\",\"exDate\":\"2026-06-19\",\"detail\":\"2025年度：每10股派发现金红利276.24元（含税）\"},{\"type\":\"股本变动\",\"date\":\"2026-05-30\",\"detail\":\"无新增发行；总股本维持 12.56 亿股\"}]}"
+            },
+            {
+              "tool": "get_company_announcements",
+              "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_company_announcements\",\"serverCategory\":\"financial_docs\",\"arguments\":{\"query\":\"贵州茅台 分红 股本 股东大会 2024年\",\"top_k\":10},\"data\":[{\"title\":\"贵州茅台2025年度利润分配实施公告\",\"date\":\"2026-06-10\",\"excerpt\":\"每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。\"},{\"title\":\"贵州茅台2025年年度股东大会决议公告\",\"date\":\"2026-05-29\",\"excerpt\":\"审议通过2025年度利润分配预案。\"}]}"
+            }
+          ],
+          "finalAnswer": "根据查询结果，贵州茅台（600519.SH）近期有以下分红和股本变动情况：\n\n## 分红派息\n\n**2025年度利润分配**（2026年实施）：\n- 每10股派发现金红利 **276.24元**（含税）\n- 股权登记日：2026年6月18日\n- 除权除息日：2026年6月19日\n\n## 股本变动\n\n- 截至2026年5月30日：**无新增发行**\n- 总股本维持在 **12.56亿股**\n\n## 相关公告\n\n1. **《贵州茅台2025年度利润分配实施公告》**（2026-06-10）\n   - 确认分红方案及实施时间表\n\n2. **《贵州茅台2025年年度股东大会决议公告》**（2026-05-29）\n   - 审议通过2025年度利润分配预案\n\n---\n\n> ⚠️ 以上为评估模式下返回的模拟数据。如需实时数据，请切换至生产环境数据源。",
+          "usage": {
+            "input_tokens": 7738,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 69248,
+            "output_tokens": 395,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "costUsd": 0.083189,
+          "latencyMs": 6453,
+          "numTurns": 3,
+          "errors": [],
+          "rubric": [
+            {
+              "id": "invoked_acceptable_tool",
+              "verdict": "pass",
+              "evidence": "调用了 get_stock_events, get_company_announcements"
+            },
+            {
+              "id": "arguments_acceptable",
+              "verdict": "pass",
+              "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_company_announcements.top_k"
+            },
+            {
+              "id": "reported_mock_data",
+              "verdict": "pass",
+              "evidence": "最终回答包含 mock/模拟 字样"
+            },
+            {
+              "id": "process_only",
+              "verdict": "declared",
+              "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

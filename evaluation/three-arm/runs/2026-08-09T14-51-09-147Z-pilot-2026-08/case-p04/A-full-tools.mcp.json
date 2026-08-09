@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "full-tools": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "evaluation/three-arm/full-tools-stdio.ts"
+      ],
+      "env": {
+        "THREE_ARM_CASE_PATH": "evaluation/pilot/case-p04.json"
+      }
+    }
+  }
+}

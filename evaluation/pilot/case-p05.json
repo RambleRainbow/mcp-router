@@ -1,0 +1,33 @@
+{
+  "caseId": "case-p05",
+  "kind": "challenge-multi-tool",
+  "scored": false,
+  "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+  "userPrompt": "贵州茅台最近有没有分红或股本变动？顺便把相关公告也找出来看看",
+  "acceptableTools": ["get_stock_events", "get_company_announcements"],
+  "toolExpectations": {
+    "get_stock_events": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": [
+        { "type": "分红派息", "exDate": "2026-06-19", "detail": "2025年度：每10股派发现金红利276.24元（含税）" },
+        { "type": "股本变动", "date": "2026-05-30", "detail": "无新增发行；总股本维持 12.56 亿股" }
+      ]
+    },
+    "get_company_announcements": {
+      "requiredArguments": ["query"],
+      "acceptableArguments": { "query": [] },
+      "resultFixture": [
+        { "title": "贵州茅台2025年度利润分配实施公告", "date": "2026-06-10", "excerpt": "每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。" },
+        { "title": "贵州茅台2025年年度股东大会决议公告", "date": "2026-05-29", "excerpt": "审议通过2025年度利润分配预案。" }
+      ]
+    }
+  },
+  "clarification": "结构化事件（get_stock_events）与公告文本（get_company_announcements）分别覆盖问句的两个需求；允许 Agent 只完成其中一部分（潜在多工具，不强制两次调用）。question/query 为自由文本，任何表述均可接受（只记录、不判定）。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中至少一个工具（两个都调用也符合预期）" },
+    { "id": "arguments_acceptable", "check": "每次调用按其工具自身的 expectations 判定；自由文本只记录、不判定" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实公告" },
+    { "id": "process_only", "check": "机械完成度代理，方向性参考，不作产品价值结论" }
+  ]
+}

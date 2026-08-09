@@ -1,0 +1,29 @@
+{
+  "caseId": "case-p02",
+  "kind": "representative",
+  "scored": false,
+  "label": "DIRECTIONAL pilot case; single-reviewer label; mechanical completion proxy only",
+  "userPrompt": "帮我查一下华泰柏瑞沪深300ETF（510300.SH）的最新规模、管理费率和跟踪的指数",
+  "acceptableTools": ["get_fund_info"],
+  "toolExpectations": {
+    "get_fund_info": {
+      "requiredArguments": ["question"],
+      "acceptableArguments": { "question": [] },
+      "resultFixture": {
+        "fundcode": "510300.SH",
+        "简称": "华泰柏瑞沪深300ETF",
+        "最新规模": "3,852.6亿元",
+        "管理费率": "0.15%/年",
+        "托管费率": "0.05%/年",
+        "跟踪指数": "沪深300指数（000300.SH）"
+      }
+    }
+  },
+  "clarification": "无需澄清：基金实体与所需指标在问句中均已明确。question 为自由文本，任何表述均可接受（只记录、不判定）。",
+  "successRubric": [
+    { "id": "invoked_acceptable_tool", "check": "Agent 调用了 acceptableTools 中的工具" },
+    { "id": "arguments_acceptable", "check": "必填参数 question 已提供；内容为自由文本，只记录、不判定" },
+    { "id": "reported_mock_data", "check": "最终回答报告了返回数据，且未把 mock 数据伪装成真实基金档案" },
+    { "id": "process_only", "check": "机械完成度代理，方向性参考，不作产品价值结论" }
+  ]
+}

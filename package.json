@@ -10,7 +10,8 @@
     "catalog:check": "node evaluation/catalog/build-catalog.mjs --check",
     "eval:verify": "tsx evaluation/full-tools/verify.ts",
     "eval:three-arm": "tsx evaluation/three-arm/run.ts",
-    "eval:three-arm:rederive": "tsx evaluation/three-arm/rederive.ts"
+    "eval:three-arm:rederive": "tsx evaluation/three-arm/rederive.ts",
+    "eval:pilot": "tsx evaluation/three-arm/run.ts evaluation/pilot/pilot-set.json"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.0",

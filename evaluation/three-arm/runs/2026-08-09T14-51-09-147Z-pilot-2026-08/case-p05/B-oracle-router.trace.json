@@ -1,0 +1,101 @@
+{
+  "arm": "B-oracle-router",
+  "prompt": "贵州茅台最近有没有分红或股本变动？顺便把相关公告也找出来看看",
+  "toolCalls": [
+    {
+      "tool": "find_tools",
+      "arguments": {
+        "query": "贵州茅台分红 股本变动 公告 股票代码600519",
+        "limit": 5
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "toolRef": "tr_4c58f0db-2b53-42d0-b40f-e59499d5e60a",
+        "arguments": {
+          "question": "贵州茅台600519分红派息股本变动 2024年2025年"
+        }
+      }
+    },
+    {
+      "tool": "call_tool",
+      "arguments": {
+        "arguments": {
+          "query": "贵州茅台600519分红派息公告 2024年2025年",
+          "top_k": 5
+        },
+        "toolRef": "tr_7d1b50db-c1fb-433d-96e8-c17b4305a3dd"
+      }
+    }
+  ],
+  "discoveredCandidates": [
+    "get_stock_events",
+    "get_company_announcements"
+  ],
+  "toolRefToName": {
+    "tr_4c58f0db-2b53-42d0-b40f-e59499d5e60a": "get_stock_events",
+    "tr_7d1b50db-c1fb-433d-96e8-c17b4305a3dd": "get_company_announcements"
+  },
+  "discoveryMeta": null,
+  "discoveryCostUsd": null,
+  "toolResults": [
+    {
+      "tool": "find_tools",
+      "textExcerpt": "{\"status\":\"ready\",\"catalogRevision\":\"sha256:f762824f0c93765488cfb6775fca0521830cf408099362f05cd37f97cb73a444\",\"candidates\":[{\"toolRef\":\"tr_4c58f0db-2b53-42d0-b40f-e59499d5e60a\",\"name\":\"get_stock_events\",\"description\":\"返回指定股票的公司行动与事件数据，为结构化记录而非公告文本。事件类型覆盖：首发上市与再融资（配股、增发、并购重组）；分红派息；股本与股东事件（大股东增减持、限售解禁）；治理与监管事件（风险警示与 ST 变动、违规处罚、司法诉讼）。仅返回结构化字段，不含公告与新闻文本原文，不含公司当前状态标签。\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"description\":\"自然语言查询要求，为\\\"实体 + 指标 + 指标参数\\\"三要素的组合超集，应包含证券实体、"
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_stock_events\",\"serverCategory\":\"stock_data\",\"arguments\":{\"question\":\"贵州茅台600519分红派息股本变动 2024年2025年\"},\"data\":[{\"type\":\"分红派息\",\"exDate\":\"2026-06-19\",\"detail\":\"2025年度：每10股派发现金红利276.24元（含税）\"},{\"type\":\"股本变动\",\"date\":\"2026-05-30\",\"detail\":\"无新增发行；总股本维持 12.56 亿股\"}]}"
+    },
+    {
+      "tool": "call_tool",
+      "textExcerpt": "{\"mock\":true,\"note\":\"Evaluation-only deterministic mock; no live Wind data was queried.\",\"tool\":\"get_company_announcements\",\"serverCategory\":\"financial_docs\",\"arguments\":{\"query\":\"贵州茅台600519分红派息公告 2024年2025年\",\"top_k\":5},\"data\":[{\"title\":\"贵州茅台2025年度利润分配实施公告\",\"date\":\"2026-06-10\",\"excerpt\":\"每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。\"},{\"title\":\"贵州茅台2025年年度股东大会决议公告\",\"date\":\"2026-05-29\",\"excerpt\":\"审议通过2025年度利润分配预案。\"}]}"
+    }
+  ],
+  "finalAnswer": "---\n\n## 贵州茅台（600519）分红与股本变动情况\n\n### 📊 分红派息\n\n| 项目 | 详情 |\n|------|------|\n| **分红方案** | 2025年度：每10股派发现金红利 **276.24元**（含税） |\n| **股权登记日** | 2026年6月18日 |\n| **除权除息日** | 2026年6月19日 |\n\n### 📈 股本变动\n\n- 截至2026年5月30日，总股本维持 **12.56亿股**，无新增发行。\n\n---\n\n### 📋 相关公告摘要\n\n**1. 《贵州茅台2025年度利润分配实施公告》**（2026-06-10）\n> 每10股派发现金红利276.24元（含税），股权登记日2026年6月18日，除权除息日2026年6月19日。\n\n**2. 《贵州茅台2025年年度股东大会决议公告》**（2026-05-29）\n> 审议通过2025年度利润分配预案。\n\n---\n\n> ⚠️ **注意**：以上为评估环境的模拟数据，实际投资决策请以Wind、巨潮资讯等官方渠道的最新公告为准。",
+  "usage": {
+    "input_tokens": 8269,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 113088,
+    "output_tokens": 707,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "costUsd": 0.115564,
+  "latencyMs": 10120,
+  "numTurns": 4,
+  "errors": [],
+  "rubric": [
+    {
+      "id": "invoked_acceptable_tool",
+      "verdict": "pass",
+      "evidence": "调用了 get_stock_events, get_company_announcements"
+    },
+    {
+      "id": "arguments_acceptable",
+      "verdict": "pass",
+      "evidence": "声明参数均在可接受取值内；另有未声明参数（仅记录、不判定）: get_company_announcements.top_k"
+    },
+    {
+      "id": "reported_mock_data",
+      "verdict": "pass",
+      "evidence": "最终回答包含 mock/模拟 字样"
+    },
+    {
+      "id": "process_only",
+      "verdict": "declared",
+      "evidence": "本运行只验证流程可执行、可测量，不对 arm 排名"
+    }
+  ]
+}
