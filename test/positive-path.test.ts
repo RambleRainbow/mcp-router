@@ -76,7 +76,7 @@ describe("call_tool forwarding", () => {
       { type: "query_received", query: QUOTE_QUERY },
       {
         type: "rule_matched",
-        ruleId: "quote.snapshot:keyword:股价",
+        ruleId: "quote.snapshot:keywords",
         toolName: "get_latest_quote",
       },
       { type: "tool_ref_issued", toolRef, toolName: "get_latest_quote" },

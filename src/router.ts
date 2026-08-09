@@ -28,7 +28,7 @@ interface CatalogEntry {
   inputSchema: Record<string, unknown>;
   /** Validator applied to `call_tool` arguments before any upstream call. */
   argumentsSchema: z.ZodType<Record<string, unknown>>;
-  matchRule: { id: string; keyword: string; reason: string };
+  matchRule: { id: string; keywords: string[]; reason: string };
 }
 
 const TOOL_CATALOG: CatalogEntry[] = [
@@ -50,9 +50,9 @@ const TOOL_CATALOG: CatalogEntry[] = [
     },
     argumentsSchema: z.object({ securityName: z.string() }).strict(),
     matchRule: {
-      id: "quote.snapshot:keyword:股价",
-      keyword: "股价",
-      reason: "query 询问最新股价，匹配行情快照能力 equity.quote.snapshot",
+      id: "quote.snapshot:keywords",
+      keywords: ["股价", "股票价格", "行情", "quote"],
+      reason: "query 询问行情/股价，匹配行情快照能力 equity.quote.snapshot",
     },
   },
 ];
@@ -91,7 +91,8 @@ export function createRouter(options: RouterOptions): Router {
   server.registerTool(
     "find_tools",
     {
-      description: "按自然语言 query 发现可用的上游工具，返回候选工具与 Tool Reference",
+      description:
+        "发现可用的金融数据工具。查询股票行情、财务等金融数据时，先调用本工具：传入自包含的自然语言 query，返回匹配的 Candidate Tool（含 inputSchema 和不透明的 Tool Reference）",
       inputSchema: {
         query: z.string().describe("自包含的工具需求描述"),
         limit: z.number().int().min(1).max(10).optional(),
@@ -101,7 +102,7 @@ export function createRouter(options: RouterOptions): Router {
       events.push({ type: "query_received", query });
 
       const candidates = TOOL_CATALOG.filter((entry) =>
-        query.includes(entry.matchRule.keyword),
+        entry.matchRule.keywords.some((keyword) => query.includes(keyword)),
       ).map((entry) => {
         events.push({
           type: "rule_matched",
@@ -139,7 +140,8 @@ export function createRouter(options: RouterOptions): Router {
   server.registerTool(
     "call_tool",
     {
-      description: "使用 find_tools 返回的 Tool Reference 调用对应的上游工具",
+      description:
+        "调用 find_tools 返回的上游金融数据工具：传入其 Tool Reference，并按该工具的 inputSchema 填写 arguments，返回数据结果",
       inputSchema: {
         toolRef: z.string().describe("find_tools 返回的不透明 Tool Reference"),
         arguments: z.record(z.unknown()).describe("传给上游工具的参数"),

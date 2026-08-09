@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "router": {
+      "command": "npx",
+      "args": ["tsx", "src/stdio.ts"]
+    }
+  }
+}
