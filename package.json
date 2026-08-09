@@ -6,7 +6,9 @@
   "description": "Technical Spike: MCP Router exposing find_tools/call_tool meta-tools over one in-memory Mock Quote Upstream Server",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "catalog:check": "node evaluation/catalog/build-catalog.mjs --check",
+    "eval:verify": "tsx evaluation/full-tools/verify.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.0",
