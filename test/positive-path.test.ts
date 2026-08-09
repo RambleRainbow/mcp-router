@@ -1,29 +1,5 @@
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { describe, expect, it } from "vitest";
-import { createMockQuoteUpstream } from "../src/mock-quote-upstream.js";
-import { createRouter } from "../src/router.js";
-
-async function createStack() {
-  const upstream = createMockQuoteUpstream();
-  const [upstreamClientTransport, upstreamServerTransport] =
-    InMemoryTransport.createLinkedPair();
-  await upstream.server.connect(upstreamServerTransport);
-  const upstreamClient = new Client({
-    name: "router-upstream-client",
-    version: "0.0.0",
-  });
-  await upstreamClient.connect(upstreamClientTransport);
-
-  const router = createRouter({ upstreamClient });
-  const [clientTransport, serverTransport] =
-    InMemoryTransport.createLinkedPair();
-  await router.server.connect(serverTransport);
-  const client = new Client({ name: "scripted-client", version: "0.0.0" });
-  await client.connect(clientTransport);
-
-  return { client, router, upstream };
-}
+import { createStack, discoverQuoteToolRef, QUOTE_QUERY } from "./stack.js";
 
 describe("Router meta-tool exposure", () => {
   it("exposes exactly find_tools and call_tool through tools/list", async () => {
@@ -44,7 +20,7 @@ describe("find_tools discovery", () => {
 
     const result = await client.callTool({
       name: "find_tools",
-      arguments: { query: "帮我查一下贵州茅台的最新股价" },
+      arguments: { query: QUOTE_QUERY },
     });
 
     const payload = result.structuredContent as {
@@ -72,14 +48,7 @@ describe("call_tool forwarding", () => {
   it("forwards the call through MCP to the Mock Quote Upstream Server exactly once", async () => {
     const { client, router, upstream } = await createStack();
 
-    const discovery = await client.callTool({
-      name: "find_tools",
-      arguments: { query: "帮我查一下贵州茅台的最新股价" },
-    });
-    const { candidates } = discovery.structuredContent as {
-      candidates: Array<{ toolRef: string }>;
-    };
-    const toolRef = candidates[0]!.toolRef;
+    const toolRef = await discoverQuoteToolRef(client);
 
     const result = await client.callTool({
       name: "call_tool",
@@ -104,7 +73,7 @@ describe("call_tool forwarding", () => {
     expect(upstream.invocationCount()).toBe(1);
 
     expect(router.events).toEqual([
-      { type: "query_received", query: "帮我查一下贵州茅台的最新股价" },
+      { type: "query_received", query: QUOTE_QUERY },
       {
         type: "rule_matched",
         ruleId: "quote.snapshot:keyword:股价",

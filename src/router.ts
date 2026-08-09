@@ -170,7 +170,10 @@ export function createRouter(options: RouterOptions): Router {
           {
             violations: parsed.error.issues.map((issue) => ({
               path: `/${issue.path.join("/")}`,
-              keyword: issue.code,
+              keyword:
+                issue.code === "invalid_type" && issue.received === "undefined"
+                  ? "required"
+                  : issue.code,
             })),
           },
         );
